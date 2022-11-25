@@ -1,3 +1,3 @@
-class BookingSession {
-  
+class BookingSessionModel {
+
 }
