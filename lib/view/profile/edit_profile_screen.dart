@@ -28,6 +28,9 @@ class EditProfileScreen extends StatelessWidget {
               return null;
             },
           ),
+          SizedBox(
+            height: 20,
+          ),
           TextFormField(
             autofocus: true,
             decoration: new InputDecoration(
@@ -42,6 +45,9 @@ class EditProfileScreen extends StatelessWidget {
               }
               return null;
             },
+          ),
+          SizedBox(
+            height: 20,
           ),
           TextFormField(
             autofocus: true,
@@ -76,6 +82,9 @@ class EditProfileScreen extends StatelessWidget {
             ),
             color: Color(0xFFE7F1E8),
           ),
+          SizedBox(
+            height: 20,
+          ),
           TextFormField(
             autofocus: true,
             keyboardType: TextInputType.emailAddress,
@@ -91,6 +100,9 @@ class EditProfileScreen extends StatelessWidget {
               }
               return null;
             },
+          ),
+          SizedBox(
+            height: 20,
           ),
           TextFormField(
             autofocus: true,
@@ -109,6 +121,9 @@ class EditProfileScreen extends StatelessWidget {
               return null;
             },
           ),
+          SizedBox(
+            height: 20,
+          ),
           TextFormField(
             autofocus: true,
             obscureText: true,
@@ -125,6 +140,9 @@ class EditProfileScreen extends StatelessWidget {
               }
               return null;
             },
+          ),
+          SizedBox(
+            height: 20,
           ),
           Container(
             child: Padding(
