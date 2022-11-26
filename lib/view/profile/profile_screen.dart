@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -7,36 +6,49 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profil'),
+        title: const Text('Profil'),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+            color: Colors.black,
+            size: 20.83,
+          ),
+          onPressed: () {},
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.account_circle_outlined,
-                    size: 76.67,
-                  ),
-                  Text(
-                    'Nama Lengkap',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                  ),
-                  Text('username@gmail.com',
+          SizedBox(
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                color: Color(0xFFE7F1E8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: const [
+                    Icon(
+                      Icons.account_circle_outlined,
+                      size: 76.67,
+                    ),
+                    Text(
+                      'Nama Lengkap',
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400))
-                ],
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                    Text('username@gmail.com',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400))
+                  ],
+                ),
               ),
             ),
-            color: Color(0xFFE7F1E8),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              children: [
+              children: const [
                 ListTile(
                   leading: Icon(
                     Icons.account_circle_outlined,

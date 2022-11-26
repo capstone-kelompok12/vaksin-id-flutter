@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -7,24 +6,29 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profil'),
+        title: const Text('Edit Profil'),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+            color: Colors.black,
+            size: 20.83,
+          ),
+          onPressed: () {},
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: 10,
-            ),
             TextFormField(
               autofocus: true,
               keyboardType: TextInputType.number,
-              decoration: new InputDecoration(
+              decoration: InputDecoration(
                 hintText: "masukkan nik anda",
                 labelText: "NIK",
-                border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -33,16 +37,16 @@ class EditProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               autofocus: true,
-              decoration: new InputDecoration(
+              decoration: InputDecoration(
                 hintText: "masukkan nama anda",
                 labelText: "Nama",
-                border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -51,17 +55,17 @@ class EditProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               autofocus: true,
-              decoration: new InputDecoration(
-                suffixIcon: Icon(Icons.arrow_drop_down),
+              decoration: InputDecoration(
+                suffixIcon: const Icon(Icons.arrow_drop_down),
                 hintText: "masukkan jenis kelamin anda",
                 labelText: "Jenis Kelamin",
-                border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -70,35 +74,39 @@ class EditProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Text(
-                      'Laki-laki',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                    Text('Perempuan',
+            SizedBox(
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Color(0xFFE7F1E8),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: const [
+                      Text(
+                        'Laki-laki',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400))
-                  ],
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                      Text('Perempuan',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400))
+                    ],
+                  ),
                 ),
               ),
-              color: Color(0xFFE7F1E8),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               autofocus: true,
               keyboardType: TextInputType.emailAddress,
-              decoration: new InputDecoration(
+              decoration: InputDecoration(
                 hintText: "masukkan email anda",
                 labelText: "Email",
-                border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -107,18 +115,18 @@ class EditProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               autofocus: true,
               obscureText: true,
-              decoration: new InputDecoration(
-                suffixIcon: Icon(Icons.visibility_outlined),
+              decoration: InputDecoration(
+                suffixIcon: const Icon(Icons.visibility_outlined),
                 hintText: "masukkan kata sandi anda",
                 labelText: "Kata Sandi",
-                border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -127,18 +135,18 @@ class EditProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               autofocus: true,
               obscureText: true,
-              decoration: new InputDecoration(
-                suffixIcon: Icon(Icons.visibility_off_outlined),
+              decoration: InputDecoration(
+                suffixIcon: const Icon(Icons.visibility_off_outlined),
                 hintText: "masukkan konfirmasi kata sandi anda",
                 labelText: "Konfirmasi Kata Sandi",
-                border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -147,11 +155,11 @@ class EditProfileScreen extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             ElevatedButton(
-              child: Text(
+              child: const Text(
                 'Simpan',
                 style: TextStyle(
                     fontSize: 14,
@@ -159,7 +167,7 @@ class EditProfileScreen extends StatelessWidget {
                     color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF006D39),
+                backgroundColor: const Color(0xFF006D39),
               ),
               onPressed: () {},
             ),
