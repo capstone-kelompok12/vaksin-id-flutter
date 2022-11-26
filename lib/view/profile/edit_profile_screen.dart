@@ -9,162 +9,162 @@ class EditProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Edit Profil'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            autofocus: true,
-            keyboardType: TextInputType.number,
-            decoration: new InputDecoration(
-              hintText: "masukkan nik anda",
-              labelText: "NIK",
-              border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(10)),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 10,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'masukkan nik anda';
-              }
-              return null;
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            autofocus: true,
-            decoration: new InputDecoration(
-              hintText: "masukkan nama anda",
-              labelText: "Nama",
-              border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(10)),
+            TextFormField(
+              autofocus: true,
+              keyboardType: TextInputType.number,
+              decoration: new InputDecoration(
+                hintText: "masukkan nik anda",
+                labelText: "NIK",
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10)),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'masukkan nik anda';
+                }
+                return null;
+              },
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'masukkan nama anda';
-              }
-              return null;
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            autofocus: true,
-            decoration: new InputDecoration(
-              suffixIcon: Icon(Icons.arrow_drop_down),
-              hintText: "masukkan jenis kelamin anda",
-              labelText: "Jenis Kelamin",
-              border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(10)),
+            SizedBox(
+              height: 20,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'masukkan jenis kelamin anda';
-              }
-              return null;
-            },
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Text(
-                    'Laki-laki',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                  ),
-                  Text('Perempuan',
+            TextFormField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                hintText: "masukkan nama anda",
+                labelText: "Nama",
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10)),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'masukkan nama anda';
+                }
+                return null;
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                suffixIcon: Icon(Icons.arrow_drop_down),
+                hintText: "masukkan jenis kelamin anda",
+                labelText: "Jenis Kelamin",
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10)),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'masukkan jenis kelamin anda';
+                }
+                return null;
+              },
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Text(
+                      'Laki-laki',
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400))
-                ],
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                    Text('Perempuan',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400))
+                  ],
+                ),
               ),
+              color: Color(0xFFE7F1E8),
             ),
-            color: Color(0xFFE7F1E8),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            autofocus: true,
-            keyboardType: TextInputType.emailAddress,
-            decoration: new InputDecoration(
-              hintText: "masukkan email anda",
-              labelText: "Email",
-              border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(10)),
+            SizedBox(
+              height: 20,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'masukkan email anda';
-              }
-              return null;
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            autofocus: true,
-            obscureText: true,
-            decoration: new InputDecoration(
-              suffixIcon: Icon(Icons.visibility_outlined),
-              hintText: "masukkan kata sandi anda",
-              labelText: "Kata Sandi",
-              border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(10)),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'masukkan kata sandi anda';
-              }
-              return null;
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            autofocus: true,
-            obscureText: true,
-            decoration: new InputDecoration(
-              suffixIcon: Icon(Icons.visibility_off_outlined),
-              hintText: "masukkan konfirmasi kata sandi anda",
-              labelText: "Konfirmasi Kata Sandi",
-              border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(10)),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'masukkan konfirmasi kata sandi anda';
-              }
-              return null;
-            },
-          ),
-          SizedBox(
-            height: 45,
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                children: [
-                  Text(
-                    'Simpan',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ],
+            TextFormField(
+              autofocus: true,
+              keyboardType: TextInputType.emailAddress,
+              decoration: new InputDecoration(
+                hintText: "masukkan email anda",
+                labelText: "Email",
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10)),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'masukkan email anda';
+                }
+                return null;
+              },
             ),
-            color: Color(0xFF006D39),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              autofocus: true,
+              obscureText: true,
+              decoration: new InputDecoration(
+                suffixIcon: Icon(Icons.visibility_outlined),
+                hintText: "masukkan kata sandi anda",
+                labelText: "Kata Sandi",
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10)),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'masukkan kata sandi anda';
+                }
+                return null;
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              autofocus: true,
+              obscureText: true,
+              decoration: new InputDecoration(
+                suffixIcon: Icon(Icons.visibility_off_outlined),
+                hintText: "masukkan konfirmasi kata sandi anda",
+                labelText: "Konfirmasi Kata Sandi",
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10)),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'masukkan konfirmasi kata sandi anda';
+                }
+                return null;
+              },
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            ElevatedButton(
+              child: Text(
+                'Simpan',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF006D39),
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
