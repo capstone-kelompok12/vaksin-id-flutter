@@ -12,6 +12,9 @@ class EditProfileScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          SizedBox(
+            height: 10,
+          ),
           TextFormField(
             autofocus: true,
             keyboardType: TextInputType.number,
@@ -142,7 +145,7 @@ class EditProfileScreen extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: 20,
+            height: 45,
           ),
           Container(
             child: Padding(
