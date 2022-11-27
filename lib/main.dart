@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Rubik',
       ),
-      home: const EditProfileScreen(),
+      home: const ProfileScreen(),
     );
   }
 }
