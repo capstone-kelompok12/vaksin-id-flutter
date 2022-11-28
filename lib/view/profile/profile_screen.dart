@@ -43,12 +43,18 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text('Nama Lengkap',
+                      Text(
+                        'Nama Lengkap',
                         style: TextStyle(
-                              fontSize: 16,fontWeight: FontWeight.w400,),),
-                      Text('username@gmail.com',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        'username@gmail.com',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
                     ],
                   ),
                 ),
@@ -91,40 +97,10 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.black26,
                   thickness: 1,
                 ),
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.groups_outlined,
-                //     color: Colors.black,
-                //     size: 20,
-                //   ),
-                //   title: Text('Anggota Keluarga',
-                //       style:
-                //           TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                //   trailing:
-                //       Icon(Icons.arrow_right, color: Colors.black, size: 20),
-                // ),
-                // Divider(
-                //   color: Colors.black87,
-                //   thickness: 1,
-                // ),
               ],
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 80,
-        width: 360,
-        child: BottomNavigationBar(
-          backgroundColor: Color(0xFFE7F1E8),
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-          ],
-        ),
       ),
     );
   }
