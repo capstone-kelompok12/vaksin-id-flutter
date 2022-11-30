@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaksin_id_flutter/view/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -19,43 +20,45 @@ class ProfileScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: SizedBox(
-              width: 360,
-              height: 174,
-              child: DecoratedBox(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFE7F1E8),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.account_circle_outlined,
-                          size: 76.67,
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(2),
+              child: SizedBox(
+                width: 360,
+                height: 174,
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFE7F1E8),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.account_circle_outlined,
+                            size: 76.67,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Nama Lengkap',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                        SizedBox(
+                          height: 10,
                         ),
-                      ),
-                      Text(
-                        'username@gmail.com',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                    ],
+                        Text(
+                          'Nama Lengkap',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          'username@gmail.com',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -64,24 +67,33 @@ class ProfileScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              children: const [
-                ListTile(
-                  leading: Icon(
-                    Icons.account_circle_outlined,
-                    color: Colors.black,
-                    size: 20,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const EditProfileScreen(),
+                        ));
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.account_circle_outlined,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    title: Text('Edit Profil',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w400)),
+                    trailing:
+                        Icon(Icons.arrow_right, color: Colors.black, size: 20),
                   ),
-                  title: Text('Edit Profil',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                  trailing:
-                      Icon(Icons.arrow_right, color: Colors.black, size: 20),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.black26,
                   thickness: 1,
                 ),
-                ListTile(
+                const ListTile(
                   leading: Icon(
                     Icons.vaccines,
                     color: Colors.black,
@@ -93,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
                   trailing:
                       Icon(Icons.arrow_right, color: Colors.black, size: 20),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.black26,
                   thickness: 1,
                 ),
