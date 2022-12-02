@@ -53,10 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    markers.clear();
+    locationListWithDistance.clear();
     gmController?.dispose();
     customInfoWindowController.dispose();
-    markers.clear();
-    locationListWithDistance.clear;
     print('Dispose used');
     super.dispose();
   }
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (haspermission) {
         await getCurrentLocation();
-        print('test');
+        print('GPS enabled');
         await addMarkers();
       }
     } else {
@@ -101,8 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getCurrentLocation() async {
     await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
+            desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
         currentPosition = position;
@@ -190,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
               gmController?.animateCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(
                       target: LatLng(
-                          double.parse(listHospital.data![x].latitude!),
+                          double.parse(listHospital.data![x].latitude!) - 0.007216,
                           double.parse(listHospital.data![x].longitude!)),
                       zoom: 14.4746)));
               print('selectedMarker2: $selectedMarker');
@@ -323,6 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return locationListWithDistance.isEmpty ? const Center(child: CircularProgressIndicator()) 
                       : Card(
                         child: ListTile(
+                          onTap: () => print('listTap'),
                           leading: const Icon(Icons.local_hospital_outlined),
                           title: Text('${locationListWithDistance[index]['nama']}'),
                           subtitle: Text('${locationListWithDistance[index]['alamat']}'),
