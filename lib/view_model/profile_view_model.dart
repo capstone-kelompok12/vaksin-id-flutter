@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   final List<String> _jenisKelamin = [
-    'Laki-laki',
+    'Laki - laki',
     'Perempuan',
   ];
   List<String> get jenisKelamin => _jenisKelamin;

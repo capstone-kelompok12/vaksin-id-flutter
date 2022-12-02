@@ -26,7 +26,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         title: const Text('Edit Profil'),
         leading: IconButton(
           icon: const Icon(
-            Icons.close,
+            Icons.arrow_back,
             color: Colors.black,
             size: 20.83,
           ),
@@ -52,7 +52,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hintText: "Masukkan NIK",
                       labelText: "NIK",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -71,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hintText: "Masukkan nama lengkap",
                       labelText: "Nama",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -94,7 +94,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           : profile.birthday,
                       labelText: "Tanggal Lahir",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -118,7 +118,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     decoration: InputDecoration(
                       label: const Text('Jenis Kelamin'),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                     ),
                     value: profile.selectjenisKelamin,
@@ -150,7 +150,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hintText: "Masukkan email",
                       labelText: "Email",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -178,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hintText: "Masukkan kata sandi",
                       labelText: "Kata Sandi",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -206,7 +206,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hintText: "Masukkan ulang kata sandi",
                       labelText: "Konfirmasi Kata Sandi",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(4)),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
