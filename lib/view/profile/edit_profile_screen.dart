@@ -49,6 +49,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autofocus: true,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       hintText: "Masukkan NIK",
                       labelText: "NIK",
                       border: OutlineInputBorder(
@@ -68,6 +72,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     controller: namaController,
                     autofocus: true,
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       hintText: "Masukkan nama lengkap",
                       labelText: "Nama",
                       border: OutlineInputBorder(
@@ -88,6 +96,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autofocus: true,
                     keyboardType: TextInputType.none,
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       suffixIcon: const Icon(Icons.calendar_month_outlined),
                       hintText: profile.selectDate == null
                           ? "dd/mm/yy"
@@ -116,6 +128,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       label: const Text('Jenis Kelamin'),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
@@ -147,6 +163,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autofocus: true,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       hintText: "Masukkan email",
                       labelText: "Email",
                       border: OutlineInputBorder(
@@ -167,6 +187,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autofocus: true,
                     obscureText: profile.passwordView,
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       suffixIcon: IconButton(
                         icon: Icon(profile.passwordView == true
                             ? Icons.visibility
@@ -195,6 +219,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autofocus: true,
                     obscureText: profile.passwordView2,
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      labelStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                       suffixIcon: IconButton(
                         icon: Icon(profile.passwordView2 == true
                             ? Icons.visibility
