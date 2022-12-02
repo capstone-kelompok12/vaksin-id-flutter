@@ -12,7 +12,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Container(
+        child: Column(
+          children: [
+            Text('Selamat Datang'),
+            Row(
+              children: [
+                
+              ],
+            )
+          ], 
+        ),
+      ),
     );
   }
 }
