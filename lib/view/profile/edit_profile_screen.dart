@@ -62,7 +62,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   TextFormField(
                     controller: namaController,
@@ -81,7 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   TextFormField(
                     controller: dateController,
@@ -112,7 +112,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
@@ -140,7 +140,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         .toList(),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   TextFormField(
                     controller: emailController,
@@ -160,7 +160,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   TextFormField(
                     controller: kataSandiController,
@@ -188,7 +188,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   TextFormField(
                     controller: konfirmasiKataSandiController,
