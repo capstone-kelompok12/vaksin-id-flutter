@@ -1,6 +1,9 @@
+// import 'dart:html';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/home/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -106,7 +109,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  carouselController.nextPage();
+                                  // carouselController.nextPage();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),));
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: primaryColor,
