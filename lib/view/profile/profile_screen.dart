@@ -95,11 +95,11 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const ListTile(
                   leading: Icon(
-                    Icons.vaccines,
+                    Icons.logout,
                     color: Colors.black,
                     size: 20,
                   ),
-                  title: Text('Riwayat Vaksin',
+                  title: Text('Keluar',
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
                   trailing:
