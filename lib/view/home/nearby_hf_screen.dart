@@ -6,19 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:faker/faker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/styles/theme.dart';
 
 import '../../view_model/home_view_model.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class NearbyHfScreen extends StatefulWidget {
+  const NearbyHfScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<NearbyHfScreen> createState() => _NearbyHfScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _NearbyHfScreenState extends State<NearbyHfScreen> {
 
   bool servicestatus = false;
   bool haspermission = false;
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .then((Position position) {
       setState(() {
         currentPosition = position;
-        currentLatLng = LatLng(position.latitude - 0.007216, position.longitude);
+        currentLatLng = LatLng(position.latitude, position.longitude);
         print(currentLatLng);
       });
       print(currentPosition);
@@ -154,14 +156,14 @@ class _HomeScreenState extends State<HomeScreen> {
         locationListWithDistance.add({
           'nama': listHospital.data![x].nama,
           'alamat': listHospital.data![x].alamat,
-          'distance': '${inMeters.toStringAsFixed(2)}m',
+          'distance': '${inMeters.toStringAsFixed(2)} m',
           'distanceSort': inMeters.toInt(),
         });
       } else {
         locationListWithDistance.add({
           'nama': listHospital.data![x].nama,
           'alamat': listHospital.data![x].alamat,
-          'distance': '${distance.toStringAsFixed(2)}km',
+          'distance': '${distance.toStringAsFixed(2)} km',
           'distanceSort': distance.toInt(),
         });
       }
@@ -189,9 +191,9 @@ class _HomeScreenState extends State<HomeScreen> {
               gmController?.animateCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(
                       target: LatLng(
-                          double.parse(listHospital.data![x].latitude!) - 0.007216,
+                          double.parse(listHospital.data![x].latitude!),
                           double.parse(listHospital.data![x].longitude!)),
-                      zoom: 14.4746)));
+                      zoom: 13)));
               print('selectedMarker2: $selectedMarker');
               print('id: ${x}');
             }
@@ -263,104 +265,168 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Fasilitas Kesehatan Terdekat'),
       ),
-      body:Stack(
-        alignment: Alignment.bottomCenter,
+      body:Column(
         children: [
-          currentLatLng == null
-            ? const Center(child: CircularProgressIndicator())
-            : GoogleMap(
-                mapType: MapType.normal,
-                markers: Set<Marker>.of(markers),
-                myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                zoomControlsEnabled: false,
-                onCameraMove: (position) {
-                  customInfoWindowController.onCameraMove!();
-                },
-                onTap: (argument) {
-                  customInfoWindowController.hideInfoWindow!();
-                  if (selectedMarker != 0) {
-                    setState(() {
-                      markers[selectedMarker] =
-                          markers[selectedMarker].copyWith(
-                              iconParam: BitmapDescriptor.fromBytes(markerIcon!));
-                      selectedMarker = 0;
-                    });
-                  }
-                },
-                initialCameraPosition: CameraPosition(
-                  target: currentLatLng ?? const LatLng(-6.200000, 106.816666),
-                  zoom: 14.4746,
-                ),
-                onMapCreated: (controller) {
-                  customInfoWindowController.googleMapController = controller;
-                  gmController = controller;
-                },
-              ),
-          CustomInfoWindow(
-            controller: customInfoWindowController,
-            height: 75,
-            width: 150,
-            offset: 50,
-          ),
-          DraggableScrollableSheet(
-            initialChildSize: 0.45,
-            minChildSize: 0.45,
-            maxChildSize: 0.8,
-            builder: (context, scrollController) {
-              return Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.15),
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-                ),
-                child: Consumer<HomeViewModel>(
-                  builder: (context, value, _) => ListView.builder(
-                    controller: scrollController,
-                    itemCount: value.listHealthFaci?.data?.length,
-                    itemBuilder: (context, index) {
-                      return locationListWithDistance.isEmpty ? const Center(child: CircularProgressIndicator()) 
-                      : Card(
-                        child: ListTile(
-                          onTap: () => print('listTap'),
-                          leading: const Icon(Icons.local_hospital_outlined),
-                          title: Text('${locationListWithDistance[index]['nama']}'),
-                          subtitle: Text('${locationListWithDistance[index]['alamat']}'),
-                          trailing: Text('${locationListWithDistance[index]['distance']}'),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              );
-            }
-          ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colors.blue
+            height: 209,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                currentLatLng == null
+                  ? const Center(child: CircularProgressIndicator())
+                  : GoogleMap(
+                      mapType: MapType.normal,
+                      markers: Set<Marker>.of(markers),
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      zoomControlsEnabled: false,
+                      onCameraMove: (position) {
+                        customInfoWindowController.onCameraMove!();
+                      },
+                      onTap: (argument) {
+                        customInfoWindowController.hideInfoWindow!();
+                        if (selectedMarker != 0) {
+                          setState(() {
+                            markers[selectedMarker] =
+                                markers[selectedMarker].copyWith(
+                                    iconParam: BitmapDescriptor.fromBytes(markerIcon!));
+                            selectedMarker = 0;
+                          });
+                        }
+                      },
+                      initialCameraPosition: CameraPosition(
+                        target: currentLatLng ?? const LatLng(-6.200000, 106.816666),
+                        zoom: 11.5,
+                      ),
+                      onMapCreated: (controller) {
+                        customInfoWindowController.googleMapController = controller;
+                        gmController = controller;
+                      },
+                    ),
+                CustomInfoWindow(
+                  controller: customInfoWindowController,
+                  height: 75,
+                  width: 150,
+                  offset: 50,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.blue
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            gmController?.animateCamera(CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: currentLatLng!,
+                                zoom: 11.5)));
+                          }, 
+                          icon: const Icon(Icons.location_searching_sharp, color: Colors.white,)),
+                      ),
+                    ),
                   ),
-                  child: IconButton(
-                    onPressed: () {
-                      gmController?.animateCamera(CameraUpdate.newCameraPosition(
-                        CameraPosition(
-                          target: currentLatLng!,
-                          zoom: 14.4746)));
-                    }, 
-                    icon: const Icon(Icons.location_searching_sharp, color: Colors.white,)),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+              ),
+              child: Consumer<HomeViewModel>(
+                builder: (context, value, _) => ListView.builder(
+                  // controller: scrollController,
+                  itemCount: value.listHealthFaci?.data?.length,
+                  itemBuilder: (context, index) {
+                    return locationListWithDistance.isEmpty ? const Center(child: CircularProgressIndicator()) 
+                    : Card(
+                      elevation: 2,
+                      // margin: EdgeInsets.all(),
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () => print('listTap'),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.network(faker.image.image(
+                                  width: 92, height: 92, keywords: ['city'], random: true)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height: 95,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${locationListWithDistance[index]['nama']}', 
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w900, 
+                                          fontSize: 14),),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                          child: Text(
+                                            '${locationListWithDistance[index]['alamat']}',
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),),
+                                        ),
+                                      ),
+                                      Text(
+                                        '${locationListWithDistance[index]['distance']}', 
+                                        style: TextStyle(
+                                          color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      // ListTile(
+                      //   onTap: () => print('listTap'),
+                      //   leading: Container(
+                      //     alignment: Alignment.center,
+                      //     height: 70,
+                      //     width: 70,
+                      //     child: Image.network(faker.image.image(
+                      //       width: 1200, height: 900, keywords: ['city'], random: true))),
+                      //   title: Text('${locationListWithDistance[index]['nama']}'),
+                      //   subtitle: Text(
+                      //     maxLines: 2,
+                      //     '${locationListWithDistance[index]['alamat']}'),
+
+                      //   // trailing: Text('${locationListWithDistance[index]['distance']}'),
+                      // ),
+                    );
+                  },
                 ),
               ),
             ),
-          )
+          ),
         ],
       )
     );

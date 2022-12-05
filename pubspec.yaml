@@ -34,6 +34,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   custom_info_window: ^1.0.1
   dio: ^4.0.6
+  faker: ^2.0.0 
   flutter:
     sdk: flutter
   flutter_svg: ^1.1.6
