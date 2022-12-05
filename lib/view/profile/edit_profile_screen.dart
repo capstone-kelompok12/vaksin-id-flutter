@@ -58,12 +58,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'NIK tidak boleh kosong.';
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == ''
+                        ? 'NIK tidak boleh kosong.'
+                        : value!.length < 16
+                            ? 'NIK harus 16 digit.'
+                            : null,
                   ),
                   const SizedBox(
                     height: 16,
@@ -172,12 +171,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email tidak boleh kosong.';
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == ''
+                        ? 'Email tidak boleh kosong.'
+                        : value!.contains('/')
+                            ? 'Email tidak sesuai.'
+                            : null,
                   ),
                   const SizedBox(
                     height: 16,
@@ -204,12 +202,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Kata sandi tidak boleh kosong.';
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == ''
+                        ? 'Kata sandi tidak boleh kosong.'
+                        : value!.length <= 6
+                            ? 'Kata sandi minimal 6 karakter.'
+                            : null,
                   ),
                   const SizedBox(
                     height: 16,
@@ -236,12 +233,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Konfirmasi kata sandi tidak boleh kosong.';
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == ''
+                        ? 'Konfirmasi kata sandi tidak boleh kosong.'
+                        : value!.contains('/')
+                            ? 'kata sandi tidak sesuai.'
+                            : null,
                   ),
                   const SizedBox(
                     height: 40,
