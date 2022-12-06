@@ -4,31 +4,18 @@ class BottomNavigationBarScreen extends StatelessWidget {
   const BottomNavigationBarScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // title: const Text('Bottom Navigation Bar'),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.black,
-            size: 20.83,
-          ),
-          onPressed: () {},
-        ),
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 80,
-        width: 360,
-        child: BottomNavigationBar(
-          backgroundColor: Color(0xFFE7F1E8),
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-            BottomNavigationBarItem(icon: Icon(Icons.circle), label: 'Label'),
-          ],
-        ),
+    return SizedBox(
+      height: 80,
+      width: MediaQuery.of(context).size.width,
+      child: BottomNavigationBar(
+        backgroundColor: Color(0xFFE7F1E8),
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.vaccines_outlined), label: 'Book'),
+          BottomNavigationBarItem(icon: Icon(Icons.confirmation_num_outlined), label: 'Tiket'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+        ],
       ),
     );
   }
