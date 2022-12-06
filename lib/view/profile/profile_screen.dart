@@ -22,17 +22,17 @@ class ProfileScreen extends StatelessWidget {
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: SizedBox(
                 width: 360,
                 height: 174,
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
                     color: Color(0xFFE7F1E8),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       children: const [
                         Padding(

@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view_model/profile_view_model.dart';
@@ -18,6 +19,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController kataSandiController = TextEditingController();
   final TextEditingController konfirmasiKataSandiController =
       TextEditingController();
+  bool emailValidator(String input) => EmailValidator.validate(input);
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Consumer<ProfileViewModel>(
             builder: (context, profile, child) => Form(
               key: _formKey,
@@ -115,10 +117,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                     onTap: () async {
                       profile.selectDate = await showDatePicker(
-                          context: context,
-                          initialDate: birthDay,
-                          firstDate: DateTime(1960),
-                          lastDate: DateTime.now());
+                        context: context,
+                        initialDate: birthDay,
+                        firstDate: DateTime(1960),
+                        lastDate: DateTime.now(),
+                      );
                       profile.dateBirthday();
                     },
                   ),
@@ -173,7 +176,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     validator: (value) => value == ''
                         ? 'Email tidak boleh kosong.'
-                        : value!.contains('/')
+                        : !emailValidator(value!)
                             ? 'Email tidak sesuai.'
                             : null,
                   ),
@@ -204,7 +207,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     validator: (value) => value == ''
                         ? 'Kata sandi tidak boleh kosong.'
-                        : value!.length <= 6
+                        : value!.length < 6
                             ? 'Kata sandi minimal 6 karakter.'
                             : null,
                   ),
@@ -235,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     validator: (value) => value == ''
                         ? 'Konfirmasi kata sandi tidak boleh kosong.'
-                        : value!.contains('/')
+                        : value != kataSandiController.text
                             ? 'kata sandi tidak sesuai.'
                             : null,
                   ),
