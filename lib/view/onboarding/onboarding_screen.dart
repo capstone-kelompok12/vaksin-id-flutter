@@ -3,7 +3,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
-import 'package:vaksin_id_flutter/view/home/nearbyHF_screen.dart';
+import 'package:vaksin_id_flutter/view/home/list_vaccine_screen.dart';
+import 'package:vaksin_id_flutter/view/home/nearby_hf_screen.dart';
+
+import '../home/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
