@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin_view_model.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

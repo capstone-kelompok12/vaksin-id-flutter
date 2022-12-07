@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/bentar.dart';
 import 'package:vaksin_id_flutter/view/detail_faskes/detail_faskes_screen.dart';
 import 'package:vaksin_id_flutter/view_model/book_vaksin_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/detail_faskes_view_model.dart';
