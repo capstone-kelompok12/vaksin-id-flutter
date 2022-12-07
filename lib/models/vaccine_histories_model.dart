@@ -5,22 +5,20 @@ class VaccineHistoriesModel {
 
   VaccineHistoriesModel({
     required this.id,
-    this.idBooking,
-    this.status,
+    required this.idBooking,
+    required this.status,
   });
 
-  VaccineHistoriesModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    idBooking = json['id_booking'];
-    status = json['status'];
-  }
+  factory VaccineHistoriesModel.fromJson(Map<String, dynamic> json) =>
+      VaccineHistoriesModel(
+        id: json['id'],
+        idBooking: json['id_booking'],
+        status: json['status'],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['id_booking'] = this.idBooking;
-    data['status'] = this.status;
-
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'id_booking': idBooking,
+        'status': status,
+      };
 }
