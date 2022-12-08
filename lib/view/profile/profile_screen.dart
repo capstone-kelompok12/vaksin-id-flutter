@@ -8,14 +8,6 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     Icons.close,
-        //     color: Colors.black,
-        //     size: 20.83,
-        //   ),
-        //   onPressed: () {},
-        // ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
