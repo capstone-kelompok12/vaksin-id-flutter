@@ -8,6 +8,7 @@ class UserModel {
     this.gender,
     this.vaccineCount,
     this.birthDate,
+    this.age,
   });
 
   String? nik;
@@ -18,6 +19,7 @@ class UserModel {
   String? gender;
   int? vaccineCount;
   String? birthDate;
+  int? age;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         nik: json["NIK"],
@@ -28,6 +30,7 @@ class UserModel {
         gender: json["Gender"],
         vaccineCount: json["VaccineCount"],
         birthDate: json["BirthDate"],
+        age: json["Age"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,5 +42,6 @@ class UserModel {
         "Gender": gender,
         "VaccineCount": vaccineCount,
         "BirthDate": birthDate,
+        "Age": age,
       };
 }
