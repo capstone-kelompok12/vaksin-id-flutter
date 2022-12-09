@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/models/auth/register_model.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
-import 'package:vaksin_id_flutter/view/auth/widgets/custom_button.dart';
 import 'package:vaksin_id_flutter/view/auth/widgets/success_register.dart';
-import 'package:vaksin_id_flutter/view_model/auth_view_model.dart';
+import 'package:vaksin_id_flutter/view/auth/widgets/unsuccess_register.dart';
+import 'package:vaksin_id_flutter/view_model/auth/auth_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -28,20 +28,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  DateTime birthDate = DateTime.now();
-
   String dropdownJeniskelamin = 'Pilih jenis kelamin';
   String valueGender = '';
 
-  //Untuk show dan hidden password dan confirm
-  bool _passwordVisible = false;
-  bool _passwordConfirmVisible = false;
-
-  late ValueNotifier<bool> _isLoading;
+  late ValueNotifier<bool> _passwordVisible;
+  late ValueNotifier<bool> _passwordConfirmVisible;
 
   @override
   void initState() {
-    _isLoading = ValueNotifier<bool>(false);
+    _passwordVisible = ValueNotifier<bool>(true);
+    _passwordConfirmVisible = ValueNotifier<bool>(true);
     super.initState();
   }
 
@@ -60,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AuthViewModel registerAuth = Provider.of<AuthViewModel>(context);
+    AuthViewModel regisAuth = Provider.of<AuthViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -78,6 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -146,16 +143,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   onTap: () async {
-                    final DateTime? datePick = await showDatePicker(
+                    int changeData =
+                        DateTime.now().millisecondsSinceEpoch - 536479200000;
+                    DateTime birthDate =
+                        DateTime.fromMillisecondsSinceEpoch(changeData);
+                    final datePick = await showDatePicker(
                       context: context,
                       initialDate: birthDate,
-                      firstDate: DateTime(1960),
-                      lastDate: DateTime.now(),
+                      firstDate: DateTime(1960, 1),
+                      lastDate: birthDate,
                     );
 
                     if (datePick != null && datePick != birthDate) {
                       setState(() {
-                        birthDate = datePick;
                         _birthdateController.text = DateFormat('yyyy-MM-dd')
                             .format(birthDate)
                             .toString();
@@ -173,6 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 margin: const EdgeInsets.only(top: 16),
                 child: DropdownButtonFormField<String>(
+                  isExpanded: true,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: const Text('Jenis Kelamin'),
@@ -206,7 +207,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       .toList(),
                 ),
               ),
-
               Container(
                 margin: const EdgeInsets.only(top: 16),
                 child: TextFormField(
@@ -251,89 +251,95 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value!.isEmpty) {
                       return 'Masukan Nomormu!';
                     }
-
                     return null;
                   },
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 16),
-                child: TextFormField(
-                  controller: _passwordController,
-                  obscureText: !_passwordVisible,
-                  obscuringCharacter: '*',
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    label: const Text('Kata sandi'),
-                    hintText: 'Masukkan kata sandi',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _passwordVisible = !_passwordVisible;
-                        });
-                      },
-                      icon: Icon(
-                        _passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _passwordVisible,
+                  builder: (context, value, child) {
+                    return TextFormField(
+                      controller: _passwordController,
+                      obscureText: _passwordVisible.value,
+                      obscuringCharacter: '*',
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        label: const Text('Kata sandi'),
+                        hintText: 'Masukkan kata sandi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _passwordVisible.value = !_passwordVisible.value;
+                          },
+                          icon: Icon(
+                            _passwordVisible.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  validator: (value) {
-                    RegExp regex = RegExp(r'^.{6,}$');
-                    if (value!.isEmpty) {
-                      return ("Masukan Password!");
-                    }
-                    if (!regex.hasMatch(value)) {
-                      return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
-                    }
-                    return null;
+                      validator: (value) {
+                        RegExp regex = RegExp(r'^.{6,}$');
+                        if (value!.isEmpty) {
+                          return ("Masukan Password!");
+                        }
+                        if (!regex.hasMatch(value)) {
+                          return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
+                        }
+                        return null;
+                      },
+                    );
                   },
                 ),
               ),
-              // Container(
-              //   margin: const EdgeInsets.only(top: 16),
-              //   child: TextFormField(
-              //     controller: _confirmPasswordController,
-              //     obscureText: !_passwordConfirmVisible,
-              //     obscuringCharacter: '*',
-              //     textInputAction: TextInputAction.done,
-              //     decoration: InputDecoration(
-              //       floatingLabelBehavior: FloatingLabelBehavior.always,
-              //       label: const Text('Konfirmasi kata sandi'),
-              //       hintText: 'Masukkan ulang kata sandi',
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(4),
-              //       ),
-              //       suffixIcon: IconButton(
-              //         onPressed: () {
-              //           setState(() {
-              //             _passwordConfirmVisible = !_passwordConfirmVisible;
-              //           });
-              //         },
-              //         icon: Icon(
-              //           _passwordConfirmVisible
-              //               ? Icons.visibility
-              //               : Icons.visibility_off,
-              //         ),
-              //       ),
-              //     ),
-              //     validator: (value) {
-              //       if (value!.isEmpty) {
-              //         return ("Masukan Ulang Password !");
-              //       }
-              //       if (_confirmPasswordController.text !=
-              //           _passwordController.text) {
-              //         return "Password tidak sama";
-              //       }
-              //       return null;
-              //     },
-              //   ),
-              // ),
+              Container(
+                margin: const EdgeInsets.only(top: 16),
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _passwordConfirmVisible,
+                  builder: (context, value, child) {
+                    return TextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: _passwordConfirmVisible.value,
+                      obscuringCharacter: '*',
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        label: const Text('Kata sandi'),
+                        hintText: 'Masukkan kata sandi',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _passwordConfirmVisible.value =
+                                !_passwordConfirmVisible.value;
+                          },
+                          icon: Icon(
+                            _passwordConfirmVisible.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return ("Masukan Ulang Password !");
+                        }
+                        if (_confirmPasswordController.text !=
+                            _passwordController.text) {
+                          return "Password tidak sama";
+                        }
+                        return null;
+                      },
+                    );
+                  },
+                ),
+              ),
               const SizedBox(
                 height: 16.0,
               ),
@@ -371,33 +377,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              CustomButton(
-                text: 'Daftar',
-                bgColor: primaryColor,
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    await registerAuth.postRegister(
-                      RegisterModel(
-                        nik: _nikController.text,
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                        fullname: _fullnameController.text,
-                        phonenum: _phoneController.text,
-                        gender: valueGender,
-                        birthdate: _birthdateController.text,
-                      ),
-                    );
-                    showModalBottomSheet(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(28),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 16,
+                ),
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                  ),
+                  onPressed: () async {
+                    final isValid = _formKey.currentState!.validate();
+                    if (!isValid) return;
+
+                    if (mounted) {}
+
+                    try {
+                      await regisAuth.postRegister(
+                        RegisterModel(
+                          nik: _nikController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          fullname: _fullnameController.text,
+                          phonenum: _phoneController.text,
+                          gender: valueGender,
+                          birthdate: _birthdateController.text,
                         ),
-                      ),
-                      context: context,
-                      builder: (context) => const SuccessRegister(),
-                    );
-                  }
-                },
+                      );
+                      showModalBottomSheet(
+                        enableDrag: false,
+                        isDismissible: false,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(28),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) => const SuccessRegister(),
+                      );
+                    } catch (e) {
+                      showModalBottomSheet(
+                        enableDrag: false,
+                        isDismissible: false,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(28),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) => const UnsuccessRegister(),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Daftar',
+                    style: whiteTextStyle.copyWith(
+                      fontWeight: medium,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

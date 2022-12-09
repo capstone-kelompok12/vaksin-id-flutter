@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/auth/login_screen.dart';
 
-class SuccessRegister extends StatelessWidget {
-  const SuccessRegister({super.key});
+class UnsuccessRegister extends StatelessWidget {
+  const UnsuccessRegister({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,50 +47,52 @@ class SuccessRegister extends StatelessWidget {
             height: 24.0,
           ),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 48,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: whiteColor,
-                        side: BorderSide(color: primaryColor),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Kembali'),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: whiteColor,
+                      side: BorderSide(color: primaryColor),
                     ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Kembali'),
                   ),
                 ),
-                
-                Expanded(
-                  child: SizedBox(
-                    height: 48,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Masuk',
-                        style: whiteTextStyle.copyWith(
-                          fontWeight: medium,
+              ),
+              const SizedBox(
+                width: 8.0,
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
                         ),
+                      );
+                    },
+                    child: Text(
+                      'Masuk',
+                      style: whiteTextStyle.copyWith(
+                        fontWeight: medium,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
         ],
       ),
     );
