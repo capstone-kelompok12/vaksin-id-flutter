@@ -8,7 +8,7 @@ class BottomNavigationBarScreen extends StatelessWidget {
       height: 80,
       width: MediaQuery.of(context).size.width,
       child: BottomNavigationBar(
-        backgroundColor: Color(0xFFE7F1E8),
+        backgroundColor: const Color(0x00eaffea),
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
