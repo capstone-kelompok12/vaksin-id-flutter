@@ -1,34 +1,47 @@
 class UserModel {
-  int? nik;
-  String? name;
-  String? jenisKelamin;
-  String? email;
-  String? password;
-
-
   UserModel({
-    required this.nik,
-    required this.name,
-    required this.jenisKelamin,
-    required this.email,
-    required this.password,
+    this.nik,
+    this.email,
+    this.password,
+    this.fullname,
+    this.phoneNum,
+    this.gender,
+    this.vaccineCount,
+    this.birthDate,
+    this.age,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    nik = json['nik'];
-    name = json['name'];
-    jenisKelamin = json['jenis kelamin'];
-    email = json['email'];
-    password = json['password'];
-  }
+  String? nik;
+  String? email;
+  String? password;
+  String? fullname;
+  String? phoneNum;
+  String? gender;
+  int? vaccineCount;
+  String? birthDate;
+  int? age;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nik'] = this.nik;
-    data['username'] = this.name;
-    data['password'] = this.password;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    return data;
-  }
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        nik: json["NIK"],
+        email: json["Email"],
+        password: json["Password"],
+        fullname: json["Fullname"],
+        phoneNum: json["PhoneNum"],
+        gender: json["Gender"],
+        vaccineCount: json["VaccineCount"],
+        birthDate: json["BirthDate"],
+        age: json["Age"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "NIK": nik,
+        "Email": email,
+        "Password": password,
+        "Fullname": fullname,
+        "PhoneNum": phoneNum,
+        "Gender": gender,
+        "VaccineCount": vaccineCount,
+        "BirthDate": birthDate,
+        "Age": age,
+      };
 }
