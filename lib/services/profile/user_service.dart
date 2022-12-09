@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/user_model.dart';
-import 'package:vaksin_id_flutter/services/shared_service.dart';
+import 'package:vaksin_id_flutter/services/profile/shared_service.dart';
 
 class UserService {
   final String baseUrl = 'https://vaksin-y3awbiupna-as.a.run.app/api/v1';

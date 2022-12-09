@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vaksin_id_flutter/models/user_model.dart';
-import 'package:vaksin_id_flutter/services/user_service.dart';
+import 'package:vaksin_id_flutter/services/profile/user_service.dart';
 
 class UserViewModel extends ChangeNotifier {
   final userService = UserService();

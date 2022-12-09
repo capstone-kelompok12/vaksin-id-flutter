@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               child: SizedBox(
                 width: 360,
                 height: 174,
@@ -85,22 +85,51 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.black26,
                   thickness: 1,
                 ),
-                const ListTile(
-                  leading: Icon(
-                    Icons.logout,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  title: Text('Keluar',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                  trailing:
-                      Icon(Icons.arrow_right, color: Colors.black, size: 20),
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EditProfileScreen(),
+                            ));
+                      },
+                      child: const ListTile(
+                        leading: Icon(
+                          Icons.logout,
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                        title: Text('Keluar',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400)),
+                        trailing: Icon(Icons.arrow_right,
+                            color: Colors.black, size: 20),
+                      ),
+                    ),
+                    const Divider(
+                      color: Colors.black26,
+                      thickness: 1,
+                    ),
+                  ],
                 ),
-                const Divider(
-                  color: Colors.black26,
-                  thickness: 1,
-                ),
+                // const ListTile(
+                //   leading: Icon(
+                //     Icons.logout,
+                //     color: Colors.black,
+                //     size: 20,
+                //   ),
+                //   title: Text('Keluar',
+                //       style:
+                //           TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+                //   trailing:
+                //       Icon(Icons.arrow_right, color: Colors.black, size: 20),
+                // ),
+                // const Divider(
+                //   color: Colors.black26,
+                //   thickness: 1,
+                // ),
               ],
             ),
           ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/profile/edit_profile_screen.dart';
 import 'package:vaksin_id_flutter/view/profile/profile_screen.dart';
-import 'package:vaksin_id_flutter/view_model/profile_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 
 void main() {
   runApp(const MyApp());
