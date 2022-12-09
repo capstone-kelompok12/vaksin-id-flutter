@@ -1,6 +1,12 @@
+// import 'dart:html';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/home/list_vaccine_screen.dart';
+import 'package:vaksin_id_flutter/view/home/nearby_hf_screen.dart';
+
+import '../home/home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -14,21 +20,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   CarouselController carouselController = CarouselController();
 
   List<String> titles = [
-    'Grow Your\nFinancial Today',
-    'Build From\nZero to Freedom',
-    'Start Together',
+    'Lawan Pandemi\ndengan Vaksin!',
+    'Pesan Tiket\ndengan Mudah',
+    'Lakukan Vaksinasi\ndengan Aman',
   ];
 
   List<String> subtitles = [
-    'Our system is helping you to\nachieve a better goal',
-    'We provide tips for you so that\nyou can adapt easier',
-    'We will guide you to where\nyou wanted it too',
+    'Kami siap membantu Anda melindungi diri serta keluarga dari ancaman virus.',
+    'Nikmati kemudahan book vaksinasi dengan hanya satu antrean untuk seluruh anggota keluarga. ',
+    'VAKSIN.ID telah bekerja sama dengan fasilitas kesehatan terpercaya yang tersebar se-Indonesia!',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: bgColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,20 +42,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             CarouselSlider(
               items: [
                 Image.asset(
-                  'assets/onboarding_1.png',
-                  height: 331,
+                  'assets/onboard_1.png',
                 ),
                 Image.asset(
-                  'assets/onboarding_2.png',
-                  height: 331,
+                  'assets/onboard_2.png',
                 ),
                 Image.asset(
-                  'assets/onboarding_3.png',
-                  height: 331,
+                  'assets/onboard_3.png',
                 ),
               ],
               options: CarouselOptions(
-                height: 331,
                 viewportFraction: 1,
                 enableInfiniteScroll: false,
                 onPageChanged: (index, reason) {
@@ -64,12 +66,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               height: 80.0,
             ),
             Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.symmetric(
-                horizontal: 22,
-                vertical: 24,
+                horizontal: 16,
+                vertical: 32,
               ),
               decoration: BoxDecoration(
                 color: whiteColor,
@@ -106,7 +106,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  carouselController.nextPage();
+                                  // carouselController.nextPage();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),));
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: primaryColor,

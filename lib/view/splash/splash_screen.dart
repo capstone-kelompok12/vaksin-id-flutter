@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
 import 'package:vaksin_id_flutter/view/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,21 +14,34 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Timer(
-      const Duration(seconds: 2),
+  Future<void> startTime() async {
+    SharedService prefs = SharedService();
+    String? token = await prefs.getToken();
+    await Future.delayed(
+      const Duration(seconds: 3),
       () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const OnboardingScreen(),
-          ),
-        );
+        if (token != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BottomNavigationBarScreen(),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const OnboardingScreen(),
+            ),
+          );
+        }
       },
     );
+  }
+  @override
+  void initState() {
+    startTime();
+    super.initState();
   }
 
   @override
