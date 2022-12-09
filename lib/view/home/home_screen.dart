@@ -7,10 +7,20 @@ import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.da
 
 import '../../view_model/home_view_model.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    Provider.of<HomeViewModel>(context, listen: false).checkGps();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +36,36 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               // 1125 all component
               // value.locationListWithDistance.isNotEmpty ? 1045 : 865
-              height: 1125,
+              height: value.sizeHomeScreen,
               child: Column(
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
                     // value.haspermission ? 280 : 196
-                    height: 280,
+                    height: value.sizeHeading,
                     padding: const EdgeInsets.only(
                       top: 41, bottom: 16, left: 16, right: 16),
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(0, 109, 57, 0.12)),
-                    child: Column(
+                    child: value.apiState == ApiState.loading ?
+                      const Center(child: CircularProgressIndicator(),) :
+                      value.apiState == ApiState.none ?
+                     Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 24),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
                           child: SizedBox(
                             width: double.infinity,
                             height: 28,
                             child: Text(
-                              'Halo, User',
-                              style: TextStyle(
+                              'Halo, ${value.listHealthFaci?.data!.user!.fullname}',
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 22
                               ),)),
                         ),
                         Padding(
                           // value.haspermission ? 24 : 0
-                          padding: const EdgeInsets.only(bottom: 24),
+                          padding: EdgeInsets.only(bottom: value.paddingBottomHeading),
                           child: SizedBox(
                             width: double.infinity,
                             height: 87,
@@ -85,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // value.haspermission ?
+                        !value.haspermission ?
                         Container(
                           width: double.infinity,
                           height: 60,
@@ -101,24 +114,25 @@ class HomeScreen extends StatelessWidget {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: primaryColor,
+                                  foregroundColor: whiteColor, 
                                 ),
                                 onPressed: () async {
-                                  // value.getHealthFacilities();
-                                  // value.activateGps();
+                                  // value.getNearbyHF();
+                                  await value.activateGps();
                                   
-                                  // if (value.haspermission) {
-                                  //   value.getCurrentLocation();
-                                  //   print('GPS enabled');
-                                  // }
+                                  if (value.haspermission) {
+                                    await value.getCurrentLocation();
+                                    print('GPS enabled');
+                                  }
                                 }, 
                                 child: Text(
                                   'Izinkan',
                                   style: TextStyle(color: whiteColor),)),
                           ]),
                         ) 
-                        // : Container()
+                        : Container()
                       ],
-                    ),
+                    ) : const Center(child: Text('Error Load Data'),)
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -154,38 +168,42 @@ class HomeScreen extends StatelessWidget {
                           height: 176,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              separatorBuilder: (context, index) => const SizedBox(width: 8,), 
-                              itemCount: 5,
-                              itemBuilder: (context, index) => SizedBox(
-                                width: 115,
-                                height: 176,
-                                child: Card(
-                                  color: whiteColor,
-                                  child: InkWell(
-                                    onTap: () => print('gridTap'),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          width: double.infinity,
-                                          height: 115,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-                                            child: Image.asset('assets/vaksin.png'),
-                                          )),
-                                        const Padding(
-                                          padding: EdgeInsets.only(bottom: 5, left: 8, right: 8),
-                                          child: Text(
-                                            'TestVaksin',
-                                            style: TextStyle(fontWeight: FontWeight.w600),),
-                                        ),
-                                        const Text('Dosis')
-                                      ],
+                            child: value.apiState == ApiState.loading ?
+                              const Center(child: CircularProgressIndicator(),) :
+                            value.apiState == ApiState.none ? 
+                              ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder: (context, index) => const SizedBox(width: 8,), 
+                                itemCount: value.listVaccine!.data!.length,
+                                itemBuilder: (context, index) => SizedBox(
+                                  width: 115,
+                                  height: 176,
+                                  child: Card(
+                                    color: whiteColor,
+                                    child: InkWell(
+                                      onTap: () => print('gridTap'),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: double.infinity,
+                                            height: 115,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+                                              child: Image.asset('assets/vaksin.png'),
+                                            )),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 5, left: 8, right: 8),
+                                            child: Text(
+                                              value.listVaccine!.data![index].name ?? '',
+                                              style: const TextStyle(fontWeight: FontWeight.w600),),
+                                          ),
+                                          Text('${value.listVaccine!.data![index].stock}')
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),),
+                                ),) 
+                            : const Center(child: Text('Error Load Data'),)
                           ),
                         ),
                       ],
@@ -193,7 +211,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Consumer<HomeViewModel>(
                     builder: (context, value, _) =>
-                    // value.locationListWithDistance.isNotEmpty ?
+                    value.locationListWithDistance.isNotEmpty ?
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: 264,
@@ -278,7 +296,7 @@ class HomeScreen extends StatelessWidget {
                             )],
                         ),
                       )
-                    // : Container()
+                    : Container()
                   ),
                   Expanded(
                     child: Column(
@@ -361,7 +379,7 @@ class HomeScreen extends StatelessWidget {
                     ))
                 ],
               ),
-            ),
+            )
         ),
       ),
     );
