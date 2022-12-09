@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/view/profile/edit_profile_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+import '../../services/profile/shared_service.dart';
+import '../auth/login_screen.dart';
+
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  SharedService sharedService = SharedService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,11 +99,12 @@ class ProfileScreen extends StatelessWidget {
                 Column(
                   children: [
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        await sharedService.deleteToken();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const EditProfileScreen(),
+                              builder: (context) => const LoginScreen(),
                             ));
                       },
                       child: const ListTile(
