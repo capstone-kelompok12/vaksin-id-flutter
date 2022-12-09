@@ -21,11 +21,14 @@ class DoubleCheckBook extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Icon(
-              Icons.drag_handle_rounded,
-              color: const Color(0xFF717971).withOpacity(0.4),
-              size: 32,
+            padding: const EdgeInsets.only(top: 16, bottom: 20),
+            child: Container(
+              height: 4,
+              width: 32,
+              decoration: BoxDecoration(
+                color: const Color(0xFF717971).withOpacity(0.4),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
           Padding(
@@ -41,7 +44,7 @@ class DoubleCheckBook extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 26, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Text(
               'Anda hanya dapat membooking 1 vaksin dalam 1 waktu. Anda harus membatalkannya terlebih dahulu jika ingin membooking kembali.',
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
@@ -72,10 +75,11 @@ class DoubleCheckBook extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Consumer<BookVaksinViewModel>(
               builder: (context, book, child) => Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
                     width: 160,

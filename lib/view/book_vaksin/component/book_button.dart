@@ -15,31 +15,49 @@ class BookButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Consumer<BookVaksinViewModel>(
-            builder: (context, booking, child) => ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF006D39),
-              ),
-              child: const Text(
-                'Book Vaksin',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+            builder: (context, booking, child) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Kapasitas 49/90',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF006D39)),
+                  ),
                 ),
-              ),
-              onPressed: () {
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(28))),
-                    context: context,
-                    builder: (context) {
-                      return booking.doubleCheck == false
-                          ? const DoubleCheckBook()
-                          : const BookSuccess(); // nanti pake logic masukin data langsung
-                    });
-              },
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF006D39),
+                    ),
+                    child: const Text(
+                      'Book Vaksin',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(28))),
+                          context: context,
+                          builder: (context) {
+                            return booking.doubleCheck == false
+                                ? const DoubleCheckBook()
+                                : const BookSuccess(); // nanti pake logic masukin data langsung
+                          });
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ),

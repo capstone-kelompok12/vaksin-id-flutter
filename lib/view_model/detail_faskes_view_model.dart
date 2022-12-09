@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:vaksin_id_flutter/models/health_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
 
@@ -43,12 +44,12 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   // get vaccine
   final detailFasKes = DetailFasKesService();
-  List<VaccineModel> vaccineList = [];
-  VaccineModel vaccineModel =
-      VaccineModel(id: '', idHospital: '', vacchineName: '', stock: '');
 
-  getvac() async {
-    vaccineModel = await detailFasKes.getVaccines();
-    return vaccineList;
+  // HealthFacilitiesModel healthFacilities = HealthFacilitiesModel();
+  List<HealthFacilitiesModel> healthFacilities = [];
+
+  getFaskes() async {
+    healthFacilities = await detailFasKes.getHealthFacilities();
+    notifyListeners();
   }
 }

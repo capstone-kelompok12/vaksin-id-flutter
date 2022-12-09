@@ -17,11 +17,14 @@ class BookSuccess extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Icon(
-              Icons.drag_handle_rounded,
-              color: const Color(0xFF717971).withOpacity(0.4),
-              size: 32,
+            padding: const EdgeInsets.only(top: 16, bottom: 20),
+            child: Container(
+              height: 4,
+              width: 32,
+              decoration: BoxDecoration(
+                color: const Color(0xFF717971).withOpacity(0.4),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
           Padding(
@@ -49,9 +52,10 @@ Book vaksinasi berhasil''',
 
           // button
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
                   width: 160,

@@ -12,19 +12,19 @@ class LanjutkanBookButton extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          padding: const EdgeInsets.all(16),
           child: Consumer<DetailFasKesViewModel>(
             builder: (context, detail, child) => Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    '*Kapasitas 49/90',
+                    'Kapasitas 49/90',
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF006D39)),
                   ),
                 ),
                 SizedBox(
