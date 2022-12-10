@@ -4,8 +4,6 @@ import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final List<String> _vaksin = [
     '1',
     '2',
@@ -42,23 +40,14 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // get vaccine
-  final detailFasKes = DetailFasKesService();
+  // Read Service
 
-  // HealthFacilitiesModel healthFacilities = HealthFacilitiesModel();
-  List<Data> _healthFacilities = [];
-  List<Data> get healthFacilities => _healthFacilities;
-
-  getFaskes() async {
-    _healthFacilities = await detailFasKes.getHealthFacilities();
-    notifyListeners();
-  }
-
+  DetailFasKesService detailFasKes = DetailFasKesService();
   List<Data> _detail = [];
   List<Data> get detail => _detail;
 
   getDetailHealthFacilities(String? nama) async {
-    _detail = await detailFasKes.getDetail(nama);
+    _detail = await detailFasKes.getDetailHealthFacilities(nama);
     notifyListeners();
   }
 }
