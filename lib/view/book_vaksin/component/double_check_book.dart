@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/book_vaksin/component/book_success.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/book_unsuccess.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
 
 class DoubleCheckBook extends StatelessWidget {
   const DoubleCheckBook({super.key});

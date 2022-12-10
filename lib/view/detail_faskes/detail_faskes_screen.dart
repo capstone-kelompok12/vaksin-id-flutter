@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/detail_faskes/component/form_book.dart';
 import 'package:vaksin_id_flutter/view/detail_faskes/component/lanjutkan_book_button.dart';
-import 'package:vaksin_id_flutter/view_model/detail_faskes_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
 
-class DetailFasKesScreen extends StatelessWidget {
+class DetailFasKesScreen extends StatefulWidget {
   const DetailFasKesScreen({super.key});
 
+  @override
+  State<DetailFasKesScreen> createState() => _DetailFasKesScreenState();
+}
+
+class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +55,8 @@ class DetailFasKesScreen extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         child: Text(
-                          'RS. Bina Husada',
+                          // '${widget.detailModel.name}',
+                          'Rs. Bina Husada',
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w400),
                         ),

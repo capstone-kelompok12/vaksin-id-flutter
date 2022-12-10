@@ -8,49 +8,7 @@ class DetailFasKesService {
 
   final dio = Dio();
 
-  // HealthFaciApi() {
-  //   dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
-  // }
-
-  // getVaccines() async {
-  //   SharedPreferences? prefs = await SharedPreferences.getInstance();
-  //   // String token = prefs.getString('token').toString();
-  //   try {
-  //     final response = await Dio().get(
-  //       "$baseURL/api/v1/vaccines",
-  //       options: Options(
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           // 'Authorization': 'Bearer $token',
-  //         },
-  //       ),
-  //     );
-  //     if (response.statusCode == 200) {
-  //       final bookingList = (response.data['data'] as List)
-  //           .map((e) => VaccineModel.fromJson(e))
-  //           .toList();
-  //       return bookingList;
-  //     }
-  //   } catch (_) {}
-  // }
-
-  // Future<HealthFacilitiesModel> getHealthFacilities() async {
-  //   late HealthFacilitiesModel result;
-  //   try {
-  //     final response = await dio.get(baseURL);
-
-  //     print('response: ${response.data['data']}');
-
-  //     result = HealthFacilitiesModel.fromJson(response.data);
-
-  //     // return result;
-  //   } catch (e) {
-  //     throw 'Error: $e';
-  //   }
-  //   return result;
-  // }
-
-  Future<List<HealthFacilitiesModel>> getHealthFacilities() async {
+  Future<List<Data>> getHealthFacilities() async {
     late List healthFacilitiesList;
     try {
       final response = await dio.get("$baseURL/api/v1/healthfacilities");
@@ -63,8 +21,23 @@ class DetailFasKesService {
     } catch (e) {
       throw 'Error: $e';
     }
-    return healthFacilitiesList
-        .map((e) => HealthFacilitiesModel.fromJson(e))
-        .toList();
+    return healthFacilitiesList.map((e) => Data.fromJson(e)).toList();
+  }
+
+  Future getDetail(String? nama) async {
+    print('nama: $nama');
+    late List detailFaskes;
+    try {
+      final response = await dio.get("$baseURL/api/v1/healthfacilities/$nama");
+
+      detailFaskes =
+          response.data['data'].map((e) => Data.fromJson(e)).toList();
+
+      print('response: $detailFaskes');
+
+      // return result;
+    } catch (e) {
+      throw 'Error: $e';
+    }
   }
 }

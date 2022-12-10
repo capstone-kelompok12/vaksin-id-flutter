@@ -1,80 +1,167 @@
-class HealthFacilitiesModel {
-  String? id;
-  String? email;
-  String? password;
-  String? phoneNum;
-  String? name;
+class HealthFacilities {
+  List<Data>? data;
+  bool? error;
+  String? message;
 
-  HealthFacilitiesModel({
-    this.id,
-    this.email,
-    this.password,
-    this.phoneNum,
-    this.name,
-  });
+  HealthFacilities({this.data, this.error, this.message});
 
-  factory HealthFacilitiesModel.fromJson(Map<String, dynamic> json) =>
-      HealthFacilitiesModel(
-        id: json['id'],
-        email: json['email'],
-        password: json['password'],
-        phoneNum: json['phone_num'],
-        name: json['name'],
-      );
+  HealthFacilities.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+    error = json['error'];
+    message = json['message'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'email': email,
-        'password': password,
-        'phone_num': phoneNum,
-        'name': name,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['error'] = this.error;
+    data['message'] = this.message;
+    return data;
+  }
 }
 
-// class HealthFacilitiesModel {
-//   List<Data> data = [];
+class Data {
+  String? iD;
+  String? email;
+  String? phoneNum;
+  String? name;
+  String? image;
+  Address? address;
+  String? session;
+  List<Vaccine>? vaccine;
 
-//   HealthFacilitiesModel({required this.data});
+  Data(
+      {this.iD,
+      this.email,
+      this.phoneNum,
+      this.name,
+      this.image,
+      this.address,
+      this.session,
+      this.vaccine});
 
-//   factory HealthFacilitiesModel.fromJson(Map<String, dynamic> json) =>
-//       HealthFacilitiesModel(
-//         data: json['data'],
-//       );
+  Data.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    email = json['Email'];
+    phoneNum = json['PhoneNum'];
+    name = json['Name'];
+    image = json['Image'];
+    address =
+        json['Address'] != null ? new Address.fromJson(json['Address']) : null;
+    session = json['Session'];
+    if (json['Vaccine'] != null) {
+      vaccine = <Vaccine>[];
+      json['Vaccine'].forEach((v) {
+        vaccine!.add(new Vaccine.fromJson(v));
+      });
+    }
+  }
 
-//   Map<String, dynamic> toJson() => {
-//         'data': data,
-//       };
-// }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['Email'] = this.email;
+    data['PhoneNum'] = this.phoneNum;
+    data['Name'] = this.name;
+    data['Image'] = this.image;
+    if (this.address != null) {
+      data['Address'] = this.address!.toJson();
+    }
+    data['Session'] = this.session;
+    if (this.vaccine != null) {
+      data['Vaccine'] = this.vaccine!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
 
-// class Data {
-//   String? id;
-//   String? email;
-//   String? password;
-//   String? phoneNum;
-//   String? name;
+class Address {
+  String? iD;
+  String? idHealthFacilities;
+  String? nikUser;
+  String? currentAddress;
+  String? district;
+  String? city;
+  String? province;
+  double? latitude;
+  double? longitude;
 
-//   Data({
-//     required this.id,
-//     required this.email,
-//     required this.password,
-//     required this.phoneNum,
-//     required this.name,
-//   });
+  Address({
+    this.iD,
+    this.idHealthFacilities,
+    this.nikUser,
+    this.currentAddress,
+    this.district,
+    this.city,
+    this.province,
+    this.latitude,
+    this.longitude,
+  });
 
-//   factory Data.fromJson(Map<String, dynamic> json) => Data(
-//         id: json['id'],
-//         email: json['email'],
-//         password: json['password'],
-//         phoneNum: json['phone_num'],
-//         name: json['name'],
-//       );
+  Address.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    idHealthFacilities = json['IdHealthFacilities'];
+    nikUser = json['NikUser'];
+    currentAddress = json['CurrentAddress'];
+    district = json['District'];
+    city = json['City'];
+    province = json['Province'];
+    latitude = json['Latitude'];
+    longitude = json['Longitude'];
+  }
 
-//   Map<String, dynamic> toJson() => {
-//         'id': id,
-//         'email': email,
-//         'password': password,
-//         'phone_num': phoneNum,
-//         'name': name,
-//       };
-// }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['IdHealthFacilities'] = this.idHealthFacilities;
+    data['NikUser'] = this.nikUser;
+    data['CurrentAddress'] = this.currentAddress;
+    data['District'] = this.district;
+    data['City'] = this.city;
+    data['Province'] = this.province;
+    data['Latitude'] = this.latitude;
+    data['Longitude'] = this.longitude;
+    return data;
+  }
+}
 
+class Vaccine {
+  String? iD;
+  String? idHealthFacilities;
+  String? name;
+  int? stock;
+
+  Vaccine({
+    this.iD,
+    this.idHealthFacilities,
+    this.name,
+    this.stock,
+  });
+
+  Vaccine.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    idHealthFacilities = json['IdHealthFacilities'];
+    name = json['Name'];
+    stock = json['Stock'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['IdHealthFacilities'] = this.idHealthFacilities;
+    data['Name'] = this.name;
+    data['Stock'] = this.stock;
+    return data;
+  }
+
+  // String toString() {
+  //   return '{$iD, $idHealthFacilities, $name, $stock}';
+  // }
+}

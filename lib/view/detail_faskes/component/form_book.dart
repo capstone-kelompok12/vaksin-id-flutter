@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view_model/detail_faskes_view_model.dart';
+import 'package:vaksin_id_flutter/models/health_facilities_model.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
 
 class FormBook extends StatelessWidget {
   const FormBook({super.key});

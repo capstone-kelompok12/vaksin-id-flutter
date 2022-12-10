@@ -46,10 +46,19 @@ class DetailFasKesViewModel with ChangeNotifier {
   final detailFasKes = DetailFasKesService();
 
   // HealthFacilitiesModel healthFacilities = HealthFacilitiesModel();
-  List<HealthFacilitiesModel> healthFacilities = [];
+  List<Data> _healthFacilities = [];
+  List<Data> get healthFacilities => _healthFacilities;
 
   getFaskes() async {
-    healthFacilities = await detailFasKes.getHealthFacilities();
+    _healthFacilities = await detailFasKes.getHealthFacilities();
+    notifyListeners();
+  }
+
+  List<Data> _detail = [];
+  List<Data> get detail => _detail;
+
+  getDetailHealthFacilities(String? nama) async {
+    _detail = await detailFasKes.getDetail(nama);
     notifyListeners();
   }
 }
