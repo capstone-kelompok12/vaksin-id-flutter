@@ -9,33 +9,31 @@ class SessionModel {
 
   SessionModel({
     required this.id,
-    this.idHospital,
-    this.sessionName,
-    this.capacity,
-    this.sessionStatus,
-    this.startSession,
-    this.endSession,
+    required this.idHospital,
+    required this.sessionName,
+    required this.capacity,
+    required this.sessionStatus,
+    required this.startSession,
+    required this.endSession,
   });
 
-  SessionModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    idHospital = json['id_healthfacilities'];
-    sessionName = json['session_name'];
-    capacity = json['capacity'];
-    sessionStatus = json['session_status'];
-    startSession = json['start_Session'];
-    endSession = json['end_Session'];
+  factory SessionModel.fromJson(Map<String, dynamic> json) => SessionModel(
+        id: json['id'],
+        idHospital: json['id_healthfacilities'],
+        sessionName: json['session_name'],
+        capacity: json['capacity'],
+        sessionStatus: json['session_status'],
+        startSession: json['start_Session'],
+        endSession: json['end_Session'],
+      );
 
-    Map<String, dynamic> toJson() {
-      final Map<String, dynamic> data = new Map<String, dynamic>();
-      data['id'] = this.id;
-      data['id_healthfacilities'] = this.idHospital;
-      data['session_name'] = this.sessionName;
-      data['capacity'] = this.capacity;
-      data['session_status'] = this.sessionStatus;
-      data['start_session'] = this.startSession;
-      data['end_session'] = this.endSession;
-      return data;
-    }
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'id_healthfacilities': idHospital,
+        'session_name': sessionName,
+        'capacity': capacity,
+        'session_status': sessionStatus,
+        'start_session': startSession,
+        'end_session': endSession,
+      };
 }
