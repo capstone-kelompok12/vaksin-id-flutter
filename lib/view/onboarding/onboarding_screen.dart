@@ -107,7 +107,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               child: TextButton(
                                 onPressed: () {
                                   // carouselController.nextPage();
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen(),
+                                      ));
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: primaryColor,

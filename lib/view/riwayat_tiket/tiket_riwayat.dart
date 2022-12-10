@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/riwayat_tiket/riwayat.dart';
 import 'package:vaksin_id_flutter/view/riwayat_tiket/tiket_vaksin.dart';
 
-class riwayat_tiket extends StatefulWidget {
-  const riwayat_tiket({super.key});
+class RiwayatTiket extends StatefulWidget {
+  const RiwayatTiket({super.key});
 
   @override
-  State<riwayat_tiket> createState() => _riwayat_tiket();
+  State<RiwayatTiket> createState() => _riwayat_tiket();
 }
 
-class _riwayat_tiket extends State<riwayat_tiket>
-    with TickerProviderStateMixin {
+class _riwayat_tiket extends State<RiwayatTiket> with TickerProviderStateMixin {
   TabController? tabController;
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -39,20 +39,22 @@ class _riwayat_tiket extends State<riwayat_tiket>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: searchBar(),
+        title: Text('Tiket'),
         bottom: TabBar(
           controller: tabController,
           tabs: const <Widget>[
             Tab(
-              child: Text("Tiket Vaksin"),
+              child:
+                  Text("Tiket Vaksin", style: TextStyle(color: Colors.black)),
             ),
             Tab(
-              child: Text("Riwayat"),
+              child: Text("Riwayat", style: TextStyle(color: Colors.black)),
             ),
           ],
         ),
       ),
-      body: const TabBarView(
+      body: TabBarView(
+        controller: tabController,
         children: <Widget>[TiketVaksinPage(), RiwayatPage()],
       ),
     );
