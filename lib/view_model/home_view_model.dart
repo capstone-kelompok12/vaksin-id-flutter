@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@abghifareihand 
+capstone-kelompok12
+/
+vaksin-id-flutter
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+vaksin-id-flutter/lib/view_model/home_view_model.dart
+@AncaSea
+AncaSea fixing bug and perfection homePage
+Latest commit 3ccbdf4 4 hours ago
+ History
+ 1 contributor
+261 lines (242 sloc)  9.03 KB
+
 import 'dart:ui' as ui;
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
@@ -6,12 +36,9 @@ import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:vaksin_id_flutter/models/home/news_model.dart';
 import 'package:vaksin_id_flutter/models/nearby_healt_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
-import 'package:vaksin_id_flutter/services/home/news_service.dart';
-import 'package:vaksin_id_flutter/view/component/finite_state.dart';
-import '../services/home_service.dart';
+import '../services/home/home_service.dart';
 
 enum ApiState { none, loading, error}
 
@@ -30,30 +57,24 @@ class HomeViewModel extends ChangeNotifier {
   double sizeHomeScreen = 865;
   double sizeHeading = 280;
   double paddingBottomHeading = 24;
-  int selectedMarker = 0;
-  CustomInfoWindowController customInfoWindowController =
-      CustomInfoWindowController();
-  Uint8List? markerIcon;
-  Uint8List? markerIconSelected;
+  // int selectedMarker = 0;
+  // CustomInfoWindowController customInfoWindowController =
+  //     CustomInfoWindowController();
+  // Uint8List? markerIcon;
+  // Uint8List? markerIconSelected;
   List<Marker> markers = [];
-  GoogleMapController? gmController;
+  // GoogleMapController? gmController;
   ApiState apiState = ApiState.none;
 
-  final newsService = NewsService();
-  List<NewsModel> _news = [];
-  List<NewsModel> get news => _news;
-
-  MyState myState = MyState.loading;
-
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
+  // Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  //   ByteData data = await rootBundle.load(path);
+  //   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+  //       targetWidth: width);
+  //   ui.FrameInfo fi = await codec.getNextFrame();
+  //   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+  //       .buffer
+  //       .asUint8List();
+  // }
 
   // getHealthFacilities() async {
   //   try {
@@ -74,10 +95,10 @@ class HomeViewModel extends ChangeNotifier {
         sizeHomeScreen = 1045;
         sizeHeading = 196;
         paddingBottomHeading = 0;
-        locationListWithDistance.add({'a': 1});
         await getCurrentLocation();
         await getNearbyHF();
         await getVaccine();
+        await addListHealthFaci();
         print("GPS Service enabled");
         apiState = ApiState.none;
       } 
@@ -103,7 +124,10 @@ class HomeViewModel extends ChangeNotifier {
       sizeHomeScreen = 1045;
       sizeHeading = 196;
       paddingBottomHeading = 0;
-      locationListWithDistance.add({'a': 1});
+      await getCurrentLocation();
+      await getNearbyHF();
+      await getVaccine();
+      await addListHealthFaci();
     }
     notifyListeners();
   }
@@ -120,6 +144,9 @@ class HomeViewModel extends ChangeNotifier {
   getVaccine() async {
     try {
       listVaccine = await healtFaci.getVaccine();
+      if (listVaccine!.data!.isNotEmpty) {
+        listVaccine?.data?.sort((a, b) => b.stock!.compareTo(a.stock!));
+      }
     } catch (e) {
       apiState = ApiState.error;
       rethrow;
@@ -158,15 +185,122 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
-  getAllNews() async {
-    myState = MyState.loading;
-    try {
-      final getAllNews = await newsService.getAllNews();
-      _news = getAllNews;
-      myState = MyState.none;
-      notifyListeners();
-    } catch (e) {
-      myState = MyState.error;
+  addListHealthFaci() async {
+    // final listHospital = Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
+    // markerIcon = await getBytesFromAsset('assets/hospital_loc_icon.png', 50);
+    // markerIconSelected = await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
+
+    for (var x = 0; x < listHealthFaci!.data!.healthFacilities!.length; x++) {
+      // print(x);
+
+      final distance = listHealthFaci!.data!.healthFacilities![x].ranges;
+
+      if (distance! < 1) {
+        final inMeters = distance * 1000;
+        locationListWithDistance.add({
+          'nama': listHealthFaci?.data!.healthFacilities![x].name,
+          'alamat': listHealthFaci?.data!.healthFacilities![x].address!.currentAddress,
+          'jarak': '${inMeters.toStringAsFixed(2)} m',
+          'distanceSort': inMeters.toInt(),
+        });
+      } else {
+        locationListWithDistance.add({
+          'nama': listHealthFaci?.data!.healthFacilities![x].name,
+          'alamat': listHealthFaci?.data!.healthFacilities![x].address!.currentAddress,
+          'jarak': '${distance.toStringAsFixed(2)} km',
+          'distanceSort': distance.toInt(),
+        });
+      }
+      // markers.add(
+      //   Marker(
+      //     markerId: MarkerId('$x'),
+      //     position: LatLng(
+      //       listHealthFaci!.data!.healthFacilities![x].address!.latitude!,
+      //       listHealthFaci!.data!.healthFacilities![x].address!.longitude!),
+      //     icon: BitmapDescriptor.fromBytes(markerIcon!),
+      //     consumeTapEvents: true,
+      //     visible: true,
+      //     onTap: () {
+      //       print('tapMarker1');
+      //       if (selectedMarker != x) {
+      //         print('selectedMarker1: $selectedMarker');
+
+      //           if (selectedMarker != 0) {
+      //             markers[selectedMarker] = markers[selectedMarker].copyWith(
+      //                 iconParam: BitmapDescriptor.fromBytes(markerIcon!));
+      //           }
+      //           markers[x] = markers[x].copyWith(
+      //               iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
+      //           selectedMarker = x;
+
+      //         gmController?.animateCamera(CameraUpdate.newCameraPosition(
+      //             CameraPosition(
+      //                 target: LatLng(
+      //                     listHealthFaci!.data!.healthFacilities![x].address!.latitude! + 0.007216,
+      //                     listHealthFaci!.data!.healthFacilities![x].address!.longitude!),
+      //                 zoom: 13)));
+      //         print('selectedMarker2: $selectedMarker');
+      //         print('id: ${x}');
+      //       }
+      //       customInfoWindowController.addInfoWindow!(
+      //         GestureDetector(
+      //           onTap: () {
+      //             print('infoTap');
+                  
+      //           },
+      //           child: Column(
+      //             children: [
+      //               Expanded(
+      //                 child: Container(
+      //                   alignment: Alignment.center,
+      //                   decoration: BoxDecoration(
+      //                     color: Colors.blue,
+      //                     borderRadius: BorderRadius.circular(4),
+      //                   ),
+      //                   width: double.infinity,
+      //                   height: double.infinity,
+      //                   child: Padding(
+      //                       padding: const EdgeInsets.all(8.0),
+      //                       child: Text(
+      //                         '${listHealthFaci?.data!.healthFacilities![x].name}',
+      //                         textAlign: TextAlign.center,
+      //                       )),
+      //                 ),
+      //               ),
+      //               Triangle.isosceles(
+      //                 edge: Edge.BOTTOM,
+      //                 child: Container(
+      //                   color: Colors.blue,
+      //                   width: 20.0,
+      //                   height: 10.0,
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //         LatLng(
+      //           listHealthFaci!.data!.healthFacilities![x].address!.latitude!,
+      //           listHealthFaci!.data!.healthFacilities![x].address!.longitude!),
+      //       );
+      //     },
+      //   ),
+      // );
     }
+    notifyListeners();
   }
 }
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+vaksin-id-flutter/home_view_model.dart at development · capstone-kelompok12/vaksin-id-flutter
