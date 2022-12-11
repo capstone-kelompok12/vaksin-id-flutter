@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vaksin_id_flutter/models/home/news_model.dart';
+import 'package:vaksin_id_flutter/services/home/news_service.dart';
+import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import '../models/home_model.dart';
 import '../services/home_service.dart';
 
@@ -15,6 +18,12 @@ class HomeViewModel extends ChangeNotifier {
   LatLng? currentLatLng;
   String? currentAddress;
   List<Map<String, dynamic>> locationListWithDistance = [];
+
+  final newsService = NewsService();
+  List<NewsModel> _news = [];
+  List<NewsModel> get news => _news;
+
+  MyState myState = MyState.loading;
 
 
   getHealthFacilities() async {
@@ -80,6 +89,18 @@ class HomeViewModel extends ChangeNotifier {
       print(currentAddress);
     } catch (e) {
       print(e);
+    }
+  }
+
+  void getAllNews() async {
+    myState = MyState.loading;
+    try {
+      final getAllNews = await newsService.getAllNews();
+      _news = getAllNews;
+      myState = MyState.none;
+      notifyListeners();
+    } catch (e) {
+      myState = MyState.error;
     }
   }
 }

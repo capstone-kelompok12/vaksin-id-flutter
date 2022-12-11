@@ -6,6 +6,7 @@ import 'package:vaksin_id_flutter/models/auth/login_model.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/auth/register_screen.dart';
+import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
 import 'package:vaksin_id_flutter/view_model/auth/auth_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -173,12 +174,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       await prefs.saveToken(token);
 
                       if (mounted) {
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const BottomnavScreen(),
-                        //   ),
-                        // );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BottomNavigationBarScreen(),
+                          ),
+                        );
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(

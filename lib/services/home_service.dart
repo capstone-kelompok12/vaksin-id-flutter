@@ -16,8 +16,8 @@ class HealthFaciApi {
           'https://kipi.covid19.go.id/api/get-faskes-vaksinasi',
           queryParameters: {
             'skip': 0,
-            'province': 'JAWA TENGAH',
-            'city': 'KLATEN'
+            'province': 'DKI JAKARTA',
+            'city': 'JAKARTA SELATAN'
           });
 
       print('response: ${response.data['data']}');

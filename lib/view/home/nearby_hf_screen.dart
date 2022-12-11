@@ -50,7 +50,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
 
   @override
   void initState() {
-    // checkGps();
+    checkGps();
     super.initState();
   }
 
@@ -74,68 +74,68 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
         .asUint8List();
   }
 
-  // checkGps() async {
-  //   Provider.of<HomeViewModel>(context, listen: false).getHealthFacilities();
-  //   servicestatus = await Geolocator.isLocationServiceEnabled();
-  //   if (servicestatus) {
-  //     permission = await Geolocator.checkPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       permission = await Geolocator.requestPermission();
-  //       if (permission == LocationPermission.denied) {
-  //         print('Location permissions are denied');
-  //       } else if (permission == LocationPermission.deniedForever) {
-  //         print("'Location permissions are permanently denied");
-  //       } else {
-  //         haspermission = true;
-  //       }
-  //     } else {
-  //       haspermission = true;
-  //     }
+  checkGps() async {
+    Provider.of<HomeViewModel>(context, listen: false).getHealthFacilities();
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          print("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
 
-  //     if (haspermission) {
-  //       await getCurrentLocation();
-  //       print('GPS enabled');
-  //       await addMarkers();
-  //     }
-  //   } else {
-  //     print("GPS Service is not enabled, turn on GPS location");
-  //   }
-  // }
+      if (haspermission) {
+        await getCurrentLocation();
+        print('GPS enabled');
+        await addMarkers();
+      }
+    } else {
+      print("GPS Service is not enabled, turn on GPS location");
+    }
+  }
 
-  // getCurrentLocation() async {
-  //   await Geolocator.getCurrentPosition(
-  //           desiredAccuracy: LocationAccuracy.best)
-  //       .then((Position position) {
-  //     setState(() {
-  //       currentPosition = position;
-  //       currentLatLng = LatLng(position.latitude, position.longitude);
-  //       print(currentLatLng);
-  //     });
-  //     print(currentPosition);
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  //   getAddressFromLatLng();
-  // }
+  getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        currentPosition = position;
+        currentLatLng = LatLng(position.latitude, position.longitude);
+        print(currentLatLng);
+      });
+      print(currentPosition);
+    }).catchError((e) {
+      print(e);
+    });
+    getAddressFromLatLng();
+  }
 
-  // getAddressFromLatLng() async {
-  //   try {
-  //     final address =
-  //         // await geoCode.reverseGeocoding(latitude:
-  //         //     currentPosition!.latitude, longitude: currentPosition!.longitude);
-  //         await placemarkFromCoordinates(
-  //             currentPosition!.latitude, currentPosition!.longitude);
+  getAddressFromLatLng() async {
+    try {
+      final address =
+          // await geoCode.reverseGeocoding(latitude:
+          //     currentPosition!.latitude, longitude: currentPosition!.longitude);
+          await placemarkFromCoordinates(
+              currentPosition!.latitude, currentPosition!.longitude);
 
-  //     print(address.first);
+      print(address.first);
 
-  //     setState(() {
-  //       currentAddress = "${address.first.subAdministrativeArea}";
-  //     });
-  //     print(currentAddress);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+      setState(() {
+        currentAddress = "${address.first.subAdministrativeArea}";
+      });
+      print(currentAddress);
+    } catch (e) {
+      print(e);
+    }
+  }
 
   addMarkers() async {
     final listHospital =

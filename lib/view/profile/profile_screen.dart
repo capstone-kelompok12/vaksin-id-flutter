@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
+import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/profile/edit_profile_screen.dart';
-
-import '../../services/profile/shared_service.dart';
+import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import '../auth/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -12,7 +15,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  SharedService sharedService = SharedService();
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<ProfileViewModel>(context, listen: false)
+        .getUsersProfile(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,35 +40,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
                     color: Color(0xFFE7F1E8),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.account_circle_outlined,
-                            size: 76.67,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Nama Lengkap',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'username@gmail.com',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    child: Consumer<ProfileViewModel>(
+                      builder: (context, value, child) {
+                        final data = value.profile;
+                        return Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.account_circle_outlined,
+                                size: 76.67,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              data.data?.fullname ?? '',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 18,
+                                fontWeight: semiBold,
+                              ),
+                            ),
+                            Text(
+                              data.data?.email ?? '',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 18,
+                                fontWeight: medium,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -68,80 +82,107 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
             child: Column(
               children: [
-                InkWell(
+                ListTile(
+                  leading: Icon(
+                    Icons.account_circle,
+                    color: blackColor,
+                  ),
+                  title: Text(
+                    'Edit Profile',
+                    style: blackTextStyle.copyWith(),
+                  ),
+                  trailing: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: blackColor,
+                  ),
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EditProfileScreen(),
-                        ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen(),
+                      ),
+                    );
                   },
-                  child: const ListTile(
-                    leading: Icon(
-                      Icons.account_circle_outlined,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    title: Text('Edit Profil',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400)),
-                    trailing:
-                        Icon(Icons.arrow_right, color: Colors.black, size: 20),
-                  ),
                 ),
-                const Divider(
-                  color: Colors.black26,
+                Divider(
+                  color: greyColor,
                   thickness: 1,
                 ),
                 Column(
                   children: [
-                    InkWell(
-                      onTap: () async {
-                        await sharedService.deleteToken();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ));
-                      },
-                      child: const ListTile(
-                        leading: Icon(
-                          Icons.logout,
-                          color: Colors.black,
-                          size: 20,
-                        ),
-                        title: Text('Keluar',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w400)),
-                        trailing: Icon(Icons.arrow_right,
-                            color: Colors.black, size: 20),
+                    ListTile(
+                      leading: Icon(
+                        Icons.logout,
+                        color: blackColor,
                       ),
+                      title: Text(
+                        'Keluar',
+                        style: blackTextStyle.copyWith(
+                          fontWeight: medium,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: blackColor,
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Center(
+                              child: Text(
+                                'Keluar',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: semiBold,
+                                ),
+                              ),
+                            ),
+                            content: Text(
+                              'Kamu yakin ingin keluar?',
+                              style: blackTextStyle.copyWith(
+                                fontWeight: medium,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Batal'),
+                              ),
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.remove('Token');
+
+                                  if (mounted) {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen(),
+                                        ),
+                                        (route) => false);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    const Divider(
-                      color: Colors.black26,
+                    Divider(
+                      color: greyColor,
                       thickness: 1,
                     ),
                   ],
                 ),
-                // const ListTile(
-                //   leading: Icon(
-                //     Icons.logout,
-                //     color: Colors.black,
-                //     size: 20,
-                //   ),
-                //   title: Text('Keluar',
-                //       style:
-                //           TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                //   trailing:
-                //       Icon(Icons.arrow_right, color: Colors.black, size: 20),
-                // ),
-                // const Divider(
-                //   color: Colors.black26,
-                //   thickness: 1,
-                // ),
               ],
             ),
           ),

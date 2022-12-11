@@ -1,7 +1,36 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
+import 'package:vaksin_id_flutter/services/profile/profile_service.dart';
+import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
+import 'package:vaksin_id_flutter/view/auth/login_screen.dart';
 
 class ProfileViewModel extends ChangeNotifier {
+  final profileService = ProfileService();
+  ProfileModel _profile = ProfileModel();
+  ProfileModel get profile => _profile;
+
+  Future getUsersProfile(BuildContext context) async {
+    try {
+      final getProfile = await profileService.getUserProfile();
+      _profile = getProfile;
+      notifyListeners();
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode == 401) {
+          SharedService prefs = SharedService();
+          prefs.deleteToken();
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              (route) => false);
+        } 
+        e.response!.statusCode;
+      }
+    }
+  }
+
   final List<String> _jenisKelamin = [
     'Laki - laki',
     'Perempuan',
