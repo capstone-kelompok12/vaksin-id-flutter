@@ -22,41 +22,30 @@ class NearbyHfScreen extends StatefulWidget {
 
 class _NearbyHfScreenState extends State<NearbyHfScreen> {
 
-  bool servicestatus = false;
-  bool haspermission = false;
-  Position? currentPosition;
-  LatLng? currentLatLng;
-  String? currentAddress;
+  // bool servicestatus = false;
+  // bool haspermission = false;
+  // Position? currentPosition;
+  // LatLng? currentLatLng;
+  // String? currentAddress;
+  // late LocationPermission permission;
+  // List<Map<String, dynamic>> locationListWithDistance = [];
   int selectedMarker = 0;
-  Uint8List? markerIcon;
-  Uint8List? markerIconSelected;
-  late LocationPermission permission;
-  List<Marker> markers = [];
-  List<Map<String, dynamic>> locationListWithDistance = [];
-  GoogleMapController? gmController;
   CustomInfoWindowController customInfoWindowController =
       CustomInfoWindowController();
-  double doubleInRange(Random source, num start, num end) =>
-      source.nextDouble() * (end - start) + start;
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
+  Uint8List? markerIcon;
+  Uint8List? markerIconSelected;
+  List<Marker> markers = [];
+  GoogleMapController? gmController;
 
   @override
   void initState() {
-    checkGps();
+    addMarkers();
     super.initState();
   }
 
   @override
   void dispose() {
     markers.clear();
-    locationListWithDistance.clear();
     gmController?.dispose();
     customInfoWindowController.dispose();
     print('Dispose used');
@@ -73,187 +62,95 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
         .asUint8List();
   }
 
-  checkGps() async {
-    Provider.of<HomeViewModel>(context, listen: false).getHealthFacilities();
-    servicestatus = await Geolocator.isLocationServiceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
-
-      if (haspermission) {
-        await getCurrentLocation();
-        print('GPS enabled');
-        await addMarkers();
-      }
-    } else {
-      print("GPS Service is not enabled, turn on GPS location");
-    }
-  }
-
-  getCurrentLocation() async {
-    await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        currentPosition = position;
-        currentLatLng = LatLng(position.latitude, position.longitude);
-        print(currentLatLng);
-      });
-      print(currentPosition);
-    }).catchError((e) {
-      print(e);
-    });
-    getAddressFromLatLng();
-  }
-
-  getAddressFromLatLng() async {
-    try {
-      final address =
-          // await geoCode.reverseGeocoding(latitude:
-          //     currentPosition!.latitude, longitude: currentPosition!.longitude);
-          await placemarkFromCoordinates(
-              currentPosition!.latitude, currentPosition!.longitude);
-
-      print(address.first);
-
-      setState(() {
-        currentAddress = "${address.first.subAdministrativeArea}";
-      });
-      print(currentAddress);
-    } catch (e) {
-      print(e);
-    }
-  }
-
   addMarkers() async {
-    final listHospital =
-        Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
+    final listHf = Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
+    // final loclistHf = Provider.of<HomeViewModel>(context, listen: false).locationListWithDistance;
     markerIcon = await getBytesFromAsset('assets/hospital_loc_icon.png', 50);
-    markerIconSelected =
-        await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
+    markerIconSelected = await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
 
-    for (var x = 0; x < listHospital!.data!.length; x++) {
+    for (var x = 0; x < listHf!.data!.healthFacilities!.length; x++) {
       // print(x);
-      double distance = calculateDistance(
-          currentPosition!.latitude,
-          currentPosition!.longitude,
-          double.parse(listHospital.data![x].latitude!),
-          double.parse(listHospital.data![x].longitude!));
-
-      if (distance.toInt() < 1) {
-        final inMeters = distance * 1000;
-        locationListWithDistance.add({
-          'nama': listHospital.data![x].nama,
-          'alamat': listHospital.data![x].alamat,
-          'distance': '${inMeters.toStringAsFixed(2)} m',
-          'distanceSort': inMeters.toInt(),
-        });
-      } else {
-        locationListWithDistance.add({
-          'nama': listHospital.data![x].nama,
-          'alamat': listHospital.data![x].alamat,
-          'distance': '${distance.toStringAsFixed(2)} km',
-          'distanceSort': distance.toInt(),
-        });
-      }
-      markers.add(
-        Marker(
-          markerId: MarkerId('$x'),
-          position: LatLng(double.parse(listHospital.data![x].latitude!),
-              double.parse(listHospital.data![x].longitude!)),
-          icon: BitmapDescriptor.fromBytes(markerIcon!),
-          consumeTapEvents: true,
-          visible: true,
-          onTap: () {
-            print('tapMarker1');
-            if (selectedMarker != x) {
-              print('selectedMarker1: $selectedMarker');
-              setState(() {
-                if (selectedMarker != 0) {
-                  markers[selectedMarker] = markers[selectedMarker].copyWith(
-                      iconParam: BitmapDescriptor.fromBytes(markerIcon!));
-                }
-                markers[x] = markers[x].copyWith(
-                    iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
-                selectedMarker = x;
-              });
+      setState(() {
+        markers.add(
+          Marker(
+            markerId: MarkerId('$x'),
+            position: LatLng(
+              listHf.data!.healthFacilities![x].address!.latitude!,
+              listHf.data!.healthFacilities![x].address!.longitude!),
+            icon: BitmapDescriptor.fromBytes(markerIcon!),
+            consumeTapEvents: true,
+            visible: true,
+            onTap: () {
+              print('selectedMarker');
+              if (selectedMarker != -1) {
+                print('selectedMarker1: $selectedMarker');
+                setState(() {
+                  if (selectedMarker != -1) {
+                    print('selectedMarkerid: ${x}');
+                    markers[selectedMarker] = markers[selectedMarker].copyWith(
+                        iconParam: BitmapDescriptor.fromBytes(markerIcon!));
+                  }
+                  markers[x] = markers[x].copyWith(
+                      iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
+                  selectedMarker = x;
+                });
+                print('selectedMarker2: $selectedMarker');
+              }
               gmController?.animateCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(
                       target: LatLng(
-                          double.parse(listHospital.data![x].latitude!),
-                          double.parse(listHospital.data![x].longitude!)),
+                          listHf.data!.healthFacilities![x].address!.latitude! + 0.007216,
+                          listHf.data!.healthFacilities![x].address!.longitude!),
                       zoom: 13)));
-              print('selectedMarker2: $selectedMarker');
-              print('id: ${x}');
-            }
-            customInfoWindowController.addInfoWindow!(
-              GestureDetector(
-                onTap: () {
-                  print('infoTap');
-                },
-                child: Column(
+              customInfoWindowController.addInfoWindow!(
+                Column(
                   children: [
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${listHospital.data![x].nama}',
-                              textAlign: TextAlign.center,
-                            )),
+                      child: Stack(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '${listHf.data!.healthFacilities![x].name}',
+                                  textAlign: TextAlign.center,
+                                )),
+                          ),
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: primaryColor.withOpacity(0.3),
+                              onTap: () => print('infoTap'),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Triangle.isosceles(
                       edge: Edge.BOTTOM,
                       child: Container(
-                        color: Colors.blue,
+                        color: Colors.white,
                         width: 20.0,
                         height: 10.0,
                       ),
                     ),
                   ],
                 ),
-              ),
-              LatLng(double.parse(listHospital.data![x].latitude!),
-                  double.parse(listHospital.data![x].longitude!)),
-            );
-          },
-        ),
-      );
+                LatLng(listHf.data!.healthFacilities![x].address!.latitude!,
+                    listHf.data!.healthFacilities![x].address!.longitude!),
+              );
+            },
+          ),
+        );
+      });
     }
-
-    locationListWithDistance.sort((a, b) {
-      int d1 = a['distanceSort'];
-      int d2 = b['distanceSort'];
-      if (d1 > d2) {
-        return 1;
-      } else if (d1 < d2) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
-    locationListWithDistance.forEach((element) {
-      print('hf:  ${element["nama"]} ${element["distance"]}');
-    });
     print('markerFirstRandom: ${markers.first.position}');
     print('markerLastRandom: ${markers.last.position}');
     print('markerlength: ${markers.length}');
@@ -261,21 +158,23 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fasilitas Kesehatan Terdekat'),
-      ),
-      body:Column(
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 209,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                currentLatLng == null
-                  ? const Center(child: CircularProgressIndicator())
-                  : GoogleMap(
+    return Consumer<HomeViewModel>(
+      builder: (context, value, _) =>
+      value.haspermission ?
+      Scaffold(
+        appBar: AppBar(
+          title: const Text('Fasilitas Kesehatan Terdekat'),
+        ),
+        body:Column(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 209,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  markers.isEmpty ? const Center(child: CircularProgressIndicator())
+                    : GoogleMap(
                       mapType: MapType.normal,
                       markers: Set<Marker>.of(markers),
                       myLocationEnabled: true,
@@ -296,7 +195,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                         }
                       },
                       initialCameraPosition: CameraPosition(
-                        target: currentLatLng ?? const LatLng(-6.200000, 106.816666),
+                        target: value.currentLatLng ?? const LatLng(-6.200000, 106.816666),
                         zoom: 11.5,
                       ),
                       onMapCreated: (controller) {
@@ -304,131 +203,116 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                         gmController = controller;
                       },
                     ),
-                CustomInfoWindow(
-                  controller: customInfoWindowController,
-                  height: 75,
-                  width: 150,
-                  offset: 50,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.blue
+                  CustomInfoWindow(
+                    controller: customInfoWindowController,
+                    height: 75,
+                    width: 150,
+                    offset: 50,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.blue
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              gmController?.animateCamera(CameraUpdate.newCameraPosition(
+                                CameraPosition(
+                                  target: value.currentLatLng!,
+                                  zoom: 11.5)));
+                            }, 
+                            icon: const Icon(Icons.location_searching_sharp, color: Colors.white,)),
                         ),
-                        child: IconButton(
-                          onPressed: () {
-                            gmController?.animateCamera(CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                target: currentLatLng!,
-                                zoom: 11.5)));
-                          }, 
-                          icon: const Icon(Icons.location_searching_sharp, color: Colors.white,)),
                       ),
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+                  )
+                ],
               ),
+            ),
+            Expanded(
               child: Consumer<HomeViewModel>(
-                builder: (context, value, _) => ListView.builder(
-                  // controller: scrollController,
-                  itemCount: value.listHealthFaci?.data?.length,
-                  itemBuilder: (context, index) {
-                    return locationListWithDistance.isEmpty ? const Center(child: CircularProgressIndicator()) 
-                    : Card(
-                      elevation: 2,
-                      // margin: EdgeInsets.all(),
-                      color: Colors.white,
-                      child: InkWell(
-                        onTap: () => print('listTap'),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(faker.image.image(
-                                  width: 92, height: 92, keywords: ['city'], random: true)),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 95,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${locationListWithDistance[index]['nama']}', 
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w900, 
-                                          fontSize: 14),),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 4),
-                                          child: Text(
-                                            '${locationListWithDistance[index]['alamat']}',
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12),),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${locationListWithDistance[index]['distance']}', 
-                                        style: TextStyle(
-                                          color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
-                                    ],
-                                  ),
+                builder: (context, value, _) => 
+                value.locationListWithDistance.isEmpty ? const Center(child: CircularProgressIndicator()) 
+                : Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+                ),
+                child: ListView.builder(
+                    itemCount: value.listHealthFaci?.data?.healthFacilities?.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 2,
+                        color: Colors.white,
+                        child: InkWell(
+                          onTap: () => print('listTap'),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(faker.image.image(
+                                    width: 92, height: 92, keywords: ['city'], random: true)),
                                 ),
                               ),
-                            )
-                          ],
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 95,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${value.locationListWithDistance[index]['nama']}', 
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w900, 
+                                            fontSize: 14),),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 4),
+                                            child: Text(
+                                              '${value.locationListWithDistance[index]['alamat']}',
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12),),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${value.locationListWithDistance[index]['jarak']}', 
+                                          style: TextStyle(
+                                            color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      // ListTile(
-                      //   onTap: () => print('listTap'),
-                      //   leading: Container(
-                      //     alignment: Alignment.center,
-                      //     height: 70,
-                      //     width: 70,
-                      //     child: Image.network(faker.image.image(
-                      //       width: 1200, height: 900, keywords: ['city'], random: true))),
-                      //   title: Text('${locationListWithDistance[index]['nama']}'),
-                      //   subtitle: Text(
-                      //     maxLines: 2,
-                      //     '${locationListWithDistance[index]['alamat']}'),
-
-                      //   // trailing: Text('${locationListWithDistance[index]['distance']}'),
-                      // ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      )
+          ],
+        )
+      ) : Container()
     );
   }
 }
