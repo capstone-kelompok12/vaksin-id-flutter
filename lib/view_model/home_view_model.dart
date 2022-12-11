@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@abghifareihand 
-capstone-kelompok12
-/
-vaksin-id-flutter
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-vaksin-id-flutter/lib/view_model/home_view_model.dart
-@AncaSea
-AncaSea fixing bug and perfection homePage
-Latest commit 3ccbdf4 4 hours ago
- History
- 1 contributor
-261 lines (242 sloc)  9.03 KB
-
 import 'dart:ui' as ui;
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
@@ -289,18 +259,3 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 }
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-vaksin-id-flutter/home_view_model.dart at development · capstone-kelompok12/vaksin-id-flutter
