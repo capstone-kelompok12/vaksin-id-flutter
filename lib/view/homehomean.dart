@@ -32,6 +32,9 @@ class _HomeBoonganState extends State<HomeBoongan> {
               itemCount: detail.healthFacilities.length,
               itemBuilder: (context, index) => ElevatedButton(
                 onPressed: () {
+                  detail.getDetailHealthFacilities(
+                      '${detail.healthFacilities[index].name}');
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(

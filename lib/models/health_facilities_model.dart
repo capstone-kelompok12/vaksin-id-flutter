@@ -1,33 +1,33 @@
-class HealthFacilities {
-  List<Data>? data;
-  bool? error;
-  String? message;
+// class HealthFacilities {
+//   List<Data>? data;
+//   bool? error;
+//   String? message;
 
-  HealthFacilities({this.data, this.error, this.message});
+//   HealthFacilities({this.data, this.error, this.message});
 
-  HealthFacilities.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-    error = json['error'];
-    message = json['message'];
-  }
+//   HealthFacilities.fromJson(Map<String, dynamic> json) {
+//     if (json['data'] != null) {
+//       data = <Data>[];
+//       json['data'].forEach((v) {
+//         data!.add(new Data.fromJson(v));
+//       });
+//     }
+//     error = json['error'];
+//     message = json['message'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    data['error'] = this.error;
-    data['message'] = this.message;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     if (this.data != null) {
+//       data['data'] = this.data!.map((v) => v.toJson()).toList();
+//     }
+//     data['error'] = this.error;
+//     data['message'] = this.message;
+//     return data;
+//   }
+// }
 
-class Data {
+class HealthFacilitiesModel {
   String? iD;
   String? email;
   String? phoneNum;
@@ -37,7 +37,7 @@ class Data {
   String? session;
   List<Vaccine>? vaccine;
 
-  Data(
+  HealthFacilitiesModel(
       {this.iD,
       this.email,
       this.phoneNum,
@@ -47,7 +47,7 @@ class Data {
       this.session,
       this.vaccine});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  HealthFacilitiesModel.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
     email = json['Email'];
     phoneNum = json['PhoneNum'];

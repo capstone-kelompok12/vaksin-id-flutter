@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:vaksin_id_flutter/models/health_facilities_byname_model.dart';
 import 'package:vaksin_id_flutter/models/health_facilities_model.dart';
-import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
@@ -46,19 +46,28 @@ class DetailFasKesViewModel with ChangeNotifier {
   final detailFasKes = DetailFasKesService();
 
   // HealthFacilitiesModel healthFacilities = HealthFacilitiesModel();
-  List<Data> _healthFacilities = [];
-  List<Data> get healthFacilities => _healthFacilities;
+  List<HealthFacilitiesModel> _healthFacilities = [];
+  List<HealthFacilitiesModel> get healthFacilities => _healthFacilities;
 
-  getFaskes() async {
+  Future getFaskes() async {
     _healthFacilities = await detailFasKes.getHealthFacilities();
     notifyListeners();
   }
 
-  List<Data> _detail = [];
-  List<Data> get detail => _detail;
+  // List<HealthFacilitiesByNameModel> _detail = [];
+  // List<HealthFacilitiesByNameModel> get detail => _detail;
+
+  // getDetailHealthFacilities(String? nama) async {
+  //   _detail = await detailFasKes.getDetailHealthFacilities(nama);
+  //   notifyListeners();
+  // }
+
+  HealthFacilitiesByNameModel _detail =
+      HealthFacilitiesByNameModel(Address: AddressModel(), Vaccine: []);
+  HealthFacilitiesByNameModel get detail => _detail;
 
   getDetailHealthFacilities(String? nama) async {
-    _detail = await detailFasKes.getDetail(nama);
+    _detail = await detailFasKes.getDetailHealthFacilities(nama);
     notifyListeners();
   }
 }
