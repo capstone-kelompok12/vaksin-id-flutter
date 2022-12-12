@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vaksin_id_flutter/models/health_facilities_byname_model.dart';
-import 'package:vaksin_id_flutter/models/health_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
