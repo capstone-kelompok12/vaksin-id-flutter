@@ -1,32 +1,30 @@
 import 'package:dio/dio.dart';
-import 'package:vaksin_id_flutter/models/detail_health_facilities_model.dart';
-import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vaksin_id_flutter/models/user_model.dart';
 
 class BookVaksinService {
-  final dio = Dio(BaseOptions(
-    baseUrl: "https://vaksin-y3awbiupna-as.a.run.app/api/v1",
-  ));
+  final baseURL = 'https://vaksin-y3awbiupna-as.a.run.app/';
 
-  BookVaksinService() {
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final prefs = SharedService();
-        final String? token = await prefs.getToken();
-        options.headers['Authorization'] = 'Bearer $token';
-        return handler.next(options);
-      },
-    ));
-    dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
-  }
-
-  Future<DetailHealthFacilities> getDetailHealthFacilitiesAPI (String nameHealthFacilities) async {
-    try {
-      final response = await dio.get('/healthfacilities/$nameHealthFacilities');
-      print('object');
-      final result = DetailHealthFacilities.fromJson(response.data);
-      return result;
-    } catch (e) {
-      throw 'Error: $e';
-    }
-  }
+  // getUser() async {
+  //   // String token = prefs.getString('token').toString();
+  //   try {
+  //     final response = await Dio().get(
+  //       "$baseURL/api/v1/profile",
+  //       options: Options(
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           // 'Authorization': 'Bearer $token',
+  //         },
+  //       ),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final bookingList = (response.data['data'] as List)
+  //           .map((e) => UserModel.fronJson)
+  //           .toList();
+  //       return bookingList;
+  //     }
+  //   } on Exception catch (e) {
+  //     if (e is DioError) {}
+  //   }
+  // }
 }
