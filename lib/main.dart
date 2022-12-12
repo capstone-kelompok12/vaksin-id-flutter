@@ -13,6 +13,7 @@ import 'package:vaksin_id_flutter/view/splash/splash_screen.dart';
 
 import 'package:vaksin_id_flutter/view/profile/edit_profile_screen.dart';
 import 'package:vaksin_id_flutter/view/profile/profile_screen.dart';
+import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 
@@ -27,6 +28,12 @@ void main() {
       ),
       ChangeNotifierProvider(
         create: (context) => AuthViewModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ProfileViewModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => BottomnavViewModel(),
       ),
       ChangeNotifierProvider(
         create: (context) => ProfileViewModel(),

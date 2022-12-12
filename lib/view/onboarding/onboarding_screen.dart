@@ -3,6 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/auth/login_screen.dart';
 import 'package:vaksin_id_flutter/view/home/list_vaccine_screen.dart';
 import 'package:vaksin_id_flutter/view/home/nearby_hf_screen.dart';
 
@@ -106,13 +107,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  // carouselController.nextPage();
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomeScreen(),
-                                      ));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ),
+                                  );
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: primaryColor,

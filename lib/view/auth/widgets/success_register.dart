@@ -46,22 +46,25 @@ class SuccessRegister extends StatelessWidget {
           const SizedBox(
             height: 24.0,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: primaryColor,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                'Masuk',
+                style: whiteTextStyle.copyWith(
+                  fontWeight: medium,
                 ),
-              );
-            },
-            child: Text(
-              'Masuk',
-              style: whiteTextStyle.copyWith(
-                fontWeight: medium,
               ),
             ),
           ),
