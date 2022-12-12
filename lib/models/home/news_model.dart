@@ -4,7 +4,7 @@ class NewsModel {
   String? urlToImage;
   String? content;
   String? description;
-  String? publishedAt;
+  DateTime? publishedAt;
   String? url;
 
   NewsModel({
@@ -23,7 +23,7 @@ class NewsModel {
         urlToImage: json['urlToImage'],
         content: json['content'],
         description: json['description'],
-        publishedAt: json['publishedAt'],
+        publishedAt: DateTime.parse(json["publishedAt"]),
         url: json['url'],
       );
   Map<String, dynamic> toJson() => {
@@ -32,7 +32,7 @@ class NewsModel {
         'urlToImage': urlToImage,
         'content': content,
         'description': description,
-        'publishedAt': publishedAt,
+        'publishedAt': publishedAt.toString(),
         'url': url,
       };
 }
