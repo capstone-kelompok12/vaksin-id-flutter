@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/user_model.dart';
-import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 
 class BookVaksinService {
   final baseURL = 'https://vaksin-y3awbiupna-as.a.run.app/';

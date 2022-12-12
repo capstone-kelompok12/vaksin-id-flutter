@@ -1,21 +1,21 @@
 class HealthFacilitiesByNameModel {
   HealthFacilitiesByNameModel({
-    required this.ID,
-    required this.Email,
-    required this.PhoneNum,
-    required this.Name,
-    required this.Image,
+    this.ID,
+    this.Email,
+    this.PhoneNum,
+    this.Name,
+    this.Image,
     required this.Address,
-    required this.Session,
+    this.Session,
     required this.Vaccine,
   });
-  late final String ID;
-  late final String Email;
-  late final String PhoneNum;
-  late final String Name;
-  late final String Image;
+  late final String? ID;
+  late final String? Email;
+  late final String? PhoneNum;
+  late final String? Name;
+  late final String? Image;
   late final AddressModel Address;
-  late final String Session;
+  late final String? Session;
   late final List<dynamic> Vaccine;
 
   HealthFacilitiesByNameModel.fromJson(Map<String, dynamic> json) {
@@ -29,8 +29,8 @@ class HealthFacilitiesByNameModel {
     Vaccine = List.castFrom<dynamic, dynamic>(json['Vaccine']);
   }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
+  Map<String?, dynamic> toJson() {
+    final _data = <String?, dynamic>{};
     _data['ID'] = ID;
     _data['Email'] = Email;
     _data['PhoneNum'] = PhoneNum;
@@ -45,30 +45,30 @@ class HealthFacilitiesByNameModel {
 
 class AddressModel {
   AddressModel({
-    required this.ID,
-    required this.IdHealthFacilities,
+    this.ID,
+    this.IdHealthFacilities,
     this.NikUser,
-    required this.CurrentAddress,
-    required this.District,
-    required this.City,
-    required this.Province,
-    required this.Latitude,
-    required this.Longitude,
+    this.CurrentAddress,
+    this.District,
+    this.City,
+    this.Province,
+    this.Latitude,
+    this.Longitude,
   });
-  late final String ID;
-  late final String IdHealthFacilities;
-  late final Null NikUser;
-  late final String CurrentAddress;
-  late final String District;
-  late final String City;
-  late final String Province;
-  late final double Latitude;
-  late final double Longitude;
+  late final String? ID;
+  late final String? IdHealthFacilities;
+  late final String? NikUser;
+  late final String? CurrentAddress;
+  late final String? District;
+  late final String? City;
+  late final String? Province;
+  late final double? Latitude;
+  late final double? Longitude;
 
-  AddressModel.fromJson(Map<String, dynamic> json) {
+  AddressModel.fromJson(Map<String?, dynamic> json) {
     ID = json['ID'];
     IdHealthFacilities = json['IdHealthFacilities'];
-    NikUser = null;
+    NikUser = json['NikUser'];
     CurrentAddress = json['CurrentAddress'];
     District = json['District'];
     City = json['City'];
@@ -77,8 +77,8 @@ class AddressModel {
     Longitude = json['Longitude'];
   }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
+  Map<String?, dynamic> toJson() {
+    final _data = <String?, dynamic>{};
     _data['ID'] = ID;
     _data['IdHealthFacilities'] = IdHealthFacilities;
     _data['NikUser'] = NikUser;

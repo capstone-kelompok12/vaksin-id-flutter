@@ -42,22 +42,21 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                         child: Container(
                           width: double.infinity,
                           height: 200,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             image: DecorationImage(
-                                alignment: Alignment(0, -1),
-                                image: NetworkImage(
-                                    'http://www.metropolitan.id/wp-content/uploads/2018/06/222-3.jpg'),
+                                alignment: const Alignment(0, -1),
+                                image: NetworkImage('${detail.detail.Image}'),
                                 fit: BoxFit.cover),
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
                         child: Text(
                           // '${widget.detailModel.name}',
-                          'Rs. Bina Husada',
-                          style: TextStyle(
+                          '${detail.detail.Name}',
+                          style: const TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w400),
                         ),
                       ),
@@ -67,10 +66,10 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Flexible(
+                            Flexible(
                               child: Text(
-                                'Jalan Raya Mayor Oking Jaya Atmaja No.KM, RW No.101, Ciriung, Kec. Cibinong, Kabupaten Bogor, Jawa Barat 16917',
-                                style: TextStyle(
+                                '${detail.detail.Address.CurrentAddress}',
+                                style: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w400),
                               ),
                             ),

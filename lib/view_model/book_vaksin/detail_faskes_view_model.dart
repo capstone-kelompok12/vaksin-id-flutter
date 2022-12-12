@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:vaksin_id_flutter/models/health_facilities_byname_model.dart';
 import 'package:vaksin_id_flutter/models/health_facilities_model.dart';
-import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
@@ -41,10 +41,10 @@ class DetailFasKesViewModel with ChangeNotifier {
   }
 
   // Read Service
-
-  DetailFasKesService detailFasKes = DetailFasKesService();
-  List<Data> _detail = [];
-  List<Data> get detail => _detail;
+  final DetailFasKesService detailFasKes = DetailFasKesService();
+  HealthFacilitiesByNameModel _detail =
+      HealthFacilitiesByNameModel(Address: AddressModel(), Vaccine: []);
+  HealthFacilitiesByNameModel get detail => _detail;
 
   getDetailHealthFacilities(String? nama) async {
     _detail = await detailFasKes.getDetailHealthFacilities(nama);
