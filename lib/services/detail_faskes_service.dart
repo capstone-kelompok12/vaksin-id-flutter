@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/health_facilities_byname_model.dart';
-import 'package:vaksin_id_flutter/models/health_facilities_model.dart';
 
 class DetailFasKesService {
   final baseURL = 'https://vaksin-y3awbiupna-as.a.run.app';

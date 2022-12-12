@@ -10,8 +10,11 @@ import 'package:faker/faker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/home/null_location.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
 
 import '../../view_model/home_view_model.dart';
+import '../detail_faskes/detail_faskes_screen.dart';
 
 class NearbyHfScreen extends StatefulWidget {
   const NearbyHfScreen({super.key});
@@ -68,92 +71,105 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
     markerIcon = await getBytesFromAsset('assets/hospital_loc_icon.png', 50);
     markerIconSelected = await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
 
-    for (var x = 0; x < listHf!.data!.healthFacilities!.length; x++) {
-      // print(x);
-      setState(() {
-        markers.add(
-          Marker(
-            markerId: MarkerId('$x'),
-            position: LatLng(
-              listHf.data!.healthFacilities![x].address!.latitude!,
-              listHf.data!.healthFacilities![x].address!.longitude!),
-            icon: BitmapDescriptor.fromBytes(markerIcon!),
-            consumeTapEvents: true,
-            visible: true,
-            onTap: () {
-              print('selectedMarker');
-              if (selectedMarker != -1) {
-                print('selectedMarker1: $selectedMarker');
-                setState(() {
-                  if (selectedMarker != -1) {
-                    print('selectedMarkerid: ${x}');
-                    markers[selectedMarker] = markers[selectedMarker].copyWith(
-                        iconParam: BitmapDescriptor.fromBytes(markerIcon!));
-                  }
-                  markers[x] = markers[x].copyWith(
-                      iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
-                  selectedMarker = x;
-                });
-                print('selectedMarker2: $selectedMarker');
-              }
-              gmController?.animateCamera(CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                      target: LatLng(
-                          listHf.data!.healthFacilities![x].address!.latitude! + 0.007216,
-                          listHf.data!.healthFacilities![x].address!.longitude!),
-                      zoom: 13)));
-              customInfoWindowController.addInfoWindow!(
-                Column(
-                  children: [
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(4),
+    if (listHf != null) {
+      for (var x = 0; x < listHf.data!.healthFacilities!.length; x++) {
+        // print(x);
+        setState(() {
+          markers.add(
+            Marker(
+              markerId: MarkerId('$x'),
+              position: LatLng(
+                listHf.data!.healthFacilities![x].address!.latitude!,
+                listHf.data!.healthFacilities![x].address!.longitude!),
+              icon: BitmapDescriptor.fromBytes(markerIcon!),
+              consumeTapEvents: true,
+              visible: true,
+              onTap: () {
+                print('selectedMarker');
+                if (selectedMarker != -1) {
+                  print('selectedMarker1: $selectedMarker');
+                  setState(() {
+                    if (selectedMarker != -1) {
+                      print('selectedMarkerid: ${x}');
+                      markers[selectedMarker] = markers[selectedMarker].copyWith(
+                          iconParam: BitmapDescriptor.fromBytes(markerIcon!));
+                    }
+                    markers[x] = markers[x].copyWith(
+                        iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
+                    selectedMarker = x;
+                  });
+                  print('selectedMarker2: $selectedMarker');
+                }
+                gmController?.animateCamera(CameraUpdate.newCameraPosition(
+                    CameraPosition(
+                        target: LatLng(
+                            listHf.data!.healthFacilities![x].address!.latitude! + 0.007216,
+                            listHf.data!.healthFacilities![x].address!.longitude!),
+                        zoom: 13)));
+                customInfoWindowController.addInfoWindow!(
+                  Column(
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '${listHf.data!.healthFacilities![x].name}',
+                                    textAlign: TextAlign.center,
+                                  )),
                             ),
-                            width: double.infinity,
-                            height: double.infinity,
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '${listHf.data!.healthFacilities![x].name}',
-                                  textAlign: TextAlign.center,
-                                )),
-                          ),
-                          Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              splashColor: primaryColor.withOpacity(0.3),
-                              onTap: () => print('infoTap'),
-                            ),
-                          )
-                        ],
+                            Consumer<HomeViewModel>(
+                              builder: (context, value, _) =>
+                              Material(
+                                color: Colors.transparent,
+                                child: Consumer<DetailFasKesViewModel>(
+                                  builder: (context, value2, _) =>
+                                  InkWell(
+                                    splashColor: primaryColor.withOpacity(0.3),
+                                    onTap: () {
+                                      value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[x].nama);
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Triangle.isosceles(
-                      edge: Edge.BOTTOM,
-                      child: Container(
-                        color: Colors.white,
-                        width: 20.0,
-                        height: 10.0,
+                      Triangle.isosceles(
+                        edge: Edge.BOTTOM,
+                        child: Container(
+                          color: Colors.white,
+                          width: 20.0,
+                          height: 10.0,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                LatLng(listHf.data!.healthFacilities![x].address!.latitude!,
-                    listHf.data!.healthFacilities![x].address!.longitude!),
-              );
-            },
-          ),
-        );
-      });
+                    ],
+                  ),
+                  LatLng(listHf.data!.healthFacilities![x].address!.latitude!,
+                      listHf.data!.healthFacilities![x].address!.longitude!),
+                );
+              },
+            ),
+          );
+        });
+      }
+      print('markerFirstRandom: ${markers.first.position}');
+      print('markerLastRandom: ${markers.last.position}');
+      print('markerlength: ${markers.length}');
     }
-    print('markerFirstRandom: ${markers.first.position}');
-    print('markerLastRandom: ${markers.last.position}');
-    print('markerlength: ${markers.length}');
   }
 
   @override
@@ -164,6 +180,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
       Scaffold(
         appBar: AppBar(
           title: const Text('Fasilitas Kesehatan Terdekat'),
+          automaticallyImplyLeading: false,
         ),
         body:Column(
           children: [
@@ -254,54 +271,62 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                       return Card(
                         elevation: 2,
                         color: Colors.white,
-                        child: InkWell(
-                          onTap: () => print('listTap'),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.network(faker.image.image(
-                                    width: 92, height: 92, keywords: ['city'], random: true)),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    height: 95,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${value.locationListWithDistance[index]['nama']}', 
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w900, 
-                                            fontSize: 14),),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                            child: Text(
-                                              '${value.locationListWithDistance[index]['alamat']}',
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12),),
-                                          ),
-                                        ),
-                                        Text(
-                                          '${value.locationListWithDistance[index]['jarak']}', 
-                                          style: TextStyle(
-                                            color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
-                                      ],
-                                    ),
+                        child: Consumer<DetailFasKesViewModel>(
+                          builder: (context, value2, _) =>
+                          InkWell(
+                            onTap: () {
+                              value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].nama);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
+                              );
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.network(faker.image.image(
+                                      width: 92, height: 92, keywords: ['city'], random: true)),
                                   ),
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 95,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            value.locationListWithDistance[index].nama, 
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w900, 
+                                              fontSize: 14),),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 4),
+                                              child: Text(
+                                                value.locationListWithDistance[index].alamat,
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12),),
+                                            ),
+                                          ),
+                                          Text(
+                                            value.locationListWithDistance[index].jarak, 
+                                            style: TextStyle(
+                                              color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -312,7 +337,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
             ),
           ],
         )
-      ) : Container()
+      ) : const NullLocation()
     );
   }
 }
