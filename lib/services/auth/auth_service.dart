@@ -59,7 +59,6 @@ class AuthService {
       } else {
         throw 'Ada masalah dengan koneksi ke server';
       }
-      
     }
     return token!;
   }

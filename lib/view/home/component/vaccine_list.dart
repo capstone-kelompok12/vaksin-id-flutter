@@ -4,6 +4,7 @@ import 'package:vaksin_id_flutter/view/home/list_vaccine_screen.dart';
 import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
 
 import '../../../styles/theme.dart';
+import '../../component/finite_state.dart';
 
 class VaccineListHomeScreen extends StatelessWidget {
   const VaccineListHomeScreen({super.key});
@@ -50,9 +51,9 @@ class VaccineListHomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Consumer<HomeViewModel>(
                 builder: (context, value, _) =>
-                value.apiState == ApiState.loading ?
+                value.apiState == MyState.loading ?
                   const Center(child: CircularProgressIndicator(),) :
-                value.apiState == ApiState.none ? 
+                value.apiState == MyState.none ? 
                   ListView.separated(
                     scrollDirection: Axis.horizontal,
                     separatorBuilder: (context, index) => const SizedBox(width: 8,), 
