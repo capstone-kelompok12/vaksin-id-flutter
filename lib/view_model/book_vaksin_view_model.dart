@@ -14,17 +14,4 @@ class BookVaksinViewModel extends ChangeNotifier {
     isChecked = !isChecked;
     notifyListeners();
   }
-
-  getDetailHealthFacilities(String nameHf) async {
-    try {
-      myState = MyState.loading;
-      detailHealthFacilities = await bookVaksinService.getDetailHealthFacilitiesAPI(nameHf);
-      print('detail: ${detailHealthFacilities?.data.name}');
-      myState = MyState.none;
-    } catch (e) {
-      myState = MyState.error;
-      rethrow;
-    }
-    notifyListeners();
-  }
 }

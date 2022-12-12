@@ -1,8 +1,9 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/book_vaksin_screen.dart.dart';
+import 'package:vaksin_id_flutter/view/detail_faskes/detail_faskes_screen.dart';
 import 'package:vaksin_id_flutter/view/home/nearby_hf_screen.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/book_vaksin_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 
@@ -68,15 +69,15 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                       itemBuilder: (context, index) => SizedBox(
                         width: 215,
                         height: 180,
-                        child: Consumer<BookVaksinViewModel>(
+                        child: Consumer<DetailFasKesViewModel>(
                           builder: (context, value2, _) =>
                           Card(
                             color: whiteColor,
                             child: InkWell(
                               onTap: () {
-                                value2.getDetailHealthFacilities(value.locationListWithDistance[index]['nama']);
+                                value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].nama);
                                 Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => const BookVaksinScreen(),)
+                                  MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
                                 );
                               },
                               child: Column(
@@ -99,7 +100,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        value.locationListWithDistance[index]['nama'],
+                                        value.locationListWithDistance[index].nama,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontWeight: FontWeight.w600),)),
@@ -109,7 +110,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                                         bottom: 16, left: 8, right: 8),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text(value.locationListWithDistance[index]['jarak'])),
+                                      child: Text(value.locationListWithDistance[index].jarak)),
                                   )],
                               ),
                             ),

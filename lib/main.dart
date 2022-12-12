@@ -24,6 +24,9 @@ void main() {
         create: (context) => BookVaksinViewModel(),
       ),
       ChangeNotifierProvider(
+        create: (context) => DetailFasKesViewModel(),
+      ),
+      ChangeNotifierProvider(
         create: (context) => HomeViewModel(),
       ),
       ChangeNotifierProvider(

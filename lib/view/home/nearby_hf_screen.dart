@@ -11,8 +11,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/home/null_location.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
 
 import '../../view_model/home_view_model.dart';
+import '../detail_faskes/detail_faskes_screen.dart';
 
 class NearbyHfScreen extends StatefulWidget {
   const NearbyHfScreen({super.key});
@@ -125,11 +127,22 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                     textAlign: TextAlign.center,
                                   )),
                             ),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                splashColor: primaryColor.withOpacity(0.3),
-                                onTap: () => print('infoTap'),
+                            Consumer<HomeViewModel>(
+                              builder: (context, value, _) =>
+                              Material(
+                                color: Colors.transparent,
+                                child: Consumer<DetailFasKesViewModel>(
+                                  builder: (context, value2, _) =>
+                                  InkWell(
+                                    splashColor: primaryColor.withOpacity(0.3),
+                                    onTap: () {
+                                      value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[x].nama);
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             )
                           ],
@@ -167,6 +180,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
       Scaffold(
         appBar: AppBar(
           title: const Text('Fasilitas Kesehatan Terdekat'),
+          automaticallyImplyLeading: false,
         ),
         body:Column(
           children: [
@@ -257,54 +271,62 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                       return Card(
                         elevation: 2,
                         color: Colors.white,
-                        child: InkWell(
-                          onTap: () => print('listTap'),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.network(faker.image.image(
-                                    width: 92, height: 92, keywords: ['city'], random: true)),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    height: 95,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${value.locationListWithDistance[index]['nama']}', 
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w900, 
-                                            fontSize: 14),),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                            child: Text(
-                                              '${value.locationListWithDistance[index]['alamat']}',
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12),),
-                                          ),
-                                        ),
-                                        Text(
-                                          '${value.locationListWithDistance[index]['jarak']}', 
-                                          style: TextStyle(
-                                            color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
-                                      ],
-                                    ),
+                        child: Consumer<DetailFasKesViewModel>(
+                          builder: (context, value2, _) =>
+                          InkWell(
+                            onTap: () {
+                              value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].nama);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
+                              );
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.network(faker.image.image(
+                                      width: 92, height: 92, keywords: ['city'], random: true)),
                                   ),
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 95,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            value.locationListWithDistance[index].nama, 
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w900, 
+                                              fontSize: 14),),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 4),
+                                              child: Text(
+                                                value.locationListWithDistance[index].alamat,
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12),),
+                                            ),
+                                          ),
+                                          Text(
+                                            value.locationListWithDistance[index].jarak, 
+                                            style: TextStyle(
+                                              color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );

@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vaksin_id_flutter/models/home/nearby_healt_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/news_model.dart';
+import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
 import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import '../services/home/home_service.dart';
@@ -26,7 +27,7 @@ class HomeViewModel extends ChangeNotifier {
   Position? currentPosition;
   LatLng? currentLatLng;
   String? currentAddress;
-  List<Map<String, dynamic>> locationListWithDistance = [];
+  List<SortDistanceHealthFacilities> locationListWithDistance = [];
   double sizeHomeScreen = 865;
   double sizeHeading = 280;
   double paddingBottomHeading = 24;
@@ -144,6 +145,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   addListHealthFaci() async {
+    locationListWithDistance.clear();
     for (var x = 0; x < listHealthFaci!.data!.healthFacilities!.length; x++) {
       // print(x);
 
@@ -151,19 +153,19 @@ class HomeViewModel extends ChangeNotifier {
 
       if (distance! < 1) {
         final inMeters = distance * 1000;
-        locationListWithDistance.add({
-          'nama': listHealthFaci?.data!.healthFacilities![x].name,
-          'alamat': listHealthFaci?.data!.healthFacilities![x].address!.currentAddress,
-          'jarak': '${inMeters.toStringAsFixed(2)} m',
-          'distanceSort': inMeters.toInt(),
-        });
+        locationListWithDistance.add(
+          SortDistanceHealthFacilities(
+            nama: listHealthFaci!.data!.healthFacilities![x].name!,
+            alamat: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
+            jarak: '${inMeters.toStringAsFixed(2)} m', 
+            distanceSort: inMeters.toInt()));
       } else {
-        locationListWithDistance.add({
-          'nama': listHealthFaci?.data!.healthFacilities![x].name,
-          'alamat': listHealthFaci?.data!.healthFacilities![x].address!.currentAddress,
-          'jarak': '${distance.toStringAsFixed(2)} km',
-          'distanceSort': distance.toInt(),
-        });
+        locationListWithDistance.add(
+          SortDistanceHealthFacilities(
+            nama: listHealthFaci!.data!.healthFacilities![x].name!,
+            alamat: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
+            jarak: '${distance.toStringAsFixed(2)} km', 
+            distanceSort: distance.toInt()));
       }
     }
     notifyListeners();
