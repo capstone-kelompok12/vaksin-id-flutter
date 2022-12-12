@@ -47,24 +47,24 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   // Read Service
   final DetailFasKesService detailFasKes = DetailFasKesService();
-  HealthFacilitiesByNameModel _detail =
-      HealthFacilitiesByNameModel(Address: AddressModel(), Vaccine: []);
-  HealthFacilitiesByNameModel get detail => _detail;
+  // HealthFacilitiesByNameModel _detail =
+  //     HealthFacilitiesByNameModel(Address: AddressModel(), Vaccine: []);
+  // HealthFacilitiesByNameModel get detail => _detail;
   final HomeViewModel homeHf = HomeViewModel();
   SortDistanceHealthFacilities? _detailHf; 
   SortDistanceHealthFacilities? get detailHf => _detailHf; 
 
-  getDetailHealthFacilitiesAPI(String? nama) async {
-    try {
-      myState = MyState.loading;
-      _detail = await detailFasKes.getDetailHealthFacilities(nama);
-      myState = MyState.none;
-    } catch (e) {
-      myState = MyState.error;
-      rethrow;
-    }
-    notifyListeners();
-  }
+  // getDetailHealthFacilitiesAPI(String? nama) async {
+  //   try {
+  //     myState = MyState.loading;
+  //     _detail = await detailFasKes.getDetailHealthFacilities(nama);
+  //     myState = MyState.none;
+  //   } catch (e) {
+  //     myState = MyState.error;
+  //     rethrow;
+  //   }
+  //   notifyListeners();
+  // }
   
   getDetailHealthFacilities(List<SortDistanceHealthFacilities> data,String name) async {
       myState = MyState.loading;
