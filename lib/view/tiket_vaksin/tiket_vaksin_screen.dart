@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/riwayat_vaksin.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin.dart';
 
 class TiketVaksinScreen extends StatelessWidget {
   const TiketVaksinScreen({super.key});
