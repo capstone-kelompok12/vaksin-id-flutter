@@ -3,8 +3,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
-import 'package:vaksin_id_flutter/view/riwayat_tiket/riwayat.dart';
-import 'package:vaksin_id_flutter/view/riwayat_tiket/tiket_vaksin.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/riwayat.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_screen.dart';
 
 class RiwayatTiket extends StatefulWidget {
   const RiwayatTiket({super.key});

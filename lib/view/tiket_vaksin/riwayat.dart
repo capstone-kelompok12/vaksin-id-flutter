@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:vaksin_id_flutter/view/riwayat_tiket/tiket_riwayat.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_riwayat.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 
 class RiwayatPage extends StatefulWidget {
