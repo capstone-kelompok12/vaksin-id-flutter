@@ -1,28 +1,3 @@
-// class HealthFacilitiesByNameModel {
-//   HealthFacilitiesByName({
-//       this.data,
-//       this.error,
-//       this.message,
-//   });
-//   late final Data data;
-//   late final bool error;
-//   late final String? message;
-
-//   HealthFacilitiesByName.fromJson(Map<String?, dynamic> json) {
-//     data = Data.fromJson(json['data']);
-//     error = json['error'];
-//     message = json['message'];
-//   }
-
-//   Map<String?, dynamic> toJson() {
-//     final _data = <String?, dynamic>{};
-//     _data['data'] = data.toJson();
-//     _data['error'] = error;
-//     _data['message'] = message;
-//     return _data;
-//   }
-// }
-
 class HealthFacilitiesByNameModel {
   HealthFacilitiesByNameModel({
     this.ID,
@@ -43,7 +18,7 @@ class HealthFacilitiesByNameModel {
   late final String? Session;
   late final List<dynamic> Vaccine;
 
-  HealthFacilitiesByNameModel.fromJson(Map<String?, dynamic> json) {
+  HealthFacilitiesByNameModel.fromJson(Map<String, dynamic> json) {
     ID = json['ID'];
     Email = json['Email'];
     PhoneNum = json['PhoneNum'];

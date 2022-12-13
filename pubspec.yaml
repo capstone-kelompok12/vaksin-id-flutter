@@ -34,7 +34,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   custom_info_window: ^1.0.1
   dio: ^4.0.6
-  faker: ^2.0.0 
+  email_validator: ^2.1.17
+  faker: ^2.0.0
   flutter:
     sdk: flutter
   flutter_svg: ^1.1.6
@@ -42,8 +43,11 @@ dependencies:
   geolocator: ^9.0.2
   google_fonts: ^3.0.1
   google_maps_flutter: ^2.2.1
+  intl: ^0.17.0
   provider: ^6.0.4
   shared_preferences: ^2.0.15
+  underline_indicator: ^0.0.4
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_lints: ^2.0.0
