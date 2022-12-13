@@ -16,6 +16,7 @@ Color whiteColor = const Color(0xffFFFFFF);
 Color blackColor = const Color(0xff191C19);
 Color greyColor = const Color(0xffA4A8AE);
 Color bgColor = const Color(0xffE7F1E8);
+Color redColor = const Color(0xffBA1A1A);
 
 TextStyle blackTextStyle = GoogleFonts.rubik(
   color: blackColor,
@@ -34,6 +35,9 @@ TextStyle orangeTextStyle = GoogleFonts.rubik(
 );
 TextStyle primaryTextStyle = GoogleFonts.rubik(
   color: primaryColor,
+);
+TextStyle redTextStyle = GoogleFonts.rubik(
+  color: redColor,
 );
 
 FontWeight light = FontWeight.w300;
