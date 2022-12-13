@@ -136,7 +136,7 @@ class TiketVaksinDetail extends StatelessWidget {
                   ),
                   listVaksin(
                     title: 'Tanggal',
-                    subtitle: 'Pertama',
+                    subtitle: '30 November 2022',
                   ),
                   listVaksin(
                     title: 'Fasilitas Kesehatan',

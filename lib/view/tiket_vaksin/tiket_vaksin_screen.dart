@@ -28,7 +28,7 @@ class TiketVaksinScreen extends StatelessWidget {
                 color: primaryColor,
                 width: 3,
               ),
-              insets: const EdgeInsets.symmetric(horizontal: 60.0),
+              insets: const EdgeInsets.symmetric(horizontal: 50.0),
             ),
             tabs: const [
               Tab(
