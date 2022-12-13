@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/widgets/cancel_book.dart';
 
 class TiketVaksinDetail extends StatelessWidget {
   final String vaksin;
@@ -199,7 +200,19 @@ class TiketVaksinDetail extends StatelessWidget {
                   backgroundColor: whiteColor,
                   side: BorderSide(color: redColor),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    enableDrag: false,
+                    isDismissible: false,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(28),
+                      ),
+                    ),
+                    context: context,
+                    builder: (context) => const CancelBook(),
+                  );
+                },
                 child: Text(
                   'Batal',
                   style: redTextStyle.copyWith(
