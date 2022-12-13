@@ -42,10 +42,8 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // get vaccine
   final detailFasKes = DetailFasKesService();
 
-  // HealthFacilitiesModel healthFacilities = HealthFacilitiesModel();
   List<HealthFacilitiesModel> _healthFacilities = [];
   List<HealthFacilitiesModel> get healthFacilities => _healthFacilities;
 
@@ -53,14 +51,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     _healthFacilities = await detailFasKes.getHealthFacilities();
     notifyListeners();
   }
-
-  // List<HealthFacilitiesByNameModel> _detail = [];
-  // List<HealthFacilitiesByNameModel> get detail => _detail;
-
-  // getDetailHealthFacilities(String? nama) async {
-  //   _detail = await detailFasKes.getDetailHealthFacilities(nama);
-  //   notifyListeners();
-  // }
 
   HealthFacilitiesByNameModel _detail =
       HealthFacilitiesByNameModel(Address: AddressModel(), Vaccine: []);
