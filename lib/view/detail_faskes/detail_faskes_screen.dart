@@ -26,103 +26,114 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
         ),
       ),
       body: Consumer<DetailFasKesViewModel>(
-        builder: (context, detail, _) => 
-        detail.myState == MyState.loading ? const Center(child: CircularProgressIndicator(),) 
-        : detail.myState == MyState.none ? Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 9),
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Container(
-                            width: double.infinity,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  alignment: const Alignment(0, -1),
-                                  image: NetworkImage('${detail.detail.Image}'),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: Text(
-                            // '${widget.detailModel.name}',
-                            detail.detailHf!.nama,
-                            style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  detail.detailHf!.alamat,
-                                  style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                              MaterialButton(
-                                color: const Color(0xFFD2E4FF),
-                                shape: const CircleBorder(),
-                                minWidth: 0,
-                                height: 40,
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.near_me_outlined,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            detail.detailHf!.jarak,
-                            style: const TextStyle(
-                              color: Color(0xFF006D39),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16)
-                      ],
-                    ),
-                ),
-                Container(
-                  height: 4,
-                  color: const Color(0xFFE1E3DE),
-                ),
-                const SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: FormBook(),
-                  ),
+          builder: (context, detail, _) => detail.myState == MyState.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
                 )
-              ],
-            ),
-          ),
-        ): const Center(child: Text('Error Load Data'),)
-      ),
+              : detail.myState == MyState.none
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height / 9),
+                      child: SingleChildScrollView(
+                        reverse: true,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  // Gambar
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(bottom: 8),
+                                  //   child: Container(
+                                  //     width: double.infinity,
+                                  //     height: 200,
+                                  //     decoration: BoxDecoration(
+                                  //       image: DecorationImage(
+                                  //           alignment: const Alignment(0, -1),
+                                  //           image: NetworkImage(
+                                  //               '${detail.detail.Image}'),
+                                  //           fit: BoxFit.cover),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 16),
+                                    child: Text(
+                                      // '${widget.detailModel.name}',
+                                      detail.detailHf!.nama,
+                                      style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 16),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            detail.detailHf!.alamat,
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                        MaterialButton(
+                                          color: const Color(0xFFD2E4FF),
+                                          shape: const CircleBorder(),
+                                          minWidth: 0,
+                                          height: 40,
+                                          onPressed: () {},
+                                          child: const Icon(
+                                            Icons.near_me_outlined,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text(
+                                      detail.detailHf!.jarak,
+                                      style: const TextStyle(
+                                        color: Color(0xFF006D39),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16)
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 4,
+                              color: const Color(0xFFE1E3DE),
+                            ),
+                            const SizedBox(
+                              width: double.infinity,
+                              child: Padding(
+                                padding: EdgeInsets.all(16),
+                                child: FormBook(),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : const Center(
+                      child: Text('Error Load Data'),
+                    )),
       bottomSheet: const LanjutkanBookButton(),
     );
   }
