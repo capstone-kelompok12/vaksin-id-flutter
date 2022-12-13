@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_detail.dart';
 
 class TiketVaksinCard extends StatelessWidget {
   final String vaksin;
@@ -16,6 +17,13 @@ class TiketVaksinCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: InkWell(
         onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TiketVaksinDetail(
+                  statusTiket: 'diterima', vaksin: 'Sinovac'),
+            ),
+          );
         },
         child: Container(
           decoration: BoxDecoration(
