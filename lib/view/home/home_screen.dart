@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Provider.of<HomeViewModel>(context, listen: false).checkGps();
-    Provider.of<ProfileViewModel>(context, listen: false).getUsersProfile();
+    Provider.of<ProfileViewModel>(context, listen: false).getUsersProfile(context);
     super.initState();
   }
 
