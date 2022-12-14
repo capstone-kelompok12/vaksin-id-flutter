@@ -55,7 +55,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           fontSize: 16, fontWeight: FontWeight.w400),
                       labelStyle: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w400),
-                      hintText: "Masukkan NIK",
+                      hintText: "contoh: 6284617293084713",
                       labelText: "NIK",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
@@ -77,7 +77,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           fontSize: 16, fontWeight: FontWeight.w400),
                       labelStyle: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w400),
-                      hintText: "Masukkan nama lengkap",
+                      hintText: "contoh: john Doe",
                       labelText: "Nama",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
@@ -169,7 +169,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           fontSize: 16, fontWeight: FontWeight.w400),
                       labelStyle: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w400),
-                      hintText: "Masukkan email",
+                      hintText: "contoh: hi@gmail.com",
                       labelText: "Email",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
@@ -200,7 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           profile.showPassword();
                         },
                       ),
-                      hintText: "Masukkan kata sandi",
+                      hintText: "contoh: Ajsk01.",
                       labelText: "Kata Sandi",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
@@ -231,7 +231,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           profile.showPassword2();
                         },
                       ),
-                      hintText: "Masukkan ulang kata sandi",
+                      hintText: "contoh: Ajsk01.",
                       labelText: "Konfirmasi Kata Sandi",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4)),
