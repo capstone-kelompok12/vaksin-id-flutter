@@ -1,5 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
 
@@ -70,7 +71,7 @@ class ListHealthNewsHomeScreen extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4),
                                     child: Text(
-                                      '${value.listNews![index].author}, ${value.listNews![index].publishedAt}',
+                                      '${value.listNews![index].author}, ${DateFormat('dd/MM/yyyy').format(value.listNews![index].publishedAt ?? DateTime.now(),)}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
