@@ -32,8 +32,19 @@ class ListHealthNewsHomeScreen extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(
                 height: 16,),
               itemCount: 5,
-              itemBuilder: (context, index) => Card(
-                color: whiteColor,
+              itemBuilder: (context, index) => Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.3),
+                      blurRadius: 3,
+                      offset: const Offset(
+                          0, 0), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: InkWell(
                   onTap: () {
                     value.launchURL(value.listNews![index].url!);

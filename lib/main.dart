@@ -57,9 +57,11 @@ class MyApp extends StatelessWidget {
         colorScheme: Theme.of(context).colorScheme.copyWith(
               primary: primaryColor,
             ),
+        cardColor: whiteColor,
+        cardTheme: CardTheme(color: whiteColor),
         useMaterial3: true,
       ),
-      home: const OnboardingScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -31,12 +31,6 @@ class HealthFaciApi {
   }
 
   Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities(double lat, double long) async {
-    final prefs = SharedService();
-    final String? token = await prefs.getToken() ;
-    // final userLoc = UserLocation(
-    //   latitude: lat,
-    //   longitude: long
-    // );
     try {
       final response = await dio.post(
         '/profile/nearby',

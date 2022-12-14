@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vaksin_id_flutter/models/home/nearby_healt_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/news_model.dart';
-import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
+import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import '../services/home/home_service.dart';
@@ -41,8 +41,10 @@ class HomeViewModel extends ChangeNotifier {
         sizeHomeScreen = 1045;
         sizeHeading = 196;
         paddingBottomHeading = 0;
-        await getCurrentLocation();
-        await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
+        if (listHealthFaci == null) {
+          await getCurrentLocation();
+          await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
+        }
         print("GPS Service enabled");
         apiState = MyState.none;
       } 
@@ -151,19 +153,25 @@ class HomeViewModel extends ChangeNotifier {
         final inMeters = distance * 1000;
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
+            fullname: listHealthFaci!.data!.user!.fullname!,
+            nik: listHealthFaci!.data!.user!.nIK!,
             name: listHealthFaci!.data!.healthFacilities![x].name!,
             address: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
             image: listHealthFaci!.data!.healthFacilities![x].image!, 
             distance: '${inMeters.toStringAsFixed(2)} m', 
-            distanceSort: inMeters.toInt()));
+            distanceSort: inMeters.toInt(),
+            session: listHealthFaci!.data!.healthFacilities![x].session));
       } else {
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
+            fullname: listHealthFaci!.data!.user!.fullname!,
+            nik: listHealthFaci!.data!.user!.nIK!,
             name: listHealthFaci!.data!.healthFacilities![x].name!,
             address: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!,
             image: listHealthFaci!.data!.healthFacilities![x].image!,
             distance: '${distance.toStringAsFixed(2)} km', 
-            distanceSort: distance.toInt()));
+            distanceSort: distance.toInt(),
+            session: listHealthFaci!.data!.healthFacilities![x].session));
       }
     }
     notifyListeners();
