@@ -1,35 +1,28 @@
-import 'dart:convert';
-
 class SortDistanceHealthFacilities {
-  SortDistanceHealthFacilities({
-    required this.nama,
-    required this.alamat,
-    required this.jarak,
-    required this.distanceSort,
-  });
+  String? name;
+  String? address;
+  String? image;
+  String? distance;
+  int? distanceSort;
 
-  String nama;
-  String alamat;
-  String jarak;
-  int distanceSort;
+  SortDistanceHealthFacilities(
+      {this.name, this.address, this.image, this.distance, this.distanceSort});
 
-  factory SortDistanceHealthFacilities.fromRawJson(String str) =>
-      SortDistanceHealthFacilities.fromJson(json.decode(str));
+  SortDistanceHealthFacilities.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    address = json['address'];
+    image = json['image'];
+    distance = json['distance'];
+    distanceSort = json['distanceSort'];
+  }
 
-  String toRawJson() => json.encode(toJson());
-
-  factory SortDistanceHealthFacilities.fromJson(Map<String, dynamic> json) =>
-      SortDistanceHealthFacilities(
-        nama: json["nama"],
-        alamat: json["alamat"],
-        jarak: json["jarak"],
-        distanceSort: json["distanceSort"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "nama": nama,
-        "alamat": alamat,
-        "jarak": jarak,
-        "distanceSort": distanceSort,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['address'] = address;
+    data['image'] = image;
+    data['distance'] = distance;
+    data['distanceSort'] = distanceSort;
+    return data;
+  }
 }

@@ -18,8 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProfileViewModel>(context, listen: false)
-        .getUsersProfile(context);
+    Provider.of<ProfileViewModel>(context, listen: false).getUsersProfile();
   }
 
   @override
@@ -60,14 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 10,
                             ),
                             Text(
-                              data.data?.fullname ?? '',
+                              data.dataUser?.fullname ?? '',
                               style: blackTextStyle.copyWith(
                                 fontSize: 18,
                                 fontWeight: semiBold,
                               ),
                             ),
                             Text(
-                              data.data?.email ?? '',
+                              data.dataUser?.email ?? '',
                               style: blackTextStyle.copyWith(
                                 fontSize: 18,
                                 fontWeight: medium,
@@ -163,13 +162,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   prefs.remove('Token');
 
                                   if (mounted) {
-                                    Navigator.pushAndRemoveUntil(
+                                    Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               const LoginScreen(),
-                                        ),
-                                        (route) => false);
+                                        ),);
                                   }
                                 },
                               ),

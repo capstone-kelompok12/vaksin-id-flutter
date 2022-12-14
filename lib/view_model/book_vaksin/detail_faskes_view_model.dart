@@ -68,9 +68,7 @@ class DetailFasKesViewModel with ChangeNotifier {
   
   getDetailHealthFacilities(List<SortDistanceHealthFacilities> data,String name) async {
       myState = MyState.loading;
-      _detailHf = data.firstWhere((e) => e.nama == name, orElse: () {
-        return SortDistanceHealthFacilities(nama: 'nama', alamat: 'alamat', jarak: 'jarak', distanceSort: 0);
-      },);
+      _detailHf = data.firstWhere((e) => e.name == name);
       print('detailHf: $detailHf');
       myState = MyState.none;
   }

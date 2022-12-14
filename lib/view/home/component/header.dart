@@ -34,7 +34,7 @@ class HeaderHomeScreen extends StatelessWidget {
                 child: Consumer<ProfileViewModel>(
                   builder: (context, value2, _) =>
                   Text(
-                    'Halo, ${value2.profile.data?.fullname}',
+                    'Halo, ${value2.profile.dataUser?.fullname}',
                     style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 22
                     ),),

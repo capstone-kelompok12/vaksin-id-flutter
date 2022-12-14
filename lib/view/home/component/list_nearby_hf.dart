@@ -75,7 +75,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                             color: whiteColor,
                             child: InkWell(
                               onTap: () {
-                                value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].nama);
+                                value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].name!);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
                                 );
@@ -88,9 +88,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                                        child: Image.network(faker.image.image(
-                                          keywords: ['hospital'],
-                                          random: true),
+                                        child: Image.network(value.locationListWithDistance[index].image!,
                                           fit: BoxFit.fill),
                                       ),
                                   ),
@@ -100,7 +98,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        value.locationListWithDistance[index].nama,
+                                        value.locationListWithDistance[index].name!,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontWeight: FontWeight.w600),)),
@@ -110,7 +108,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                                         bottom: 16, left: 8, right: 8),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text(value.locationListWithDistance[index].jarak)),
+                                      child: Text(value.locationListWithDistance[index].distance!)),
                                   )],
                               ),
                             ),

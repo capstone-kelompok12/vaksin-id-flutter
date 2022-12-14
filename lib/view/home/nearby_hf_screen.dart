@@ -78,9 +78,8 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
           markers.add(
             Marker(
               markerId: MarkerId('$x'),
-              position: LatLng(
-                listHf.data!.healthFacilities![x].address!.latitude!,
-                listHf.data!.healthFacilities![x].address!.longitude!),
+              position: LatLng(double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                      double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
               icon: BitmapDescriptor.fromBytes(markerIcon!),
               consumeTapEvents: true,
               visible: true,
@@ -102,9 +101,8 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                 }
                 gmController?.animateCamera(CameraUpdate.newCameraPosition(
                     CameraPosition(
-                        target: LatLng(
-                            listHf.data!.healthFacilities![x].address!.latitude! + 0.007216,
-                            listHf.data!.healthFacilities![x].address!.longitude!),
+                        target: LatLng(double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}') + 0.007216,
+                            double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
                         zoom: 13)));
                 customInfoWindowController.addInfoWindow!(
                   Column(
@@ -136,7 +134,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                   InkWell(
                                     splashColor: primaryColor.withOpacity(0.3),
                                     onTap: () {
-                                      value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[x].nama);
+                                      value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[x].name!);
                                       Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
                                       );
@@ -158,8 +156,8 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                       ),
                     ],
                   ),
-                  LatLng(listHf.data!.healthFacilities![x].address!.latitude!,
-                      listHf.data!.healthFacilities![x].address!.longitude!),
+                  LatLng(double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                      double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
                 );
               },
             ),
@@ -275,7 +273,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                           builder: (context, value2, _) =>
                           InkWell(
                             onTap: () {
-                              value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].nama);
+                              value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].name!);
                               Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
                               );
@@ -287,8 +285,8 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                   padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(faker.image.image(
-                                      width: 92, height: 92, keywords: ['city'], random: true)),
+                                    child: Image.network(value.locationListWithDistance[index].image!, 
+                                    width: 92, height: 92, fit: BoxFit.cover,),
                                   ),
                                 ),
                                 Expanded(
@@ -300,7 +298,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            value.locationListWithDistance[index].nama, 
+                                            value.locationListWithDistance[index].name!, 
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w900, 
                                               fontSize: 14),),
@@ -308,7 +306,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                             child: Padding(
                                               padding: const EdgeInsets.symmetric(vertical: 4),
                                               child: Text(
-                                                value.locationListWithDistance[index].alamat,
+                                                value.locationListWithDistance[index].address!,
                                                 maxLines: 3,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
@@ -317,7 +315,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                             ),
                                           ),
                                           Text(
-                                            value.locationListWithDistance[index].jarak, 
+                                            value.locationListWithDistance[index].distance!, 
                                             style: TextStyle(
                                               color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
                                         ],

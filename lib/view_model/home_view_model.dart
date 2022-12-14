@@ -1,9 +1,4 @@
-import 'dart:ui' as ui;
-import 'package:clippy_flutter/clippy_flutter.dart';
-import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -47,8 +42,7 @@ class HomeViewModel extends ChangeNotifier {
         sizeHeading = 196;
         paddingBottomHeading = 0;
         await getCurrentLocation();
-        await getNearbyHF();
-        await addListHealthFaci();
+        await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
         print("GPS Service enabled");
         apiState = MyState.none;
       } 
@@ -76,15 +70,17 @@ class HomeViewModel extends ChangeNotifier {
       sizeHeading = 196;
       paddingBottomHeading = 0;
       await getCurrentLocation();
-      await getNearbyHF();
+      await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
       await addListHealthFaci();
     }
     notifyListeners();
   }
 
-  getNearbyHF() async {
+  getNearbyHF(double lat, double long) async {
     try {
-      listHealthFaci = await healtFaci.getNearbyHealthFacilities();
+      listHealthFaci = await healtFaci.getNearbyHealthFacilities(lat, long);
+      print('listHf: ${listHealthFaci?.data?.healthFacilities?.length}');
+      await addListHealthFaci();
     } catch (e) {
       apiState = MyState.error;
       rethrow;
@@ -122,27 +118,27 @@ class HomeViewModel extends ChangeNotifier {
     }).catchError((e) {
       print(e);
     });
-    getAddressFromLatLng();
+    // getAddressFromLatLng();
   }
 
-  getAddressFromLatLng() async {
-    try {
-      final address =
-          // await geoCode.reverseGeocoding(latitude:
-          //     currentPosition!.latitude, longitude: currentPosition!.longitude);
-          await placemarkFromCoordinates(
-              currentPosition!.latitude, currentPosition!.longitude);
+  // getAddressFromLatLng() async {
+  //   try {
+  //     final address =
+  //         // await geoCode.reverseGeocoding(latitude:
+  //         //     currentPosition!.latitude, longitude: currentPosition!.longitude);
+  //         await placemarkFromCoordinates(
+  //             currentPosition!.latitude, currentPosition!.longitude);
 
-      print(address.first);
+  //     print(address.first);
 
-      // setState(() {
-        currentAddress = "${address.first.subAdministrativeArea}";
-      // });
-      print(currentAddress);
-    } catch (e) {
-      print(e);
-    }
-  }
+  //     // setState(() {
+  //       currentAddress = "${address.first.subAdministrativeArea}";
+  //     // });
+  //     print(currentAddress);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   addListHealthFaci() async {
     locationListWithDistance.clear();
@@ -155,16 +151,18 @@ class HomeViewModel extends ChangeNotifier {
         final inMeters = distance * 1000;
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
-            nama: listHealthFaci!.data!.healthFacilities![x].name!,
-            alamat: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
-            jarak: '${inMeters.toStringAsFixed(2)} m', 
+            name: listHealthFaci!.data!.healthFacilities![x].name!,
+            address: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
+            image: listHealthFaci!.data!.healthFacilities![x].image!, 
+            distance: '${inMeters.toStringAsFixed(2)} m', 
             distanceSort: inMeters.toInt()));
       } else {
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
-            nama: listHealthFaci!.data!.healthFacilities![x].name!,
-            alamat: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
-            jarak: '${distance.toStringAsFixed(2)} km', 
+            name: listHealthFaci!.data!.healthFacilities![x].name!,
+            address: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!,
+            image: listHealthFaci!.data!.healthFacilities![x].image!,
+            distance: '${distance.toStringAsFixed(2)} km', 
             distanceSort: distance.toInt()));
       }
     }

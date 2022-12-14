@@ -12,6 +12,13 @@ class BottomNavigationBarScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
+
+  @override
+  void initState() {
+    Provider.of<BottomnavViewModel>(context, listen: false).setIndex(0);
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

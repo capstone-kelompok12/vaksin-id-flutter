@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,18 +30,22 @@ class HealthFaciApi {
     dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
 
-  Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities() async {
+  Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities(double lat, double long) async {
+    final prefs = SharedService();
+    final String? token = await prefs.getToken() ;
+    // final userLoc = UserLocation(
+    //   latitude: lat,
+    //   longitude: long
+    // );
     try {
-      final response = await dio.get('/profile/nearby');
+      final response = await dio.post(
+        '/profile/nearby',
+        data: {"latitude": lat, "longitude": long});
 
       final result = NearbyHealthFacilitiesModel.fromJson(response.data);
-      print('response: ${result}');
+      print('response: $response');
       return result;
     } on DioError catch (error) {
-      if (error.response!.statusCode == 401) {
-        messageAPI = 'expired';
-        throw Error();
-      }
       print(error);
       throw Error();
     }

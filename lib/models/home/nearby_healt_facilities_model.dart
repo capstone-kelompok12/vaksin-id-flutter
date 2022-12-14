@@ -99,111 +99,6 @@ class User {
   }
 }
 
-// class Address {
-//   String? iD;
-//   Null? idHealthFacilities;
-//   String? nikUser;
-//   String? currentAddress;
-//   String? district;
-//   String? city;
-//   String? province;
-//   double? latitude;
-//   double? longitude;
-//   String? createdAt;
-//   String? updatedAt;
-//   Null? deletedAt;
-
-//   Address(
-//       {this.iD,
-//       this.idHealthFacilities,
-//       this.nikUser,
-//       this.currentAddress,
-//       this.district,
-//       this.city,
-//       this.province,
-//       this.latitude,
-//       this.longitude,
-//       this.createdAt,
-//       this.updatedAt,
-//       this.deletedAt});
-
-//   Address.fromJson(Map<String, dynamic> json) {
-//     iD = json['ID'];
-//     idHealthFacilities = json['IdHealthFacilities'];
-//     nikUser = json['NikUser'];
-//     currentAddress = json['CurrentAddress'];
-//     district = json['District'];
-//     city = json['City'];
-//     province = json['Province'];
-//     latitude = json['Latitude'];
-//     longitude = json['Longitude'];
-//     createdAt = json['CreatedAt'];
-//     updatedAt = json['UpdatedAt'];
-//     deletedAt = json['DeletedAt'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['ID'] = this.iD;
-//     data['IdHealthFacilities'] = this.idHealthFacilities;
-//     data['NikUser'] = this.nikUser;
-//     data['CurrentAddress'] = this.currentAddress;
-//     data['District'] = this.district;
-//     data['City'] = this.city;
-//     data['Province'] = this.province;
-//     data['Latitude'] = this.latitude;
-//     data['Longitude'] = this.longitude;
-//     data['CreatedAt'] = this.createdAt;
-//     data['UpdatedAt'] = this.updatedAt;
-//     data['DeletedAt'] = this.deletedAt;
-//     return data;
-//   }
-// }
-
-class HealthFacilities {
-  String? iD;
-  String? email;
-  String? phoneNum;
-  String? name;
-  Null? image;
-  int? ranges;
-  Address? address;
-
-  HealthFacilities(
-      {this.iD,
-      this.email,
-      this.phoneNum,
-      this.name,
-      this.image,
-      this.ranges,
-      this.address});
-
-  HealthFacilities.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    email = json['Email'];
-    phoneNum = json['PhoneNum'];
-    name = json['Name'];
-    image = json['Image'];
-    ranges = json['Ranges'];
-    address =
-        json['Address'] != null ? Address.fromJson(json['Address']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['ID'] = iD;
-    data['Email'] = email;
-    data['PhoneNum'] = phoneNum;
-    data['Name'] = name;
-    data['Image'] = image;
-    data['Ranges'] = ranges;
-    if (address != null) {
-      data['Address'] = address!.toJson();
-    }
-    return data;
-  }
-}
-
 class Address {
   String? iD;
   String? idHealthFacilities;
@@ -212,8 +107,8 @@ class Address {
   String? district;
   String? city;
   String? province;
-  double? latitude;
-  double? longitude;
+  int? latitude;
+  int? longitude;
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
@@ -234,7 +129,7 @@ class Address {
 
   Address.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    idHealthFacilities = json['IdHealthFacilities'];
+    idHealthFacilities = json['IdHealthFacilities'] ?? "";
     nikUser = json['NikUser'];
     currentAddress = json['CurrentAddress'];
     district = json['District'];
@@ -244,7 +139,166 @@ class Address {
     longitude = json['Longitude'];
     createdAt = json['CreatedAt'];
     updatedAt = json['UpdatedAt'];
-    deletedAt = json['DeletedAt'];
+    deletedAt = json['DeletedAt'] ?? "";
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['IdHealthFacilities'] = idHealthFacilities;
+    data['NikUser'] = nikUser;
+    data['CurrentAddress'] = currentAddress;
+    data['District'] = district;
+    data['City'] = city;
+    data['Province'] = province;
+    data['Latitude'] = latitude;
+    data['Longitude'] = longitude;
+    data['CreatedAt'] = createdAt;
+    data['UpdatedAt'] = updatedAt;
+    data['DeletedAt'] = deletedAt;
+    return data;
+  }
+}
+
+class HealthFacilities {
+  String? iD;
+  String? email;
+  String? phoneNum;
+  String? name;
+  String? image;
+  double? ranges;
+  AddressHf? address;
+  List<Session>? session;
+
+  HealthFacilities(
+      {this.iD,
+      this.email,
+      this.phoneNum,
+      this.name,
+      this.image,
+      this.ranges,
+      this.address,
+      this.session});
+
+  HealthFacilities.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    email = json['Email'];
+    phoneNum = json['PhoneNum'];
+    name = json['Name'];
+    image = json['Image'];
+    ranges = json['Ranges'];
+    address = json['Address'] != null ? AddressHf.fromJson(json['Address']) : null;
+    if (json['Session'] != null) {
+      session = <Session>[];
+      json['Session'].forEach((v) {
+        session!.add(Session.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['Email'] = email;
+    data['PhoneNum'] = phoneNum;
+    data['Name'] = name;
+    data['Image'] = image;
+    data['Ranges'] = ranges;
+    if (address != null) {
+      data['Address'] = address!.toJson();
+    }
+    if (session != null) {
+      data['Session'] = session!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+class Session {
+  String? iD;
+  String? sessionName;
+  int? capacity;
+  bool? isClose;
+  String? startSession;
+  String? endSession;
+  String? createdAt;
+  String? updatedAt;
+
+  Session(
+      {this.iD,
+      this.sessionName,
+      this.capacity,
+      this.isClose,
+      this.startSession,
+      this.endSession,
+      this.createdAt,
+      this.updatedAt});
+
+  Session.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    sessionName = json['SessionName'];
+    capacity = json['Capacity'];
+    isClose = json['IsClose'];
+    startSession = json['StartSession'];
+    endSession = json['EndSession'];
+    createdAt = json['CreatedAt'];
+    updatedAt = json['UpdatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['SessionName'] = sessionName;
+    data['Capacity'] = capacity;
+    data['IsClose'] = isClose;
+    data['StartSession'] = startSession;
+    data['EndSession'] = endSession;
+    data['CreatedAt'] = createdAt;
+    data['UpdatedAt'] = updatedAt;
+    return data;
+  }
+}
+
+class AddressHf {
+  String? iD;
+  String? idHealthFacilities;
+  String? nikUser;
+  String? currentAddress;
+  String? district;
+  String? city;
+  String? province;
+  double? latitude;
+  double? longitude;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+
+  AddressHf(
+      {this.iD,
+      this.idHealthFacilities,
+      this.nikUser,
+      this.currentAddress,
+      this.district,
+      this.city,
+      this.province,
+      this.latitude,
+      this.longitude,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  AddressHf.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    idHealthFacilities = json['IdHealthFacilities'] ?? "";
+    nikUser = json['NikUser'];
+    currentAddress = json['CurrentAddress'];
+    district = json['District'];
+    city = json['City'];
+    province = json['Province'];
+    latitude = json['Latitude'];
+    longitude = json['Longitude'];
+    createdAt = json['CreatedAt'];
+    updatedAt = json['UpdatedAt'];
+    deletedAt = json['DeletedAt'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

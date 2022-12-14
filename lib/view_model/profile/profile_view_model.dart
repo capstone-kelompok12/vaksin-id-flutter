@@ -11,23 +11,13 @@ class ProfileViewModel extends ChangeNotifier {
   ProfileModel _profile = ProfileModel();
   ProfileModel get profile => _profile;
 
-  Future getUsersProfile(BuildContext context) async {
+  Future getUsersProfile() async {
     try {
       final getProfile = await profileService.getUserProfile();
       _profile = getProfile;
       notifyListeners();
     } catch (e) {
-      if (e is DioError) {
-        if (e.response!.statusCode == 401) {
-          SharedService prefs = SharedService();
-          prefs.deleteToken();
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-              (route) => false);
-        } 
-        e.response!.statusCode;
-      }
+      rethrow;
     }
   }
 
