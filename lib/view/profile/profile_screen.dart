@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/component/snackbar_message.dart';
 import 'package:vaksin_id_flutter/view/profile/edit_profile_screen.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import '../auth/login_screen.dart';
@@ -18,7 +19,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProfileViewModel>(context, listen: false).getUsersProfile();
+    Provider.of<ProfileViewModel>(context, listen: false)
+        .getUsersProfile(context);
   }
 
   @override
@@ -157,17 +159,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               TextButton(
                                 child: const Text('OK'),
                                 onPressed: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.remove('Token');
-
+                                  final prefs = SharedService();
+                                  prefs.deleteToken();
                                   if (mounted) {
+                                    snackbarMessage(context, 'Berhasil logout');
                                     Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginScreen(),
-                                        ),);
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen(),
+                                      ),
+                                    );
                                   }
                                 },
                               ),
