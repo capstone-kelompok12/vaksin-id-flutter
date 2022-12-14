@@ -46,26 +46,26 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   // Gambar
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(bottom: 8),
-                                  //   child: Container(
-                                  //     width: double.infinity,
-                                  //     height: 200,
-                                  //     decoration: BoxDecoration(
-                                  //       image: DecorationImage(
-                                  //           alignment: const Alignment(0, -1),
-                                  //           image: NetworkImage(
-                                  //               '${detail.detail.Image}'),
-                                  //           fit: BoxFit.cover),
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            alignment: const Alignment(0, -1),
+                                            image: NetworkImage(
+                                              detail.detailHf!.image!,
+                                            ),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8, horizontal: 16),
                                     child: Text(
-                                      // '${widget.detailModel.name}',
-                                      detail.detailHf!.nama,
+                                      detail.detailHf!.nama!,
                                       style: const TextStyle(
                                           fontSize: 22,
                                           fontWeight: FontWeight.w400),
@@ -80,7 +80,7 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                       children: [
                                         Flexible(
                                           child: Text(
-                                            detail.detailHf!.alamat,
+                                            detail.detailHf!.alamat!,
                                             style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400),
@@ -104,7 +104,7 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
                                     child: Text(
-                                      detail.detailHf!.jarak,
+                                      detail.detailHf!.jarak!,
                                       style: const TextStyle(
                                         color: Color(0xFF006D39),
                                         fontSize: 14,

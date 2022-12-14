@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vaksin_id_flutter/view/home/home_screen.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_screen.dart';
 
 class BookSuccess extends StatelessWidget {
   const BookSuccess({super.key});
@@ -62,6 +64,12 @@ Book vaksinasi berhasil''',
                   child: OutlinedButton(
                     onPressed: () {
                       // Navigator.push ke halaman home
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(
@@ -84,6 +92,12 @@ Book vaksinasi berhasil''',
                   child: ElevatedButton(
                     onPressed: () {
                       // Navigator.push ke halaman history
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TiketVaksinScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF006D39),

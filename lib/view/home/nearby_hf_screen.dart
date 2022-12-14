@@ -24,7 +24,6 @@ class NearbyHfScreen extends StatefulWidget {
 }
 
 class _NearbyHfScreenState extends State<NearbyHfScreen> {
-
   // bool servicestatus = false;
   // bool haspermission = false;
   // Position? currentPosition;
@@ -66,10 +65,12 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   }
 
   addMarkers() async {
-    final listHf = Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
+    final listHf =
+        Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
     // final loclistHf = Provider.of<HomeViewModel>(context, listen: false).locationListWithDistance;
     markerIcon = await getBytesFromAsset('assets/hospital_loc_icon.png', 50);
-    markerIconSelected = await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
+    markerIconSelected =
+        await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
 
     if (listHf != null) {
       for (var x = 0; x < listHf.data!.healthFacilities!.length; x++) {
@@ -79,8 +80,8 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
             Marker(
               markerId: MarkerId('$x'),
               position: LatLng(
-                listHf.data!.healthFacilities![x].address!.latitude!,
-                listHf.data!.healthFacilities![x].address!.longitude!),
+                  listHf.data!.healthFacilities![x].address!.latitude!,
+                  listHf.data!.healthFacilities![x].address!.longitude!),
               icon: BitmapDescriptor.fromBytes(markerIcon!),
               consumeTapEvents: true,
               visible: true,
@@ -91,11 +92,14 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                   setState(() {
                     if (selectedMarker != -1) {
                       print('selectedMarkerid: ${x}');
-                      markers[selectedMarker] = markers[selectedMarker].copyWith(
-                          iconParam: BitmapDescriptor.fromBytes(markerIcon!));
+                      markers[selectedMarker] = markers[selectedMarker]
+                          .copyWith(
+                              iconParam:
+                                  BitmapDescriptor.fromBytes(markerIcon!));
                     }
                     markers[x] = markers[x].copyWith(
-                        iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
+                        iconParam:
+                            BitmapDescriptor.fromBytes(markerIconSelected!));
                     selectedMarker = x;
                   });
                   print('selectedMarker2: $selectedMarker');
@@ -103,8 +107,11 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                 gmController?.animateCamera(CameraUpdate.newCameraPosition(
                     CameraPosition(
                         target: LatLng(
-                            listHf.data!.healthFacilities![x].address!.latitude! + 0.007216,
-                            listHf.data!.healthFacilities![x].address!.longitude!),
+                            listHf.data!.healthFacilities![x].address!
+                                    .latitude! +
+                                0.007216,
+                            listHf.data!.healthFacilities![x].address!
+                                .longitude!),
                         zoom: 13)));
                 customInfoWindowController.addInfoWindow!(
                   Column(
@@ -128,18 +135,21 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                   )),
                             ),
                             Consumer<HomeViewModel>(
-                              builder: (context, value, _) =>
-                              Material(
+                              builder: (context, value, _) => Material(
                                 color: Colors.transparent,
                                 child: Consumer<DetailFasKesViewModel>(
-                                  builder: (context, value2, _) =>
-                                  InkWell(
+                                  builder: (context, value2, _) => InkWell(
                                     splashColor: primaryColor.withOpacity(0.3),
                                     onTap: () {
-                                      value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[x].nama);
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
-                                      );
+                                      value2.getDetailHealthFacilities(
+                                          value.locationListWithDistance,
+                                          value.locationListWithDistance[x]
+                                              .nama!);
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DetailFasKesScreen(),
+                                      ));
                                     },
                                   ),
                                 ),
@@ -175,169 +185,231 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(
-      builder: (context, value, _) =>
-      value.haspermission ?
-      Scaffold(
-        appBar: AppBar(
-          title: const Text('Fasilitas Kesehatan Terdekat'),
-          automaticallyImplyLeading: false,
-        ),
-        body:Column(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 209,
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  markers.isEmpty ? const Center(child: CircularProgressIndicator())
-                    : GoogleMap(
-                      mapType: MapType.normal,
-                      markers: Set<Marker>.of(markers),
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: false,
-                      zoomControlsEnabled: false,
-                      onCameraMove: (position) {
-                        customInfoWindowController.onCameraMove!();
-                      },
-                      onTap: (argument) {
-                        customInfoWindowController.hideInfoWindow!();
-                        if (selectedMarker != 0) {
-                          setState(() {
-                            markers[selectedMarker] =
-                                markers[selectedMarker].copyWith(
-                                    iconParam: BitmapDescriptor.fromBytes(markerIcon!));
-                            selectedMarker = 0;
-                          });
-                        }
-                      },
-                      initialCameraPosition: CameraPosition(
-                        target: value.currentLatLng ?? const LatLng(-6.200000, 106.816666),
-                        zoom: 11.5,
-                      ),
-                      onMapCreated: (controller) {
-                        customInfoWindowController.googleMapController = controller;
-                        gmController = controller;
-                      },
-                    ),
-                  CustomInfoWindow(
-                    controller: customInfoWindowController,
-                    height: 75,
-                    width: 150,
-                    offset: 50,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.blue
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              gmController?.animateCamera(CameraUpdate.newCameraPosition(
-                                CameraPosition(
-                                  target: value.currentLatLng!,
-                                  zoom: 11.5)));
-                            }, 
-                            icon: const Icon(Icons.location_searching_sharp, color: Colors.white,)),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Consumer<HomeViewModel>(
-                builder: (context, value, _) => 
-                value.locationListWithDistance.isEmpty ? const Center(child: CircularProgressIndicator()) 
-                : Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+        builder: (context, value, _) => value.haspermission
+            ? Scaffold(
+                appBar: AppBar(
+                  title: const Text('Fasilitas Kesehatan Terdekat'),
+                  automaticallyImplyLeading: false,
                 ),
-                child: ListView.builder(
-                    itemCount: value.listHealthFaci?.data?.healthFacilities?.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 2,
-                        color: Colors.white,
-                        child: Consumer<DetailFasKesViewModel>(
-                          builder: (context, value2, _) =>
-                          InkWell(
-                            onTap: () {
-                              value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].nama);
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const DetailFasKesScreen(),)
-                              );
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8, left: 8, top: 8),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(faker.image.image(
-                                      width: 92, height: 92, keywords: ['city'], random: true)),
+                body: Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 209,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          markers.isEmpty
+                              ? const Center(child: CircularProgressIndicator())
+                              : GoogleMap(
+                                  mapType: MapType.normal,
+                                  markers: Set<Marker>.of(markers),
+                                  myLocationEnabled: true,
+                                  myLocationButtonEnabled: false,
+                                  zoomControlsEnabled: false,
+                                  onCameraMove: (position) {
+                                    customInfoWindowController.onCameraMove!();
+                                  },
+                                  onTap: (argument) {
+                                    customInfoWindowController
+                                        .hideInfoWindow!();
+                                    if (selectedMarker != 0) {
+                                      setState(() {
+                                        markers[selectedMarker] =
+                                            markers[selectedMarker].copyWith(
+                                                iconParam:
+                                                    BitmapDescriptor.fromBytes(
+                                                        markerIcon!));
+                                        selectedMarker = 0;
+                                      });
+                                    }
+                                  },
+                                  initialCameraPosition: CameraPosition(
+                                    target: value.currentLatLng ??
+                                        const LatLng(-6.200000, 106.816666),
+                                    zoom: 11.5,
                                   ),
+                                  onMapCreated: (controller) {
+                                    customInfoWindowController
+                                        .googleMapController = controller;
+                                    gmController = controller;
+                                  },
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      height: 95,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            value.locationListWithDistance[index].nama, 
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w900, 
-                                              fontSize: 14),),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 4),
-                                              child: Text(
-                                                value.locationListWithDistance[index].alamat,
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12),),
-                                            ),
-                                          ),
-                                          Text(
-                                            value.locationListWithDistance[index].jarak, 
-                                            style: TextStyle(
-                                              color: primaryColor, fontWeight: FontWeight.w600, fontSize: 12),)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                          CustomInfoWindow(
+                            controller: customInfoWindowController,
+                            height: 75,
+                            width: 150,
+                            offset: 50,
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
-      ) : const NullLocation()
-    );
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: Colors.blue),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        gmController?.animateCamera(
+                                            CameraUpdate.newCameraPosition(
+                                                CameraPosition(
+                                                    target:
+                                                        value.currentLatLng!,
+                                                    zoom: 11.5)));
+                                      },
+                                      icon: const Icon(
+                                        Icons.location_searching_sharp,
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Consumer<HomeViewModel>(
+                        builder: (context, value, _) => value
+                                .locationListWithDistance.isEmpty
+                            ? const Center(child: CircularProgressIndicator())
+                            : Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20))),
+                                child: ListView.builder(
+                                  itemCount: value.listHealthFaci?.data
+                                      ?.healthFacilities?.length,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      elevation: 2,
+                                      color: Colors.white,
+                                      child: Consumer<DetailFasKesViewModel>(
+                                        builder: (context, value2, _) =>
+                                            InkWell(
+                                          onTap: () {
+                                            value2.getDetailHealthFacilities(
+                                                value.locationListWithDistance,
+                                                value
+                                                    .locationListWithDistance[
+                                                        index]
+                                                    .nama!);
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetailFasKesScreen(),
+                                            ));
+                                          },
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8, left: 8, top: 8),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  child: SizedBox(
+                                                    width: 92,
+                                                    height: 92,
+                                                    child: Image.network(
+                                                      value
+                                                          .locationListWithDistance[
+                                                              index]
+                                                          .image!,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    height: 95,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          value
+                                                              .locationListWithDistance[
+                                                                  index]
+                                                              .nama!,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900,
+                                                                  fontSize: 14),
+                                                        ),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4),
+                                                            child: Text(
+                                                              value
+                                                                  .locationListWithDistance[
+                                                                      index]
+                                                                  .alamat!,
+                                                              maxLines: 3,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize: 12),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          value
+                                                              .locationListWithDistance[
+                                                                  index]
+                                                              .jarak!,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  primaryColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 12),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ))
+            : const NullLocation());
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
 import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
 
 class FormBook extends StatelessWidget {
@@ -69,7 +70,7 @@ class FormBook extends StatelessWidget {
                         onChanged: (value) {
                           detail.selectDosisVaksin(value);
                         },
-                        items: detail.vaksin
+                        items: detail.dosis
                             .map(
                               (e) => DropdownMenuItem(
                                 value: e,
@@ -99,7 +100,7 @@ class FormBook extends StatelessWidget {
                         onChanged: (value) {
                           detail.selectTanggalVaksin(value);
                         },
-                        items: detail.vaksin
+                        items: detail.tanggal
                             .map(
                               (e) => DropdownMenuItem(
                                 value: e,
@@ -129,7 +130,7 @@ class FormBook extends StatelessWidget {
                         onChanged: (value) {
                           detail.selectWaktuVaksin(value);
                         },
-                        items: detail.vaksin
+                        items: detail.waktu
                             .map(
                               (e) => DropdownMenuItem(
                                 value: e,
@@ -137,6 +138,7 @@ class FormBook extends StatelessWidget {
                               ),
                             )
                             .toList(),
+                        // items: detail.detailHf!.session!.map((Session session) => DropdownMenuItem(value: ,child: Text('${session.startSession} - ${session.endSession}'),),),
                       ),
                     )
                   : const SizedBox(),

@@ -51,7 +51,7 @@ class HomeViewModel extends ChangeNotifier {
         await addListHealthFaci();
         print("GPS Service enabled");
         apiState = MyState.none;
-      } 
+      }
     } else {
       haspermission = false;
       sizeHomeScreen = 865;
@@ -84,7 +84,8 @@ class HomeViewModel extends ChangeNotifier {
 
   getNearbyHF() async {
     try {
-      listHealthFaci = await healtFaci.getNearbyHealthFacilities();
+      listHealthFaci = await healtFaci.getNearbyHealthFacilities(
+          currentLatLng!.latitude, currentLatLng!.longitude);
     } catch (e) {
       apiState = MyState.error;
       rethrow;
@@ -115,9 +116,10 @@ class HomeViewModel extends ChangeNotifier {
   getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-        currentPosition = position;
-        currentLatLng = LatLng(position.latitude, position.longitude);
-        print(currentLatLng);
+      currentPosition = position;
+      currentLatLng = LatLng(position.latitude, position.longitude);
+      notifyListeners();
+      print(currentLatLng);
       print(currentPosition);
     }).catchError((e) {
       print(e);
@@ -136,7 +138,7 @@ class HomeViewModel extends ChangeNotifier {
       print(address.first);
 
       // setState(() {
-        currentAddress = "${address.first.subAdministrativeArea}";
+      currentAddress = "${address.first.subAdministrativeArea}";
       // });
       print(currentAddress);
     } catch (e) {
@@ -156,16 +158,30 @@ class HomeViewModel extends ChangeNotifier {
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
             nama: listHealthFaci!.data!.healthFacilities![x].name!,
-            alamat: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
-            jarak: '${inMeters.toStringAsFixed(2)} m', 
-            distanceSort: inMeters.toInt()));
+            alamat: listHealthFaci!
+                .data!.healthFacilities![x].address!.currentAddress!,
+            jarak: '${inMeters.toStringAsFixed(2)} m',
+            image: listHealthFaci!.data!.healthFacilities![x].image!,
+            distanceSort: inMeters.toInt(),
+            session: listHealthFaci!.data!.healthFacilities![x].session!,
+            namaUser: listHealthFaci!.data!.user!.fullname!,
+            nikUser: listHealthFaci!.data!.user!.nik,
+          ),
+        );
       } else {
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
             nama: listHealthFaci!.data!.healthFacilities![x].name!,
-            alamat: listHealthFaci!.data!.healthFacilities![x].address!.currentAddress!, 
-            jarak: '${distance.toStringAsFixed(2)} km', 
-            distanceSort: distance.toInt()));
+            alamat: listHealthFaci!
+                .data!.healthFacilities![x].address!.currentAddress!,
+            jarak: '${distance.toStringAsFixed(2)} km',
+            image: listHealthFaci!.data!.healthFacilities![x].image!,
+            distanceSort: distance.toInt(),
+            session: listHealthFaci!.data!.healthFacilities![x].session!,
+            namaUser: listHealthFaci!.data!.user!.fullname!,
+            nikUser: listHealthFaci!.data!.user!.nik,
+          ),
+        );
       }
     }
     notifyListeners();

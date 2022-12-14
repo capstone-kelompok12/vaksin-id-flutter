@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member_no_result.dart';
 import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member_nothing.dart';
+import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member_with_result.dart';
+import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
 
 class AddMember extends StatefulWidget {
   const AddMember({super.key});
@@ -11,6 +15,18 @@ class AddMember extends StatefulWidget {
 class _AddMemberState extends State<AddMember> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nikController = TextEditingController();
+  // late ValueNotifier<bool> nikResult;
+  // late ValueNotifier<bool> searching;
+
+  @override
+  void initState() {
+    // searching = ValueNotifier(false);
+    // nikResult = ValueNotifier(false);
+
+    super.initState();
+    Provider.of<BookVaksinViewModel>(context, listen: false)
+        .searchCondition(false, false);
+  }
 
   @override
   void dispose() {
@@ -68,9 +84,12 @@ class _AddMemberState extends State<AddMember> {
                             key: _formKey,
                             child: TextFormField(
                               controller: nikController,
+                              keyboardType: TextInputType.number,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               validator: (value) => value == ''
                                   ? 'NIK tidak boleh kosong.'
-                                  : value!.length < 16
+                                  : value!.length != 16
                                       ? 'NIK harus 16 digit.'
                                       : null,
                               decoration: InputDecoration(
@@ -88,22 +107,30 @@ class _AddMemberState extends State<AddMember> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                color: Color(0xFF717971),
+                          Consumer<BookVaksinViewModel>(
+                            builder: (context, search, child) => OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                  color: Color(0xFF717971),
+                                ),
                               ),
-                            ),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                              }
-                            },
-                            child: const Text(
-                              'Cari',
-                              style: TextStyle(
-                                fontSize: 14,
-                                // color: Colors.white,
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  try {
+                                    await search.checkNIK(nikController.text);
+                                    search.searchCondition(true, true);
+                                  } catch (e) {
+                                    search.searchCondition(true, false);
+                                  }
+                                }
+                              },
+                              child: const Text(
+                                'Cari',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  // color: Colors.white,
+                                ),
                               ),
                             ),
                           )
@@ -126,14 +153,20 @@ class _AddMemberState extends State<AddMember> {
                 color: const Color(0xFFFAFAFB),
                 height: 400,
                 width: double.infinity,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                child: Consumer<BookVaksinViewModel>(
+                  builder: (context, result, child) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
 
-                  // kondisi kalau nik ditemukan atau tidak
-                  child: AddMemberNothing(),
-                  // nik ketemu? AddMemberWithResult()
-                  //: nik tidak ketemu? AddMemberNoResult()
-                  //: AddMemberNothing();
+                    // kondisi kalau nik ditemukan atau tidak
+                    child: result.search == true
+                        ? result.found == true
+                            ? const AddMemberWithResult()
+                            : const AddMemberNoResult()
+                        : const AddMemberNothing(),
+                    // nik ketemu? AddMemberWithResult()
+                    //: nik tidak ketemu? AddMemberNoResult()
+                    //: AddMemberNothing();
+                  ),
                 ),
               ),
             )

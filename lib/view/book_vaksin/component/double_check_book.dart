@@ -110,9 +110,10 @@ class DoubleCheckBook extends StatelessWidget {
                   SizedBox(
                     width: 160,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (book.isChecked == true) {
                           book.doubleCheck = book.isChecked;
+                          await book.createBooking(book.penerimaVaksin);
                         }
 
                         Navigator.pop(context);

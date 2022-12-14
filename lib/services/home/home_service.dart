@@ -18,7 +18,7 @@ class HealthFaciApi {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         final prefs = SharedService();
-        final String? token = await prefs.getToken() ;
+        final String? token = await prefs.getToken();
         // const String token =
         //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOaWtVc2VyIjoiMzE3NTA4MTExMTAwMDA3MCIsIkVtYWlsIjoiYW5jYXNAZ21haWwuY29tIiwiZXhwIjoxNjcwNzAxNTQzfQ.E5U1aULQ_NeTZ7nX3PqpqinycjaPH-UlJZ10AVplEaM';
         options.headers['Authorization'] = 'Bearer $token';
@@ -28,9 +28,39 @@ class HealthFaciApi {
     dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
 
-  Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities() async {
+  // Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities() async {
+  //   try {
+  //     final response = await dio.get('/profile/nearby');
+
+  //     final result = NearbyHealthFacilitiesModel.fromJson(response.data);
+  //     print('response: ${result}');
+  //     return result;
+  //   } on DioError catch (error) {
+  //     if (error.response!.statusCode == 401) {
+  //       messageAPI = 'expired';
+  //       throw Error();
+  //     }
+  //     print(error);
+  //     throw Error();
+  //   }
+  // }
+
+  Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities(
+      double lat, double long) async {
+    print('latitude : $lat & longtitude : $long');
+    SharedService sharedService = SharedService();
+    String token = sharedService.getToken().toString();
     try {
-      final response = await dio.get('/profile/nearby');
+      final response = await dio.post(
+        '/profile/nearby',
+        data: {"latitude": lat, "longitude": long},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
 
       final result = NearbyHealthFacilitiesModel.fromJson(response.data);
       print('response: ${result}');
@@ -57,7 +87,7 @@ class HealthFaciApi {
     }
   }
 
-Future<List<NewsModel>> getNewsVaccine() async {
+  Future<List<NewsModel>> getNewsVaccine() async {
     const String baseUrl =
         'https://newsapi.org/v2/everything?q=covid&language=id&apiKey=23b92eb137c74f6eab5f15055aa1de69';
     final dio = Dio();
