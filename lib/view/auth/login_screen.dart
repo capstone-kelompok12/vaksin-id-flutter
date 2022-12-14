@@ -7,6 +7,7 @@ import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/auth/register_screen.dart';
 import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
+import 'package:vaksin_id_flutter/view/component/snackbar_message.dart';
 import 'package:vaksin_id_flutter/view_model/auth/auth_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         .hasMatch(value)) {
                       return ("Email tidak terdaftar atau salah.");
                     }
-             
+
                     return null;
                   },
                 ),
@@ -174,24 +175,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       await prefs.saveToken(token);
 
                       if (mounted) {
+                        snackbarMessage(context, 'Login Berhasil');
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigationBarScreen(),
+                            builder: (context) =>
+                                const BottomNavigationBarScreen(),
                           ),
                         );
                       }
                     } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.red,
-                          //behavior: SnackBarBehavior.floating,
-                          content: Text(
-                            'Email atau Password Salah',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
+                      snackbarMessage(context, 'Email atau Password salah');
                     }
                   },
                   child: Text(

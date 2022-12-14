@@ -15,10 +15,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  // form
-  final _formKey = GlobalKey<FormState>();
-
-  // controller form
+  // Text controller form
+  final _registerForm = GlobalKey<FormState>();
   final _nikController = TextEditingController();
   final _fullnameController = TextEditingController();
   final _birthdateController = TextEditingController();
@@ -28,17 +26,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  String dropdownJeniskelamin = 'Pilih jenis kelamin';
-  String valueGender = '';
+  // Obscure password
+  final _passwordVisible = ValueNotifier<bool>(true);
+  final _passwordConfirmVisible = ValueNotifier<bool>(true);
 
-  late ValueNotifier<bool> _passwordVisible;
-  late ValueNotifier<bool> _passwordConfirmVisible;
+  // Controller for dropdown genders
+  final _selectedGender = ValueNotifier<String>('');
 
-  @override
-  void initState() {
-    _passwordVisible = ValueNotifier<bool>(true);
-    _passwordConfirmVisible = ValueNotifier<bool>(true);
-    super.initState();
+  // Select birthdate
+  Future _selectDate() async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1980),
+      lastDate: DateTime.now(),
+    );
+    if (date == null) {
+      _birthdateController.text = '';
+      return;
+    }
+    _birthdateController.text = DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
@@ -73,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           horizontal: 16,
         ),
         child: Form(
-          key: _formKey,
+          key: _registerForm,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,24 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   onTap: () async {
-                    int changeData =
-                        DateTime.now().millisecondsSinceEpoch - 536479200000;
-                    DateTime birthDate =
-                        DateTime.fromMillisecondsSinceEpoch(changeData);
-                    final datePick = await showDatePicker(
-                      context: context,
-                      initialDate: birthDate,
-                      firstDate: DateTime(1960, 1),
-                      lastDate: birthDate,
-                    );
-
-                    if (datePick != null && datePick != birthDate) {
-                      setState(() {
-                        _birthdateController.text = DateFormat('yyyy-MM-dd')
-                            .format(birthDate)
-                            .toString();
-                      });
-                    }
+                    _selectDate();
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -172,39 +162,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 16),
-                child: DropdownButtonFormField<String>(
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    label: const Text('Jenis Kelamin'),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null) {
-                      return ("Pilih jenis kelamin anda.");
-                    }
-                    return null;
-                  },
-                  hint: Text(dropdownJeniskelamin),
-                  onChanged: (value) {
-                    setState(() {
-                      dropdownJeniskelamin = value!;
-                      valueGender = value == 'Laki-laki' ? 'L' : 'P';
-                    });
-                  },
-                  items: [
-                    'Laki-laki',
-                    'Perempuan',
-                  ]
-                      .map<DropdownMenuItem<String>>(
-                        (String value) => DropdownMenuItem(
-                          value: value,
-                          child: Text(value),
+                child: ValueListenableBuilder<String>(
+                  valueListenable: _selectedGender,
+                  builder: (context, value, child) {
+                    return DropdownButtonFormField<String>(
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        label: const Text('Jenis Kelamin'),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                      )
-                      .toList(),
+                      ),
+                      validator: (value) {
+                        if (value == null) {
+                          return ("Pilih jenis kelamin anda.");
+                        }
+                        return null;
+                      },
+                      hint: const Text('Pilih kenis kelamin'),
+                      onChanged: (value) {
+                        _selectedGender.value = value == 'Laki-laki' ? 'L' : 'P';
+                      },
+                      items: [
+                        'Laki-laki',
+                        'Perempuan',
+                      ]
+                          .map(
+                            (e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
                 ),
               ),
               Container(
@@ -388,10 +380,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     backgroundColor: primaryColor,
                   ),
                   onPressed: () async {
-                    final isValid = _formKey.currentState!.validate();
-                    if (!isValid) return;
-
-                    if (mounted) {}
+                    if (!_registerForm.currentState!.validate()) {
+                      return;
+                    }
 
                     try {
                       await regisAuth.postRegister(
@@ -401,7 +392,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           password: _passwordController.text,
                           fullname: _fullnameController.text,
                           phonenum: _phoneController.text,
-                          gender: valueGender,
+                          gender: _selectedGender.value,
                           birthdate: _birthdateController.text,
                         ),
                       );
