@@ -61,6 +61,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                   value.apiState == MyState.none ? 
                     ListView.separated(
                       scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 1),
                       separatorBuilder: (context, index) => const SizedBox(
                         width: 8,
                       ),
@@ -71,8 +72,21 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                         height: 180,
                         child: Consumer<DetailFasKesViewModel>(
                           builder: (context, value2, _) =>
-                          Card(
-                            color: whiteColor,
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: blackColor
+                                      .withOpacity(0.3),
+                                  blurRadius: 3,
+                                  offset: const Offset(0,
+                                      0), // changes position of shadow
+                                ),
+                              ],
+                            ),
                             child: InkWell(
                               onTap: () {
                                 value2.getDetailHealthFacilities(value.locationListWithDistance, value.locationListWithDistance[index].name!);

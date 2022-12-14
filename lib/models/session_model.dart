@@ -1,39 +1,63 @@
-class SessionModel {
-  String? id;
-  String? idHospital;
+class Session {
+  String? iD;
+  String? idHealthFacilities;
   String? sessionName;
-  String? capacity;
-  String? sessionStatus;
+  int? capacity;
+  int? dose;
+  bool? isClose;
   String? startSession;
   String? endSession;
+  String? createdAt;
+  String? updatedAt;
+  List<dynamic>? booking;
 
-  SessionModel({
-    required this.id,
-    required this.idHospital,
-    required this.sessionName,
-    required this.capacity,
-    required this.sessionStatus,
-    required this.startSession,
-    required this.endSession,
-  });
+  Session(
+      {this.iD,
+      this.idHealthFacilities,
+      this.sessionName,
+      this.capacity,
+      this.dose,
+      this.isClose,
+      this.startSession,
+      this.endSession,
+      this.createdAt,
+      this.updatedAt,
+      this.booking});
 
-  factory SessionModel.fromJson(Map<String, dynamic> json) => SessionModel(
-        id: json['id'],
-        idHospital: json['id_healthfacilities'],
-        sessionName: json['session_name'],
-        capacity: json['capacity'],
-        sessionStatus: json['session_status'],
-        startSession: json['start_Session'],
-        endSession: json['end_Session'],
-      );
+  Session.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    idHealthFacilities = json['IdHealthFacilities'];
+    sessionName = json['SessionName'];
+    capacity = json['Capacity'];
+    dose = json['Dose'];
+    isClose = json['IsClose'];
+    startSession = json['StartSession'];
+    endSession = json['EndSession'];
+    createdAt = json['CreatedAt'];
+    updatedAt = json['UpdatedAt'];
+    if (json['Booking'] != null) {
+      booking = <dynamic>[];
+      json['Booking'].forEach((v) {
+        booking!.add(v.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'id_healthfacilities': idHospital,
-        'session_name': sessionName,
-        'capacity': capacity,
-        'session_status': sessionStatus,
-        'start_session': startSession,
-        'end_session': endSession,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['IdHealthFacilities'] = idHealthFacilities;
+    data['SessionName'] = sessionName;
+    data['Capacity'] = capacity;
+    data['Dose'] = dose;
+    data['IsClose'] = isClose;
+    data['StartSession'] = startSession;
+    data['EndSession'] = endSession;
+    data['CreatedAt'] = createdAt;
+    data['UpdatedAt'] = updatedAt;
+    if (booking != null) {
+      data['Booking'] = booking!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }

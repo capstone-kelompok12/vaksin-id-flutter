@@ -1,3 +1,5 @@
+import '../session_model.dart';
+
 class NearbyHealthFacilitiesModel {
   Data? data;
   bool? error;
@@ -129,7 +131,7 @@ class Address {
 
   Address.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    idHealthFacilities = json['IdHealthFacilities'] ?? "";
+    idHealthFacilities = json['IdHealthFacilities'];
     nikUser = json['NikUser'];
     currentAddress = json['CurrentAddress'];
     district = json['District'];
@@ -139,7 +141,7 @@ class Address {
     longitude = json['Longitude'];
     createdAt = json['CreatedAt'];
     updatedAt = json['UpdatedAt'];
-    deletedAt = json['DeletedAt'] ?? "";
+    deletedAt = json['DeletedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -187,7 +189,8 @@ class HealthFacilities {
     name = json['Name'];
     image = json['Image'];
     ranges = json['Ranges'];
-    address = json['Address'] != null ? AddressHf.fromJson(json['Address']) : null;
+    address =
+        json['Address'] != null ? AddressHf.fromJson(json['Address']) : null;
     if (json['Session'] != null) {
       session = <Session>[];
       json['Session'].forEach((v) {
@@ -210,50 +213,6 @@ class HealthFacilities {
     if (session != null) {
       data['Session'] = session!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-class Session {
-  String? iD;
-  String? sessionName;
-  int? capacity;
-  bool? isClose;
-  String? startSession;
-  String? endSession;
-  String? createdAt;
-  String? updatedAt;
-
-  Session(
-      {this.iD,
-      this.sessionName,
-      this.capacity,
-      this.isClose,
-      this.startSession,
-      this.endSession,
-      this.createdAt,
-      this.updatedAt});
-
-  Session.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    sessionName = json['SessionName'];
-    capacity = json['Capacity'];
-    isClose = json['IsClose'];
-    startSession = json['StartSession'];
-    endSession = json['EndSession'];
-    createdAt = json['CreatedAt'];
-    updatedAt = json['UpdatedAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['ID'] = iD;
-    data['SessionName'] = sessionName;
-    data['Capacity'] = capacity;
-    data['IsClose'] = isClose;
-    data['StartSession'] = startSession;
-    data['EndSession'] = endSession;
-    data['CreatedAt'] = createdAt;
-    data['UpdatedAt'] = updatedAt;
     return data;
   }
 }
@@ -288,7 +247,7 @@ class AddressHf {
 
   AddressHf.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    idHealthFacilities = json['IdHealthFacilities'] ?? "";
+    idHealthFacilities = json['IdHealthFacilities'];
     nikUser = json['NikUser'];
     currentAddress = json['CurrentAddress'];
     district = json['District'];
@@ -298,7 +257,7 @@ class AddressHf {
     longitude = json['Longitude'];
     createdAt = json['CreatedAt'];
     updatedAt = json['UpdatedAt'];
-    deletedAt = json['DeletedAt'] ?? "";
+    deletedAt = json['DeletedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -318,3 +277,67 @@ class AddressHf {
     return data;
   }
 }
+
+// class Session {
+//   String? iD;
+//   String? idHealthFacilities;
+//   String? sessionName;
+//   int? capacity;
+//   int? dose;
+//   bool? isClose;
+//   String? startSession;
+//   String? endSession;
+//   String? createdAt;
+//   String? updatedAt;
+//   List<dynamic>? booking;
+
+//   Session(
+//       {this.iD,
+//       this.idHealthFacilities,
+//       this.sessionName,
+//       this.capacity,
+//       this.dose,
+//       this.isClose,
+//       this.startSession,
+//       this.endSession,
+//       this.createdAt,
+//       this.updatedAt,
+//       this.booking});
+
+//   Session.fromJson(Map<String, dynamic> json) {
+//     iD = json['ID'];
+//     idHealthFacilities = json['IdHealthFacilities'];
+//     sessionName = json['SessionName'];
+//     capacity = json['Capacity'];
+//     dose = json['Dose'];
+//     isClose = json['IsClose'];
+//     startSession = json['StartSession'];
+//     endSession = json['EndSession'];
+//     createdAt = json['CreatedAt'];
+//     updatedAt = json['UpdatedAt'];
+//     if (json['Booking'] != null) {
+//       booking = <dynamic>[];
+//       json['Booking'].forEach((v) {
+//         booking!.add(v.fromJson(v));
+//       });
+//     }
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['ID'] = iD;
+//     data['IdHealthFacilities'] = idHealthFacilities;
+//     data['SessionName'] = sessionName;
+//     data['Capacity'] = capacity;
+//     data['Dose'] = dose;
+//     data['IsClose'] = isClose;
+//     data['StartSession'] = startSession;
+//     data['EndSession'] = endSession;
+//     data['CreatedAt'] = createdAt;
+//     data['UpdatedAt'] = updatedAt;
+//     if (booking != null) {
+//       data['Booking'] = booking!.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
+// }

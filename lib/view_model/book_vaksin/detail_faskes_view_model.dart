@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vaksin_id_flutter/models/health_facilities_byname_model.dart';
-import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
+import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
 import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
@@ -69,7 +69,7 @@ class DetailFasKesViewModel with ChangeNotifier {
   getDetailHealthFacilities(List<SortDistanceHealthFacilities> data,String name) async {
       myState = MyState.loading;
       _detailHf = data.firstWhere((e) => e.name == name);
-      print('detailHf: $detailHf');
+      print('detailHf: ${detailHf!.session!.length}');
       myState = MyState.none;
   }
 }

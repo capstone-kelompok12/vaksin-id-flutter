@@ -15,7 +15,9 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   @override
   void initState() {
-    Provider.of<BottomnavViewModel>(context, listen: false).setIndex(0);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BottomnavViewModel>(context, listen: false).setIndex(0);
+    });
     super.initState();
   }
   
