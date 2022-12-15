@@ -39,8 +39,8 @@ class LanjutkanBookButton extends StatelessWidget {
                       onPressed: detail.selectWaktu != null
                           ? () {
                               book.addPenerima(
-                                detail.detailHf!.nikUser!,
-                                detail.detailHf!.namaUser!,
+                                detail.detailHf!.nik!,
+                                detail.detailHf!.fullname!,
                                 '0732774c-96cc-414c-a399-562c55bd5084',
                               );
                               Navigator.push(

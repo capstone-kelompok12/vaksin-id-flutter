@@ -69,7 +69,7 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 16),
                                   child: Text(
-                                    detail.detailHf!.nama!,
+                                    detail.detailHf!.name!,
                                     style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.w400,
@@ -85,7 +85,7 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          detail.detailHf!.alamat!,
+                                          detail.detailHf!.address!,
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -110,7 +110,7 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
                                   child: Text(
-                                    detail.detailHf!.jarak!,
+                                    detail.detailHf!.distance!,
                                     style: const TextStyle(
                                       color: Color(0xFF006D39),
                                       fontSize: 14,

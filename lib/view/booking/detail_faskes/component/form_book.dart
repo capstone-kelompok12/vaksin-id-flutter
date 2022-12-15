@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 class FormBook extends StatelessWidget {

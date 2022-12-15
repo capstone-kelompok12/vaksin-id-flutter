@@ -1,20 +1,16 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:faker/faker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/booking/detail_faskes/detail_faskes_screen.dart';
 import 'package:vaksin_id_flutter/view/home/null_location.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 import '../../view_model/home_view_model.dart';
-import '../booking/detail_faskes/detail_faskes_screen.dart';
 
 class NearbyHfScreen extends StatefulWidget {
   const NearbyHfScreen({super.key});
@@ -24,13 +20,6 @@ class NearbyHfScreen extends StatefulWidget {
 }
 
 class _NearbyHfScreenState extends State<NearbyHfScreen> {
-  // bool servicestatus = false;
-  // bool haspermission = false;
-  // Position? currentPosition;
-  // LatLng? currentLatLng;
-  // String? currentAddress;
-  // late LocationPermission permission;
-  // List<Map<String, dynamic>> locationListWithDistance = [];
   int selectedMarker = 0;
   CustomInfoWindowController customInfoWindowController =
       CustomInfoWindowController();
@@ -80,8 +69,10 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
             Marker(
               markerId: MarkerId('$x'),
               position: LatLng(
-                  listHf.data!.healthFacilities![x].address!.latitude!,
-                  listHf.data!.healthFacilities![x].address!.longitude!),
+                  double.parse(
+                      '${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                  double.parse(
+                      '${listHf.data!.healthFacilities![x].address!.longitude!}')),
               icon: BitmapDescriptor.fromBytes(markerIcon!),
               consumeTapEvents: true,
               visible: true,
@@ -107,11 +98,11 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                 gmController?.animateCamera(CameraUpdate.newCameraPosition(
                     CameraPosition(
                         target: LatLng(
-                            listHf.data!.healthFacilities![x].address!
-                                    .latitude! +
+                            double.parse(
+                                    '${listHf.data!.healthFacilities![x].address!.latitude!}') +
                                 0.007216,
-                            listHf.data!.healthFacilities![x].address!
-                                .longitude!),
+                            double.parse(
+                                '${listHf.data!.healthFacilities![x].address!.longitude!}')),
                         zoom: 13)));
                 customInfoWindowController.addInfoWindow!(
                   Column(
@@ -144,7 +135,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                       value2.getDetailHealthFacilities(
                                           value.locationListWithDistance,
                                           value.locationListWithDistance[x]
-                                              .nama!);
+                                              .name!);
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) =>
@@ -168,8 +159,11 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                       ),
                     ],
                   ),
-                  LatLng(listHf.data!.healthFacilities![x].address!.latitude!,
-                      listHf.data!.healthFacilities![x].address!.longitude!),
+                  LatLng(
+                      double.parse(
+                          '${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                      double.parse(
+                          '${listHf.data!.healthFacilities![x].address!.longitude!}')),
                 );
               },
             ),
@@ -303,7 +297,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                                 value
                                                     .locationListWithDistance[
                                                         index]
-                                                    .nama!);
+                                                    .name!);
                                             Navigator.of(context)
                                                 .push(MaterialPageRoute(
                                               builder: (context) =>
@@ -320,16 +314,14 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(5),
-                                                  child: SizedBox(
+                                                  child: Image.network(
+                                                    value
+                                                        .locationListWithDistance[
+                                                            index]
+                                                        .image!,
                                                     width: 92,
                                                     height: 92,
-                                                    child: Image.network(
-                                                      value
-                                                          .locationListWithDistance[
-                                                              index]
-                                                          .image!,
-                                                      fit: BoxFit.fill,
-                                                    ),
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ),
@@ -348,7 +340,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                                           value
                                                               .locationListWithDistance[
                                                                   index]
-                                                              .nama!,
+                                                              .name!,
                                                           style:
                                                               const TextStyle(
                                                                   fontWeight:
@@ -367,7 +359,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                                               value
                                                                   .locationListWithDistance[
                                                                       index]
-                                                                  .alamat!,
+                                                                  .address!,
                                                               maxLines: 3,
                                                               overflow:
                                                                   TextOverflow
@@ -384,7 +376,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                                                           value
                                                               .locationListWithDistance[
                                                                   index]
-                                                              .jarak!,
+                                                              .distance!,
                                                           style: TextStyle(
                                                               color:
                                                                   primaryColor,

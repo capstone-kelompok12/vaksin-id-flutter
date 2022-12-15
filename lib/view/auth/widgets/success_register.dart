@@ -47,6 +47,7 @@ class SuccessRegister extends StatelessWidget {
             height: 24.0,
           ),
           SizedBox(
+            height: 48,
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(

@@ -1,15 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/home/news_model.dart';
 import 'package:vaksin_id_flutter/models/home/nearby_healt_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
-// import '../models/home_model.dart';
 
 class HealthFaciApi {
   String messageAPI = '';
-  // String baseUrl = 'https://kipi.covid19.go.id/api/get-faskes-vaksinasi?skip=0&province=JAWA+TENGAH&city=KLATEN';
   final dio = Dio(BaseOptions(
     baseUrl: "https://vaksin-y3awbiupna-as.a.run.app/api/v1",
   ));
@@ -19,8 +15,6 @@ class HealthFaciApi {
       onRequest: (options, handler) async {
         final prefs = SharedService();
         final String? token = await prefs.getToken();
-        // const String token =
-        //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOaWtVc2VyIjoiMzE3NTA4MTExMTAwMDA3MCIsIkVtYWlsIjoiYW5jYXNAZ21haWwuY29tIiwiZXhwIjoxNjcwNzAxNTQzfQ.E5U1aULQ_NeTZ7nX3PqpqinycjaPH-UlJZ10AVplEaM';
         options.headers['Authorization'] = 'Bearer $token';
         return handler.next(options);
       },
@@ -28,48 +22,16 @@ class HealthFaciApi {
     dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
 
-  // Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities() async {
-  //   try {
-  //     final response = await dio.get('/profile/nearby');
-
-  //     final result = NearbyHealthFacilitiesModel.fromJson(response.data);
-  //     print('response: ${result}');
-  //     return result;
-  //   } on DioError catch (error) {
-  //     if (error.response!.statusCode == 401) {
-  //       messageAPI = 'expired';
-  //       throw Error();
-  //     }
-  //     print(error);
-  //     throw Error();
-  //   }
-  // }
-
   Future<NearbyHealthFacilitiesModel> getNearbyHealthFacilities(
       double lat, double long) async {
-    print('latitude : $lat & longtitude : $long');
-    SharedService sharedService = SharedService();
-    String token = sharedService.getToken().toString();
     try {
-      final response = await dio.post(
-        '/profile/nearby',
-        data: {"latitude": lat, "longitude": long},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+      final response = await dio
+          .post('/profile/nearby', data: {"latitude": lat, "longitude": long});
 
       final result = NearbyHealthFacilitiesModel.fromJson(response.data);
-      print('response: ${result}');
+      print('response: $response');
       return result;
     } on DioError catch (error) {
-      if (error.response!.statusCode == 401) {
-        messageAPI = 'expired';
-        throw Error();
-      }
       print(error);
       throw Error();
     }
