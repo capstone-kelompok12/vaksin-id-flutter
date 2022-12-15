@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 
+import '../../models/profile/edit_profile_model.dart';
+
 class ProfileService {
   final String baseUrl = 'https://vaksin-y3awbiupna-as.a.run.app/api/v1';
 
@@ -29,7 +31,7 @@ class ProfileService {
     }
   }
 
-  Future<void> editUserProfile(Data user) async {
+  Future<void> editUserProfile(EditProfileModel user) async {
     SharedService sharedService = SharedService();
     String token = sharedService.getToken().toString();
     try {

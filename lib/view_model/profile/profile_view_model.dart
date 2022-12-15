@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vaksin_id_flutter/models/profile/edit_profile_model.dart';
 import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
 import 'package:vaksin_id_flutter/models/user_model.dart';
 import 'package:vaksin_id_flutter/services/profile/profile_service.dart';
@@ -32,7 +33,7 @@ class ProfileViewModel extends ChangeNotifier {
     }
   }
 
-  editUsersProfile(Data update) async {
+  editUsersProfile(EditProfileModel update) async {
     await profileService.editUserProfile(update);
   }
 
@@ -49,7 +50,7 @@ class ProfileViewModel extends ChangeNotifier {
   bool passwordView2 = true;
 
   DateTime? selectDate;
-  late String birthday;
+  String birthday = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   pilihJenisKelamin(value) {
     _selectjenisKelamin = value;
@@ -68,7 +69,7 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void dateBirthday() {
-    birthday = DateFormat('dd/MM/yyyy').format(selectDate!);
+    birthday = DateFormat('yyyy-MM-dd').format(selectDate!);
     notifyListeners();
   }
 

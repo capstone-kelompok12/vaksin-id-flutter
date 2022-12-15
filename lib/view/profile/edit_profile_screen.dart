@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/models/profile/edit_profile_model.dart';
 import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 
@@ -29,8 +30,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     nikController = TextEditingController(text: profile.profile.dataUser!.nik);
     namaController =
         TextEditingController(text: profile.profile.dataUser!.fullname);
-    // dateController = TextEditingController(text: profile.birthday);
-    // profile.birthday;
+    dateController = TextEditingController(text: profile.birthday);
+    // profile.birthday = "";
     emailController =
         TextEditingController(text: profile.profile.dataUser!.email);
     // kataSandiController = TextEditingController(text: profile.profile.dataUser!.kataSandi);
@@ -115,7 +116,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       controller: dateController,
                       autofocus: true,
                       keyboardType: TextInputType.none,
-                      readOnly: true,
                       decoration: InputDecoration(
                         hintStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
@@ -123,7 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                         suffixIcon: const Icon(Icons.calendar_month_outlined),
                         hintText: profile.selectDate == null
-                            ? "dd/mm/yy"
+                            ? "yyyy-MM-dd"
                             : profile.birthday,
                         labelText: "Tanggal Lahir",
                         border: OutlineInputBorder(
@@ -279,14 +279,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          await profile.editUsersProfile(Data(
-                              nik: nikController.text,
-                              fullname: namaController.text,
-                              email: emailController.text,
-                              birthdate: profile.birthday,
-                              password: kataSandiController.text,
-                              phoneNum: data.dataUser!.phoneNum,
-                              gender: profile.selectjenisKelamin));
+                          await profile.editUsersProfile(EditProfileModel(
+                            nik: nikController.text,
+                            email: emailController.text,
+                            password: kataSandiController.text,
+                            fullname: namaController.text,
+                            phonenum: data.dataUser!.phoneNum,
+                            gender: profile.selectjenisKelamin,
+                            birthdate: profile.birthday,
+                          ));
                           Navigator.pop(context);
                         }
                       },
