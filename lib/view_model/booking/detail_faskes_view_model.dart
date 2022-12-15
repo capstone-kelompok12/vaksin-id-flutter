@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vaksin_id_flutter/models/booking/user_model.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities.dart';
-import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
-import 'package:vaksin_id_flutter/services/detail_faskes_service.dart';
+import 'package:vaksin_id_flutter/services/booking/detail_faskes_service.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
-import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
-
-import '../../models/home/nearby_healt_facilities_model.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
   MyState myState = MyState.none;
+
+  // hardcode list item
   final List<String> _vaksin = [
     'Sinovac',
     'Moderna',
@@ -34,6 +31,7 @@ class DetailFasKesViewModel with ChangeNotifier {
   ];
   List<String> get waktu => _waktu;
 
+  // select list form
   String? _selectVaksin;
   String? get selectVaksin => _selectVaksin;
   String? _selectDosis;
@@ -63,26 +61,19 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // Read Service
+  void getNullDropdown() {
+    _selectVaksin = null;
+    _selectDosis = null;
+    _selectTanggal = null;
+    _selectVaksin = null;
+    notifyListeners();
+  }
+
+  // get detail from home screen
   final DetailFasKesService detailFasKes = DetailFasKesService();
-  // HealthFacilitiesByNameModel _detail =
-  //     HealthFacilitiesByNameModel(Address: AddressModel(), Vaccine: []);
-  // HealthFacilitiesByNameModel get detail => _detail;
   final HomeViewModel homeHf = HomeViewModel();
   SortDistanceHealthFacilities? _detailHf;
   SortDistanceHealthFacilities? get detailHf => _detailHf;
-
-  // getDetailHealthFacilitiesAPI(String? nama) async {
-  //   try {
-  //     myState = MyState.loading;
-  //     _detail = await detailFasKes.getDetailHealthFacilities(nama);
-  //     myState = MyState.none;
-  //   } catch (e) {
-  //     myState = MyState.error;
-  //     rethrow;
-  //   }
-  //   notifyListeners();
-  // }
 
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
@@ -103,13 +94,5 @@ class DetailFasKesViewModel with ChangeNotifier {
     );
     print('detailHf: $detailHf');
     myState = MyState.none;
-  }
-
-  late UserModel _user;
-  UserModel get user => _user;
-
-  void userData() async {
-    _user = await detailFasKes.getUserData();
-    notifyListeners();
   }
 }

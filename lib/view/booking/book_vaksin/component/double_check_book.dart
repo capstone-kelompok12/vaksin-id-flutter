@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/book_success.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/book_success.dart';
+import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
 
 class DoubleCheckBook extends StatelessWidget {
   const DoubleCheckBook({super.key});
@@ -50,7 +50,6 @@ class DoubleCheckBook extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
           // checkbox
           Consumer<BookVaksinViewModel>(
             builder: (context, book, child) => Container(
@@ -73,6 +72,7 @@ class DoubleCheckBook extends StatelessWidget {
               ),
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Consumer<BookVaksinViewModel>(
@@ -111,12 +111,16 @@ class DoubleCheckBook extends StatelessWidget {
                     width: 160,
                     child: ElevatedButton(
                       onPressed: () async {
+                        Navigator.pop(context);
                         if (book.isChecked == true) {
                           book.doubleCheck = book.isChecked;
-                          await book.createBooking(book.penerimaVaksin);
+                          // await book.createBooking();
                         }
-
-                        Navigator.pop(context);
+                        try {
+                          await book.createBooking();
+                        } catch (e) {
+                          print(e);
+                        }
 
                         showModalBottomSheet(
                           isScrollControlled: true,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/book_button.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/add_member.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/book_button.dart';
+import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
 
 class BookVaksinScreen extends StatefulWidget {
   const BookVaksinScreen({super.key});
@@ -17,12 +17,6 @@ class _BookVaksinScreenState extends State<BookVaksinScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Vaksin'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: Padding(
         padding:

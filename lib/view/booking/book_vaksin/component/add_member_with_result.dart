@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/models/booking/booking_session_model.dart';
+import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
 
 class AddMemberWithResult extends StatelessWidget {
   const AddMemberWithResult({super.key});
@@ -79,6 +80,12 @@ class AddMemberWithResult extends StatelessWidget {
                   tambah.penerima.nama!,
                   '0732774c-96cc-414c-a399-562c55bd5084',
                 );
+                // tambah.addBook(
+                //   BookingModel(
+                //     nik: tambah.penerima.nik!,
+                //     idSession: '0732774c-96cc-414c-a399-562c55bd5084',
+                //   ),
+                // );
 
                 Navigator.pop(context);
               },

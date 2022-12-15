@@ -1,9 +1,9 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/detail_faskes/detail_faskes_screen.dart';
+import 'package:vaksin_id_flutter/view/booking/detail_faskes/detail_faskes_screen.dart';
 import 'package:vaksin_id_flutter/view/home/nearby_hf_screen.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 
 import '../../../styles/theme.dart';

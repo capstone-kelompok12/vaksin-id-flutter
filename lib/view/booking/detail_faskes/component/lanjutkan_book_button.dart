@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/book_vaksin_screen.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/book_vaksin_screen.dart';
+import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
-class LanjutkanBookButton extends StatefulWidget {
+class LanjutkanBookButton extends StatelessWidget {
   const LanjutkanBookButton({super.key});
-
-  @override
-  State<LanjutkanBookButton> createState() => _LanjutkanBookButtonState();
-}
-
-class _LanjutkanBookButtonState extends State<LanjutkanBookButton> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<BookVaksinViewModel>(context, listen: false).penerimaVaksin =
-        [];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +23,10 @@ class _LanjutkanBookButtonState extends State<LanjutkanBookButton> {
                   child: Text(
                     'Kapasitas 49/90',
                     style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF006D39)),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF006D39),
+                    ),
                   ),
                 ),
                 SizedBox(

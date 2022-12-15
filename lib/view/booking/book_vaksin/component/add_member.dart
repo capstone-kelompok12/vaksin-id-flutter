@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member_no_result.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member_nothing.dart';
-import 'package:vaksin_id_flutter/view/book_vaksin/component/add_member_with_result.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/add_member_no_result.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/add_member_nothing.dart';
+import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/add_member_with_result.dart';
+import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
 
 class AddMember extends StatefulWidget {
   const AddMember({super.key});

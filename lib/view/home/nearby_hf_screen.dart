@@ -11,10 +11,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/home/null_location.dart';
-import 'package:vaksin_id_flutter/view_model/book_vaksin/detail_faskes_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 import '../../view_model/home_view_model.dart';
-import '../detail_faskes/detail_faskes_screen.dart';
+import '../booking/detail_faskes/detail_faskes_screen.dart';
 
 class NearbyHfScreen extends StatefulWidget {
   const NearbyHfScreen({super.key});
