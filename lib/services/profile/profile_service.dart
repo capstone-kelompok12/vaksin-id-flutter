@@ -29,7 +29,7 @@ class ProfileService {
     }
   }
 
-  Future<void> editUserProfile(ProfileModel user) async {
+  Future<void> editUserProfile(Data user) async {
     SharedService sharedService = SharedService();
     String token = sharedService.getToken().toString();
     try {
@@ -43,6 +43,7 @@ class ProfileService {
           },
         ),
       );
+      print(user.toJson);
     } catch (e) {
       if (e is DioError) {
         throw e.response!.data['error'].toString();

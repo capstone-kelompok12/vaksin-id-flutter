@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
+import 'package:vaksin_id_flutter/models/user_model.dart';
 import 'package:vaksin_id_flutter/services/profile/profile_service.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
@@ -31,6 +32,10 @@ class ProfileViewModel extends ChangeNotifier {
     }
   }
 
+  editUsersProfile(Data update) async {
+    await profileService.editUserProfile(update);
+  }
+
   final List<String> _jenisKelamin = [
     'Laki - laki',
     'Perempuan',
@@ -46,9 +51,10 @@ class ProfileViewModel extends ChangeNotifier {
   DateTime? selectDate;
   late String birthday;
 
-  void pilihJenisKelamin(value) {
+  pilihJenisKelamin(value) {
     _selectjenisKelamin = value;
     notifyListeners();
+    return _selectjenisKelamin;
   }
 
   void showPassword() {
@@ -64,5 +70,10 @@ class ProfileViewModel extends ChangeNotifier {
   void dateBirthday() {
     birthday = DateFormat('dd/MM/yyyy').format(selectDate!);
     notifyListeners();
+  }
+
+  checkGender() {
+    _selectjenisKelamin =
+        profile.dataUser!.gender == 'P' ? 'Perempuan' : 'Laki-laki';
   }
 }
