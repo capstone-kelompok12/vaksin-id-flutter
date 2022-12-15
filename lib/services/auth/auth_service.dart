@@ -28,7 +28,7 @@ class AuthService {
   }
 
   Future<String> postLogin(LoginModel login) async {
-    SharedService sharedService = SharedService();
+    SharedService prefs = SharedService();
     String? token;
 
     try {
@@ -45,7 +45,7 @@ class AuthService {
       print(response.data['error']);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        await sharedService.saveToken('Token');
+        await prefs.saveToken('Token');
         token = response.data['data']['Token'];
       }
       print(token);
@@ -59,7 +59,6 @@ class AuthService {
       } else {
         throw 'Ada masalah dengan koneksi ke server';
       }
-      
     }
     return token!;
   }
