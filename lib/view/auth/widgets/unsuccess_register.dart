@@ -30,7 +30,7 @@ class UnsuccessRegister extends StatelessWidget {
             height: 4.0,
           ),
           Text(
-            'Anda hanya dapat mendaftarkan satu NIK untuk satu akun.',
+            'Anda hanya dapat mendaftarkan satu NIK dan EMAIL untuk satu akun.',
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: medium,
