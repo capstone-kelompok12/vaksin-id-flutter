@@ -33,8 +33,10 @@ class ProfileViewModel extends ChangeNotifier {
     }
   }
 
-  editUsersProfile(EditProfileModel update) async {
+  Future<void> editUsersProfile(EditProfileModel update) async {
     await profileService.editUserProfile(update);
+    print(update.fullname);
+    notifyListeners();
   }
 
   final List<String> _jenisKelamin = [
@@ -69,7 +71,7 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void dateBirthday() {
-    birthday = DateFormat('yyyy-MM-dd').format(selectDate!);
+    String birthday = DateFormat('yyyy-MM-dd').format(selectDate!);
     notifyListeners();
   }
 
