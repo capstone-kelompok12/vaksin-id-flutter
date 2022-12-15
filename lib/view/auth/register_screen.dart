@@ -182,7 +182,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       hint: const Text('Pilih kenis kelamin'),
                       onChanged: (value) {
-                        _selectedGender.value = value == 'Laki-laki' ? 'L' : 'P';
+                        _selectedGender.value =
+                            value == 'Laki-laki' ? 'L' : 'P';
                       },
                       items: [
                         'Laki-laki',
