@@ -18,12 +18,12 @@ class TiketVaksinDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Detail Vaksinasi',
-          style: blackTextStyle.copyWith(
-            fontSize: 16,
-            fontWeight: medium,
-          ),
+          //   style: blackTextStyle.copyWith(
+          //     fontSize: 16,
+          //     fontWeight: medium,
+          //   ),
         ),
       ),
       body: SingleChildScrollView(

@@ -52,34 +52,34 @@ class TiketVaksinCard extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(10),
                   ),
-                  color: history.status == 'menunggu'
+                  color: history.status == 'OnProccess'
                       ? const Color(0xffFFE082)
-                      : history.status == 'diterima'
+                      : history.status == 'Accepted'
                           ? const Color(0xffCEFFAC)
-                          : history.status == 'ditolak'
+                          : history.status == 'Rejected'
                               ? const Color(0xffFFDAD6)
                               : const Color(0xffE1E3DE),
                 ),
                 child: Center(
                   child: Text(
-                    history.status == 'menunggu'
+                    history.status == 'OnProccess'
                         ? 'Menunggu Konfirmasi'
-                        : history.status == 'diterima'
+                        : history.status == 'Accepted'
                             ? 'Telah diterima'
-                            : history.status == 'ditolak'
+                            : history.status == 'Rejected'
                                 ? 'Telah ditolak'
-                                : 'Dibatalkan',
-                    style: history.status == 'menunggu'
+                                : 'Canceled',
+                    style: history.status == 'OnProccess'
                         ? TextStyle(
                             color: const Color(0xff564500),
                             fontWeight: medium,
                           )
-                        : history.status == 'diterima'
+                        : history.status == 'Accepted'
                             ? TextStyle(
                                 color: const Color(0xff285E00),
                                 fontWeight: medium,
                               )
-                            : history.status == 'ditolak'
+                            : history.status == 'Rejected'
                                 ? TextStyle(
                                     color: const Color(0xff93000A),
                                     fontWeight: medium,
@@ -91,7 +91,7 @@ class TiketVaksinCard extends StatelessWidget {
                   ),
                 ),
               ),
-              history.status == 'diterima'
+              history.status == 'Accepted'
                   ? Container(
                       margin: const EdgeInsets.only(
                         top: 12,

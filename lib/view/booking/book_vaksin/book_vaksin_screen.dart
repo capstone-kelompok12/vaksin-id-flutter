@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/add_member.dart';
 import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/book_button.dart';
 import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 class BookVaksinScreen extends StatefulWidget {
   const BookVaksinScreen({super.key});
@@ -29,104 +30,107 @@ class _BookVaksinScreenState extends State<BookVaksinScreen> {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      // Faskes
-                      Text(
-                        'Fasilitas Kesehatan',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                  child: Consumer<DetailFasKesViewModel>(
+                    builder: (context, detail, child) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // Faskes
+                        const Text(
+                          'Fasilitas Kesehatan',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'RS. Pondok Indah',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 8),
+                        Text(
+                          '${detail.detailHf!.name}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
+                        const SizedBox(height: 16),
 
-                      // Vaksin
-                      Text(
-                        'Vaksin',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                        // Vaksin
+                        const Text(
+                          'Vaksin',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Pfizer',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 8),
+                        Text(
+                          detail.selectVaksin!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
+                        const SizedBox(height: 16),
 
-                      // Dosis
-                      Text(
-                        'Dosis',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                        // Dosis
+                        const Text(
+                          'Dosis',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Pertama',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 8),
+                        Text(
+                          'Dosis ${detail.selectDosis}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
+                        const SizedBox(height: 16),
 
-                      // Tanggal
-                      Text(
-                        'Tanggal',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                        // Tanggal
+                        const Text(
+                          'Tanggal',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        '01 Januari 2022',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 8),
+                        Text(
+                          detail.formatter.format(DateTime.parse(
+                              detail.selectTanggal!.split('T')[0])),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
+                        const SizedBox(height: 16),
 
-                      // Sesi Waktu
-                      Text(
-                        'Sesi Waktu',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                        // Sesi Waktu
+                        const Text(
+                          'Sesi Waktu',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        '08.00 - 11.00 WIB',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 8),
+                        Text(
+                          '${detail.selectSession!.startSession} - ${detail.selectSession!.endSession} WIB',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
-                    ],
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
                 ),
               ),

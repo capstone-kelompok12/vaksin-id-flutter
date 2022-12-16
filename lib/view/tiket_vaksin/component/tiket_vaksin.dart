@@ -19,7 +19,8 @@ class TiketVaksin extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: tiket!.history!.length,
                 itemBuilder: (context, index) =>
-                    tiket.history![index].status == 'OnProccess'
+                    tiket.history![index].status == 'OnProccess' ||
+                            tiket.history![index].status == 'Accepted'
                         ? TiketVaksinCard(
                             //   vaksin:
                             //       history.history![index].booking!.session!.vaccine!.name!,

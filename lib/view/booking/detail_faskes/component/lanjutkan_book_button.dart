@@ -22,7 +22,6 @@ class LanjutkanBookButton extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 10),
                   child: Text(
                     'Kapasitas 49/90',
-                    // detail.listVaccine
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

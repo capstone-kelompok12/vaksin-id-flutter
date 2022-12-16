@@ -85,6 +85,7 @@ class DetailFasKesViewModel with ChangeNotifier {
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
     myState = MyState.loading;
+    vaccineMap.clear();
     _detailHf = data.firstWhere((e) => e.name == name);
     for (var item in detailHf!.vaccine!) {
       vaccineMap[item.name!] = item;
