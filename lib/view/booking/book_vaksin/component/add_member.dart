@@ -24,8 +24,10 @@ class _AddMemberState extends State<AddMember> {
     // nikResult = ValueNotifier(false);
 
     super.initState();
-    Provider.of<BookVaksinViewModel>(context, listen: false)
-        .searchCondition(false, false);
+    // Provider.of<BookVaksinViewModel>(context, listen: false)
+    //     .searchCondition(false, false);
+    Provider.of<BookVaksinViewModel>(context, listen: false).search = false;
+    Provider.of<BookVaksinViewModel>(context, listen: false).found = false;
   }
 
   @override

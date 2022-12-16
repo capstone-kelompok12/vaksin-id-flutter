@@ -114,10 +114,9 @@ class DoubleCheckBook extends StatelessWidget {
                         Navigator.pop(context);
                         if (book.isChecked == true) {
                           book.doubleCheck = book.isChecked;
-                          // await book.createBooking();
                         }
                         try {
-                          await book.createBooking();
+                          await book.createBooking(book.bookingList);
                         } catch (e) {
                           print(e);
                         }

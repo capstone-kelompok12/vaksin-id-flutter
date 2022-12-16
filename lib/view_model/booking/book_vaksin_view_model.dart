@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/models/booking/booking_session_model.dart';
 import 'package:vaksin_id_flutter/models/booking/penerima_vaksin_model.dart';
@@ -36,7 +38,7 @@ class BookVaksinViewModel extends ChangeNotifier {
   }
 
   // list penerima
-  late List bookingList;
+  List bookingList = [];
   late List penerimaVaksin;
 
   void addPenerima(String nik, String nama, String idSession) {
@@ -47,12 +49,10 @@ class BookVaksinViewModel extends ChangeNotifier {
       ),
     );
 
-    bookingList.add(
-      PenerimaVaksinModel(
-        nik: nik,
-        idSession: idSession,
-      ),
-    );
+    bookingList.add({
+      'nik': nik,
+      'id_session': idSession,
+    });
     notifyListeners();
   }
 
@@ -64,8 +64,17 @@ class BookVaksinViewModel extends ChangeNotifier {
 
   // create booking
   BookingModel bookingModel = BookingModel();
-  createBooking() async {
-    bookingModel = await bookVaksinService.createBooking(bookingList);
+  Future createBooking(List book) async {
+    final bookList = book;
+    print(jsonEncode(bookingList));
+    try {
+      myState = MyState.loading;
+      await bookVaksinService.createBooking(bookList);
+      myState = MyState.none;
+    } catch (e) {
+      myState = MyState.error;
+      rethrow;
+    }
     notifyListeners();
   }
 

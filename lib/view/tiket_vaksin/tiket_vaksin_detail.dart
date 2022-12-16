@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/tiket_vaksin/widgets/cancel_book.dart';
 
 class TiketVaksinDetail extends StatelessWidget {
-  final String vaksin;
-  final String statusTiket;
+  // final String vaksin;
+  // final String statusTiket;
+  final History history;
   const TiketVaksinDetail({
     super.key,
-    required this.statusTiket,
-    required this.vaksin,
+    required this.history,
+    // required this.statusTiket,
+    // required this.vaksin,
   });
 
   @override
@@ -29,33 +32,33 @@ class TiketVaksinDetail extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 36,
-              color: statusTiket == 'menunggu'
+              color: history.status == 'menunggu'
                   ? const Color(0xffFFE082)
-                  : statusTiket == 'diterima'
+                  : history.status == 'diterima'
                       ? const Color(0xffCEFFAC)
-                      : statusTiket == 'ditolak'
+                      : history.status == 'ditolak'
                           ? const Color(0xffFFDAD6)
                           : const Color(0xffE1E3DE),
               child: Center(
                 child: Text(
-                  statusTiket == 'menunggu'
+                  history.status == 'OnProccess'
                       ? 'Menunggu Konfirmasi'
-                      : statusTiket == 'diterima'
+                      : history.status == 'diterima'
                           ? 'Telah diterima'
-                          : statusTiket == 'ditolak'
+                          : history.status == 'ditolak'
                               ? 'Telah ditolak'
                               : 'Dibatalkan',
-                  style: statusTiket == 'menunggu'
+                  style: history.status == 'menunggu'
                       ? TextStyle(
                           color: const Color(0xff564500),
                           fontWeight: medium,
                         )
-                      : statusTiket == 'diterima'
+                      : history.status == 'diterima'
                           ? TextStyle(
                               color: const Color(0xff285E00),
                               fontWeight: medium,
                             )
-                          : statusTiket == 'ditolak'
+                          : history.status == 'ditolak'
                               ? TextStyle(
                                   color: const Color(0xff93000A),
                                   fontWeight: medium,
@@ -72,7 +75,7 @@ class TiketVaksinDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  statusTiket == 'diterima'
+                  history.status == 'diterima'
                       ? Container(
                           margin: const EdgeInsets.only(
                             top: 12,
@@ -95,7 +98,7 @@ class TiketVaksinDetail extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '1',
+                                    '${history.booking!.queue!}',
                                     style: blackTextStyle.copyWith(
                                       fontSize: 24,
                                       fontWeight: semiBold,
@@ -124,7 +127,7 @@ class TiketVaksinDetail extends StatelessWidget {
                       : const SizedBox(),
                   Center(
                     child: Text(
-                      'Sinovac',
+                      history.booking!.session!.vaccine!.name!,
                       style: blackTextStyle.copyWith(
                         fontSize: 22,
                         fontWeight: medium,
@@ -133,11 +136,11 @@ class TiketVaksinDetail extends StatelessWidget {
                   ),
                   listVaksin(
                     title: 'Dosis',
-                    subtitle: 'Pertama',
+                    subtitle: '${history.booking!.session!.dose}',
                   ),
                   listVaksin(
                     title: 'Tanggal',
-                    subtitle: '30 November 2022',
+                    subtitle: '${history.booking!.session!.date}',
                   ),
                   listVaksin(
                     title: 'Fasilitas Kesehatan',
@@ -145,7 +148,8 @@ class TiketVaksinDetail extends StatelessWidget {
                   ),
                   listVaksin(
                     title: 'Sesi Waktu ',
-                    subtitle: '08.00 - 11.00 WIB',
+                    subtitle:
+                        '${history.booking!.session!.startSession} - ${history.booking!.session!.endSession} WIB',
                   ),
                   const SizedBox(
                     height: 16.0,
@@ -157,17 +161,15 @@ class TiketVaksinDetail extends StatelessWidget {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  receiveVaksin(
-                    nik: '320310030303001',
-                    nama: 'Budi Sudarsono',
-                  ),
-                  receiveVaksin(
-                    nik: '320310030303001',
-                    nama: 'Bakayo Saka',
-                  ),
-                  receiveVaksin(
-                    nik: '320310030303001',
-                    nama: 'Lionel Messi',
+                  ListView.builder(
+                    itemBuilder: (context, index) {
+                      final penerima = history.user;
+
+                      return receiveVaksin(
+                        nik: penerima!.nIK!,
+                        nama: penerima.fullname!,
+                      );
+                    },
                   ),
                 ],
               ),

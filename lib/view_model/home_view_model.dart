@@ -7,6 +7,7 @@ import 'package:vaksin_id_flutter/models/home/news_model.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
+import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import '../services/home/home_service.dart';
 
 // enum ApiState { none, loading, error}
@@ -28,6 +29,7 @@ class HomeViewModel extends ChangeNotifier {
   double paddingBottomHeading = 24;
   List<Marker> markers = [];
   MyState apiState = MyState.none;
+  ProfileViewModel profileViewModel = ProfileViewModel();
 
   checkGps() async {
     apiState = MyState.loading;
@@ -131,7 +133,7 @@ class HomeViewModel extends ChangeNotifier {
         final inMeters = distance * 1000;
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
-            fullname: listHealthFaci!.data!.user!.fullname!,
+            fullname: listHealthFaci!.data!.user!.fullname,
             nik: listHealthFaci!.data!.user!.nIK!,
             name: listHealthFaci!.data!.healthFacilities![x].name!,
             address: listHealthFaci!
@@ -145,7 +147,7 @@ class HomeViewModel extends ChangeNotifier {
       } else {
         locationListWithDistance.add(
           SortDistanceHealthFacilities(
-            fullname: listHealthFaci!.data!.user!.fullname!,
+            fullname: listHealthFaci!.data!.user!.fullname,
             nik: listHealthFaci!.data!.user!.nIK!,
             name: listHealthFaci!.data!.healthFacilities![x].name!,
             address: listHealthFaci!
@@ -159,6 +161,7 @@ class HomeViewModel extends ChangeNotifier {
       }
     }
     notifyListeners();
+    print('namaaaa: ${listHealthFaci!.data!.user!.fullname}');
   }
 
   launchURL(String url) async {

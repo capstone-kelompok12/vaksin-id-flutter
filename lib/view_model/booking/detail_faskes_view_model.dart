@@ -65,8 +65,13 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void getClear() {
-    selectJenisVaksin(null);
+  Session? selectSession;
+  void getIdSession(List<Session> data) {
+    selectSession =
+        data.firstWhere((e) => e.startSession == selectWaktu!.substring(0, 5));
+    print(selectWaktu!.substring(0, 5));
+    print(selectSession!.iD);
+    notifyListeners();
   }
 
   // // get session

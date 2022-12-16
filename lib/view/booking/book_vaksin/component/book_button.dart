@@ -43,17 +43,36 @@ class BookButton extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      showModalBottomSheet(
+                      if (booking.doubleCheck == false) {
+                        showModalBottomSheet(
                           isScrollControlled: true,
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(28))),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(28),
+                            ),
+                          ),
+                          context: context,
+                          builder: (context) {
+                            return const DoubleCheckBook();
+                          },
+                        );
+                      }
+                      if (booking.doubleCheck == true) {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(28),
+                            ),
+                          ),
                           context: context,
                           builder: (context) {
                             return booking.doubleCheck == false
                                 ? const DoubleCheckBook()
                                 : const BookSuccess(); // nanti pake logic masukin data langsung
-                          });
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
