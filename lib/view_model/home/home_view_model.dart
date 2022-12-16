@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vaksin_id_flutter/models/home/nearby_healt_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/news_model.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
-import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
+import 'package:vaksin_id_flutter/models/home/home_vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import '../../services/home/home_service.dart';
 
