@@ -8,7 +8,7 @@ import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
-import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 

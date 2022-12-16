@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:vaksin_id_flutter/models/home/news_model.dart';
 import 'package:vaksin_id_flutter/models/home/nearby_healt_facilities_model.dart';
-import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
+import 'package:vaksin_id_flutter/models/home/home_vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 
 class HealthFaciApi {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
-import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
 
 class ListVaccineScreen extends StatelessWidget {
   const ListVaccineScreen({super.key});

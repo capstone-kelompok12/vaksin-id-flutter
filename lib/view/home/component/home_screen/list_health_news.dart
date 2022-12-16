@@ -2,10 +2,10 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
 
-import '../../../styles/theme.dart';
-import '../../component/finite_state.dart';
+import '../../../../styles/theme.dart';
+import '../../../component/finite_state.dart';
 
 class ListHealthNewsHomeScreen extends StatelessWidget {
   const ListHealthNewsHomeScreen({super.key});

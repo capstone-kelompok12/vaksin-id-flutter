@@ -42,7 +42,7 @@ class BookButton extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (booking.doubleCheck == false) {
                         showModalBottomSheet(
                           isScrollControlled: true,
@@ -58,6 +58,12 @@ class BookButton extends StatelessWidget {
                         );
                       }
                       if (booking.doubleCheck == true) {
+                        try {
+                          await booking.createBooking(booking.bookingList);
+                        } catch (e) {
+                          print(e);
+                        }
+
                         showModalBottomSheet(
                           isScrollControlled: true,
                           shape: const RoundedRectangleBorder(
@@ -69,7 +75,7 @@ class BookButton extends StatelessWidget {
                           builder: (context) {
                             return booking.doubleCheck == false
                                 ? const DoubleCheckBook()
-                                : const BookSuccess(); // nanti pake logic masukin data langsung
+                                : const BookSuccess();
                           },
                         );
                       }

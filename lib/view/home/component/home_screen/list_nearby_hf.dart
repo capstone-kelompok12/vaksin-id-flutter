@@ -4,9 +4,9 @@ import 'package:vaksin_id_flutter/view/booking/detail_faskes/detail_faskes_scree
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 
-import '../../../styles/theme.dart';
-import '../../../view_model/home_view_model.dart';
-import '../../component/finite_state.dart';
+import '../../../../styles/theme.dart';
+import '../../../../view_model/home/home_view_model.dart';
+import '../../../component/finite_state.dart';
 
 class ListNearbyHfHomeScreen extends StatelessWidget {
   const ListNearbyHfHomeScreen({super.key});
