@@ -71,6 +71,8 @@ class DetailFasKesViewModel with ChangeNotifier {
     selectDosisVaksin(null);
     selectTanggalVaksin(null);
     selectWaktuVaksin(null);
+    // listSession.clear();
+    // listVaccine.clear();
   }
 
   // // get session
@@ -88,17 +90,20 @@ class DetailFasKesViewModel with ChangeNotifier {
   List<Vaccine>? get detailVaccine => _detailVaccine;
   Map<String, Vaccine> vaccineMap = {};
   final formatter = DateFormat('dd MMM yyyy');
+  String? changed;
 
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
     myState = MyState.loading;
+    vaccineMap.clear();
+    // _detailVaccine!.clear();
     _detailHf = data.firstWhere((e) => e.name == name);
     for (var item in detailHf!.vaccine!) {
       vaccineMap[item.name!] = item;
     }
     _detailVaccine = vaccineMap.values.toList();
     _detailVaccine?.forEach((element) {
-      print(element.name);
+      print('nameVaksin: ${element.name}');
     });
     myState = MyState.none;
     notifyListeners();
@@ -106,24 +111,40 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   List<Vaccine>? listVaccine;
   getVaccineDose() {
-    // final vaccineList = data.where((e) => e.name == vaccine);
     listVaccine = detailHf!.vaccine!.where((e) => e.name == selectVaksin).toList();
-    // getVaccineDate();
-    listVaccine?.forEach((element) {
+    for (var element in listVaccine!) {
       print('vaccineDose: ${element.dose}');
-    });
+    }
     notifyListeners();
   }
 
   List<Session>? listSession;
+  List<Session>? sessionTime;
   Map<String, Session> sessionMap = {};
-  getVaccineSession(int dose) {
-    final selectedVaccineDose = listVaccine!.firstWhere((e) => e.dose == dose);
-    for (var item in selectedVaccineDose.session!) {
-      sessionMap[item.sessionName!] = item;
+  Map<String, Session> timeMap = {};
+  getVaccineSession() {
+    if (sessionMap.isNotEmpty) {
+      listSession?.clear();
+      sessionMap.clear();
+    }
+    final selectedVaccineDose = listVaccine?.firstWhere((e) => e.dose == selectDosis);
+    for (var item in selectedVaccineDose!.session!) {
+      sessionMap[item.date!] = item;
     }
     listSession = sessionMap.values.toList();
-    print('data: ${listSession}');
+    print('session: ${listSession?.length}');
+    // for (var element in listSession!) {
+    // }
     notifyListeners();
+  }
+
+  getVaccineSessionTime() {
+    sessionTime = listSession?.where((e) {
+     final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
+     return listDate == selectTanggal; 
+    }).toList();
+    for (var time in sessionTime!) {
+      print('jam: ${time.startSession} - ${time.endSession}');
+    }
   }
 }

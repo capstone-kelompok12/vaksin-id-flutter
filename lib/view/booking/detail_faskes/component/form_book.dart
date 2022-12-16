@@ -3,8 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 class FormBook extends StatelessWidget {
-  const FormBook({super.key});
+  FormBook({super.key});
 
+  final GlobalKey<FormFieldState> keyDropDosis = GlobalKey();
+  final GlobalKey<FormFieldState> keyDropTanggal = GlobalKey();
+  final GlobalKey<FormFieldState> keyDropWaktu = GlobalKey();
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,6 +42,13 @@ class FormBook extends StatelessWidget {
                       ? const Text('Pilih Vaksin')
                       : Text('${detail.selectVaksin}'),
                   onChanged: (value) {
+                    if (detail.selectVaksin != null) {
+                      detail.listVaccine?.clear();
+                      detail.listSession?.clear();
+                      detail.selectDosisVaksin(null);
+                      detail.selectTanggalVaksin(null);
+                      keyDropDosis.currentState?.reset();
+                    }
                     detail.selectJenisVaksin(value);
                     detail.getVaccineDose();
                   },
@@ -58,18 +69,28 @@ class FormBook extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: DropdownButtonFormField<String>(
+                        key: keyDropDosis,
                         decoration: InputDecoration(
                           label: const Text('Dosis'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        hint: detail.selectDosis == null || detail.listVaccine!.isEmpty
-                            ? const Text('Pilih Dosis')
-                            : Text('${detail.selectDosis}'),
+                        // value: null,
+                        hint: detail.selectDosis == null || detail.listVaccine!.isEmpty 
+                          ? const Text('Pilih Dosis')
+                          : Text('${detail.selectDosis}'),
                         onChanged: (value) {
+                          if (detail.selectDosis != null) {
+                            // detail.listVaccine?.clear();
+                            detail.listSession?.clear();
+                            // detail.selectDosisVaksin(null);
+                            detail.selectTanggalVaksin(null);
+                            keyDropTanggal.currentState?.reset();
+                            keyDropWaktu.currentState?.reset();
+                          }
                           detail.selectDosisVaksin(int.parse(value!));
-                          detail.getVaccineSession(int.parse(value));
+                          detail.getVaccineSession();
                         },
                         items: detail.listVaccine?.map(
                               (e) => DropdownMenuItem<String>(
@@ -89,24 +110,30 @@ class FormBook extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: DropdownButtonFormField<String>(
+                        key: keyDropTanggal,
                         decoration: InputDecoration(
                           label: const Text('Tanggal'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
+                        // value: detail.selectTanggal,
                         hint: detail.selectTanggal == null ||
                                 detail.listVaccine!.isEmpty
                             ? const Text('Pilih Tanggal')
                             : Text('${detail.selectTanggal}'),
                         onChanged: (value) {
-                          detail.selectTanggalVaksin(value);
+                          detail.selectWaktuVaksin(null);
+                          keyDropWaktu.currentState?.reset();
+                          detail.selectTanggalVaksin(detail.formatter
+                              .format(DateTime.parse(value!.split('T')[0])));
+                          detail.getVaccineSessionTime();
                         },
-                        items: detail.listSession!.map(
+                        items: detail.listSession?.map(
                               (e) => DropdownMenuItem<String>(
                                 value: '${e.date}',
                                 child: Text(
-                                  detail.formatter.format( DateTime.parse(e.date!.split('T')[0])),
+                                  detail.formatter.format(DateTime.parse(e.date!.split('T')[0])),
                                 ),
                               ),
                             )
@@ -120,6 +147,7 @@ class FormBook extends StatelessWidget {
                 ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: DropdownButtonFormField<String>(
+                    key: keyDropWaktu,
                     decoration: InputDecoration(
                       label: const Text('Waktu'),
                       border: OutlineInputBorder(
@@ -132,11 +160,10 @@ class FormBook extends StatelessWidget {
                     onChanged: (value) {
                       detail.selectWaktuVaksin(value);
                     },
-                    items: detail.listSession?.where((e) =>
-                            e.date.toString() == detail.selectTanggal)
-                        .map(
-                          (e) => DropdownMenuItem<String>(
-                            value: e.sessionName,
+                    items: detail.sessionTime?.map(
+                          (e) => 
+                          DropdownMenuItem<String>(
+                            value: '${e.startSession} - ${e.endSession}',
                             child: Text(
                               '${e.startSession} - ${e.endSession}',
                             ),

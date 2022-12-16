@@ -1,17 +1,13 @@
 import 'dart:ui' as ui;
-import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/styles/theme.dart';
-import 'package:vaksin_id_flutter/view/booking/detail_faskes/detail_faskes_screen.dart';
 import 'package:vaksin_id_flutter/view/home/component/nearby_screen/custom_info_window.dart';
 import 'package:vaksin_id_flutter/view/home/component/nearby_screen/header.dart';
 import 'package:vaksin_id_flutter/view/home/component/nearby_screen/list_sort_nearby.dart';
 import 'package:vaksin_id_flutter/view/home/null_location.dart';
-import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 import '../../view_model/home/home_view_model.dart';
 
@@ -39,7 +35,11 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   @override
   void dispose() {
     markers.clear();
-    Provider.of<HomeViewModel>(context, listen: false).gmController?.dispose();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<HomeViewModel>(context, listen: false).gmController?.dispose();
+      }
+    });
     customInfoWindowController.dispose();
     print('Dispose used');
     super.dispose();
