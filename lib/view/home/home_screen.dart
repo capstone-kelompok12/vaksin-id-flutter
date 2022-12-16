@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/services/home/home_service.dart';
-import 'package:vaksin_id_flutter/view/home/component/list_health_news.dart';
-import 'package:vaksin_id_flutter/view/home/component/list_nearby_hf.dart';
-import 'package:vaksin_id_flutter/view/home/component/vaccine_list.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 
-import '../../view_model/home_view_model.dart';
-import 'component/header.dart';
+import '../../view_model/home/home_view_model.dart';
+import 'component/home_screen/header.dart';
+import 'component/home_screen/list_health_news.dart';
+import 'component/home_screen/list_nearby_hf.dart';
+import 'component/home_screen/vaccine_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

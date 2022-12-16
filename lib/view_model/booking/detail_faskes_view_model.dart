@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
-import 'package:vaksin_id_flutter/models/session_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
-import 'package:vaksin_id_flutter/services/booking/detail_faskes_service.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
-import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
+
+import '../../models/session_model.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
   MyState myState = MyState.none;
@@ -36,8 +37,8 @@ class DetailFasKesViewModel with ChangeNotifier {
   // select list form
   String? _selectVaksin;
   String? get selectVaksin => _selectVaksin;
-  String? _selectDosis;
-  String? get selectDosis => _selectDosis;
+  int? _selectDosis;
+  int? get selectDosis => _selectDosis;
   String? _selectTanggal;
   String? get selectTanggal => _selectTanggal;
   String? _selectWaktu;
@@ -67,6 +68,9 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   void getClear() {
     selectJenisVaksin(null);
+    selectDosisVaksin(null);
+    selectTanggalVaksin(null);
+    selectWaktuVaksin(null);
   }
 
   // // get session
@@ -77,22 +81,49 @@ class DetailFasKesViewModel with ChangeNotifier {
   // }
 
   // get detail from home screen
-  final DetailFasKesService detailFasKes = DetailFasKesService();
   final HomeViewModel homeHf = HomeViewModel();
   SortDistanceHealthFacilities? _detailHf;
   SortDistanceHealthFacilities? get detailHf => _detailHf;
+  List<Vaccine>? _detailVaccine;
+  List<Vaccine>? get detailVaccine => _detailVaccine;
+  Map<String, Vaccine> vaccineMap = {};
+  final formatter = DateFormat('dd MMM yyyy');
 
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
     myState = MyState.loading;
     _detailHf = data.firstWhere((e) => e.name == name);
-    print('Vaccine: ${detailHf!.vaccine!.length}');
+    for (var item in detailHf!.vaccine!) {
+      vaccineMap[item.name!] = item;
+    }
+    _detailVaccine = vaccineMap.values.toList();
+    _detailVaccine?.forEach((element) {
+      print(element.name);
+    });
     myState = MyState.none;
+    notifyListeners();
   }
 
-  Vaccine? vaccineSession;
-  getVaccineSession(List<Vaccine> data) async {
-    vaccineSession = data.firstWhere((e) => e.name == selectVaksin);
-    print('vaccineSession: ${vaccineSession!.session!.length}');
+  List<Vaccine>? listVaccine;
+  getVaccineDose() {
+    // final vaccineList = data.where((e) => e.name == vaccine);
+    listVaccine = detailHf!.vaccine!.where((e) => e.name == selectVaksin).toList();
+    // getVaccineDate();
+    listVaccine?.forEach((element) {
+      print('vaccineDose: ${element.dose}');
+    });
+    notifyListeners();
+  }
+
+  List<Session>? listSession;
+  Map<String, Session> sessionMap = {};
+  getVaccineSession(int dose) {
+    final selectedVaccineDose = listVaccine!.firstWhere((e) => e.dose == dose);
+    for (var item in selectedVaccineDose.session!) {
+      sessionMap[item.sessionName!] = item;
+    }
+    listSession = sessionMap.values.toList();
+    print('data: ${listSession}');
+    notifyListeners();
   }
 }

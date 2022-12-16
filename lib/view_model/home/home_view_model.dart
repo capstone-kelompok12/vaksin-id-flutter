@@ -7,7 +7,7 @@ import 'package:vaksin_id_flutter/models/home/news_model.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/home/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
-import '../services/home/home_service.dart';
+import '../../services/home/home_service.dart';
 
 // enum ApiState { none, loading, error}
 
@@ -27,6 +27,7 @@ class HomeViewModel extends ChangeNotifier {
   double sizeHeading = 280;
   double paddingBottomHeading = 24;
   List<Marker> markers = [];
+  GoogleMapController? gmController;
   MyState apiState = MyState.none;
 
   checkGps() async {
@@ -166,5 +167,13 @@ class HomeViewModel extends ChangeNotifier {
     if (!await launchUrl(uri)) {
       throw 'Could not launch $url';
     }
+  }
+
+  animateGmController(LatLng loc, double zom) {
+    gmController?.animateCamera(CameraUpdate.newCameraPosition(
+    CameraPosition(
+      target: loc,
+      zoom: zom)));
+    notifyListeners();
   }
 }

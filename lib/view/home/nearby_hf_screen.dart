@@ -7,10 +7,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/booking/detail_faskes/detail_faskes_screen.dart';
+import 'package:vaksin_id_flutter/view/home/component/nearby_screen/custom_info_window.dart';
+import 'package:vaksin_id_flutter/view/home/component/nearby_screen/header.dart';
+import 'package:vaksin_id_flutter/view/home/component/nearby_screen/list_sort_nearby.dart';
 import 'package:vaksin_id_flutter/view/home/null_location.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
-import '../../view_model/home_view_model.dart';
+import '../../view_model/home/home_view_model.dart';
 
 class NearbyHfScreen extends StatefulWidget {
   const NearbyHfScreen({super.key});
@@ -26,7 +29,6 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   Uint8List? markerIcon;
   Uint8List? markerIconSelected;
   List<Marker> markers = [];
-  GoogleMapController? gmController;
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   @override
   void dispose() {
     markers.clear();
-    gmController?.dispose();
+    Provider.of<HomeViewModel>(context, listen: false).gmController?.dispose();
     customInfoWindowController.dispose();
     print('Dispose used');
     super.dispose();
@@ -54,12 +56,10 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   }
 
   addMarkers() async {
-    final listHf =
-        Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
-    // final loclistHf = Provider.of<HomeViewModel>(context, listen: false).locationListWithDistance;
+    final listHf = Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
+    final gmControl = Provider.of<HomeViewModel>(context, listen: false);
     markerIcon = await getBytesFromAsset('assets/hospital_loc_icon.png', 50);
-    markerIconSelected =
-        await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
+    markerIconSelected = await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
 
     if (listHf != null) {
       for (var x = 0; x < listHf.data!.healthFacilities!.length; x++) {
@@ -69,10 +69,8 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
             Marker(
               markerId: MarkerId('$x'),
               position: LatLng(
-                  double.parse(
-                      '${listHf.data!.healthFacilities![x].address!.latitude!}'),
-                  double.parse(
-                      '${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
               icon: BitmapDescriptor.fromBytes(markerIcon!),
               consumeTapEvents: true,
               visible: true,
@@ -83,87 +81,22 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                   setState(() {
                     if (selectedMarker != -1) {
                       print('selectedMarkerid: ${x}');
-                      markers[selectedMarker] = markers[selectedMarker]
-                          .copyWith(
-                              iconParam:
-                                  BitmapDescriptor.fromBytes(markerIcon!));
+                      markers[selectedMarker] = markers[selectedMarker].copyWith(
+                        iconParam:BitmapDescriptor.fromBytes(markerIcon!));
                     }
                     markers[x] = markers[x].copyWith(
-                        iconParam:
-                            BitmapDescriptor.fromBytes(markerIconSelected!));
+                      iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
                     selectedMarker = x;
                   });
                   print('selectedMarker2: $selectedMarker');
                 }
-                gmController?.animateCamera(CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                        target: LatLng(
-                            double.parse(
-                                    '${listHf.data!.healthFacilities![x].address!.latitude!}') +
-                                0.007216,
-                            double.parse(
-                                '${listHf.data!.healthFacilities![x].address!.longitude!}')),
-                        zoom: 13)));
+                gmControl.animateGmController(LatLng(
+                      double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}') + 0.007216,
+                      double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')), 13);
                 customInfoWindowController.addInfoWindow!(
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              width: double.infinity,
-                              height: double.infinity,
-                              child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '${listHf.data!.healthFacilities![x].name}',
-                                    textAlign: TextAlign.center,
-                                  )),
-                            ),
-                            Consumer<HomeViewModel>(
-                              builder: (context, value, _) => Material(
-                                color: Colors.transparent,
-                                child: Consumer<DetailFasKesViewModel>(
-                                  builder: (context, value2, _) => InkWell(
-                                    splashColor: primaryColor.withOpacity(0.3),
-                                    onTap: () {
-                                      value2.getDetailHealthFacilities(
-                                          value.locationListWithDistance,
-                                          value.locationListWithDistance[x]
-                                              .name!);
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DetailFasKesScreen(),
-                                      ));
-                                    },
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Triangle.isosceles(
-                        edge: Edge.BOTTOM,
-                        child: Container(
-                          color: Colors.white,
-                          width: 20.0,
-                          height: 10.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  LatLng(
-                      double.parse(
-                          '${listHf.data!.healthFacilities![x].address!.latitude!}'),
-                      double.parse(
-                          '${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                  HfInfoWindow(customInfoWindowController: customInfoWindowController, listHf: listHf, x: x),
+                  LatLng(double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                    double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
                 );
               },
             ),
@@ -187,218 +120,11 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                 ),
                 body: Column(
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 209,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          markers.isEmpty
-                              ? const Center(child: CircularProgressIndicator())
-                              : GoogleMap(
-                                  mapType: MapType.normal,
-                                  markers: Set<Marker>.of(markers),
-                                  myLocationEnabled: true,
-                                  myLocationButtonEnabled: false,
-                                  zoomControlsEnabled: false,
-                                  onCameraMove: (position) {
-                                    customInfoWindowController.onCameraMove!();
-                                  },
-                                  onTap: (argument) {
-                                    customInfoWindowController
-                                        .hideInfoWindow!();
-                                    if (selectedMarker != 0) {
-                                      setState(() {
-                                        markers[selectedMarker] =
-                                            markers[selectedMarker].copyWith(
-                                                iconParam:
-                                                    BitmapDescriptor.fromBytes(
-                                                        markerIcon!));
-                                        selectedMarker = 0;
-                                      });
-                                    }
-                                  },
-                                  initialCameraPosition: CameraPosition(
-                                    target: value.currentLatLng ??
-                                        const LatLng(-6.200000, 106.816666),
-                                    zoom: 11.5,
-                                  ),
-                                  onMapCreated: (controller) {
-                                    customInfoWindowController
-                                        .googleMapController = controller;
-                                    gmController = controller;
-                                  },
-                                ),
-                          CustomInfoWindow(
-                            controller: customInfoWindowController,
-                            height: 75,
-                            width: 150,
-                            offset: 50,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      color: Colors.blue),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        gmController?.animateCamera(
-                                            CameraUpdate.newCameraPosition(
-                                                CameraPosition(
-                                                    target:
-                                                        value.currentLatLng!,
-                                                    zoom: 11.5)));
-                                      },
-                                      icon: const Icon(
-                                        Icons.location_searching_sharp,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Consumer<HomeViewModel>(
-                        builder: (context, value, _) => value
-                                .locationListWithDistance.isEmpty
-                            ? const Center(child: CircularProgressIndicator())
-                            : Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20))),
-                                child: ListView.builder(
-                                  itemCount: value.listHealthFaci?.data
-                                      ?.healthFacilities?.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                      elevation: 2,
-                                      color: Colors.white,
-                                      child: Consumer<DetailFasKesViewModel>(
-                                        builder: (context, value2, _) =>
-                                            InkWell(
-                                          onTap: () {
-                                            value2.getDetailHealthFacilities(
-                                                value.locationListWithDistance,
-                                                value
-                                                    .locationListWithDistance[
-                                                        index]
-                                                    .name!);
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const DetailFasKesScreen(),
-                                            ));
-                                          },
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 8, left: 8, top: 8),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  child: Image.network(
-                                                    value
-                                                        .locationListWithDistance[
-                                                            index]
-                                                        .image!,
-                                                    width: 92,
-                                                    height: 92,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: SizedBox(
-                                                    height: 95,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          value
-                                                              .locationListWithDistance[
-                                                                  index]
-                                                              .name!,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w900,
-                                                                  fontSize: 14),
-                                                        ),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        4),
-                                                            child: Text(
-                                                              value
-                                                                  .locationListWithDistance[
-                                                                      index]
-                                                                  .address!,
-                                                              maxLines: 3,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontSize: 12),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          value
-                                                              .locationListWithDistance[
-                                                                  index]
-                                                              .distance!,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  primaryColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 12),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                      ),
+                    HeaderGoogleMaps(
+                      markers: markers, customInfoWindowController: customInfoWindowController, 
+                      selectedMarker: selectedMarker, markerIcon: markerIcon),
+                    const Expanded(
+                      child: ListSortNearby()
                     ),
                   ],
                 ))

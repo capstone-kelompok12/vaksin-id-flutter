@@ -1,4 +1,3 @@
-import 'package:flutter/src/material/dropdown.dart';
 import 'package:vaksin_id_flutter/models/session_model.dart';
 
 class Vaccine {
@@ -51,6 +50,4 @@ class Vaccine {
     }
     return data;
   }
-
-  map(DropdownMenuItem<Object> Function(dynamic e) param0) {}
 }
