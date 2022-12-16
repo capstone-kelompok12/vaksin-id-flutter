@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
+import 'package:vaksin_id_flutter/models/session_model.dart';
+import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/services/booking/detail_faskes_service.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/home_view_model.dart';
@@ -40,6 +42,8 @@ class DetailFasKesViewModel with ChangeNotifier {
   String? get selectTanggal => _selectTanggal;
   String? _selectWaktu;
   String? get selectWaktu => _selectWaktu;
+  String? _idSession;
+  String? get idSession => _idSession;
 
   void selectJenisVaksin(value) {
     _selectVaksin = value;
@@ -61,13 +65,16 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void getNullDropdown() {
-    _selectVaksin = null;
-    _selectDosis = null;
-    _selectTanggal = null;
-    _selectVaksin = null;
-    notifyListeners();
+  void getClear() {
+    selectJenisVaksin(null);
   }
+
+  // // get session
+  // List<Session> sessionVaccine = [];
+  // addsessionByVaccine() async {
+  //   sessionVaccine.clear();
+  //   for
+  // }
 
   // get detail from home screen
   final DetailFasKesService detailFasKes = DetailFasKesService();
@@ -79,7 +86,13 @@ class DetailFasKesViewModel with ChangeNotifier {
       List<SortDistanceHealthFacilities> data, String name) async {
     myState = MyState.loading;
     _detailHf = data.firstWhere((e) => e.name == name);
-    print('detailHf: ${detailHf!.session!.length}');
+    print('Vaccine: ${detailHf!.vaccine!.length}');
     myState = MyState.none;
+  }
+
+  Vaccine? vaccineSession;
+  getVaccineSession(List<Vaccine> data) async {
+    vaccineSession = data.firstWhere((e) => e.name == selectVaksin);
+    print('vaccineSession: ${vaccineSession!.session!.length}');
   }
 }

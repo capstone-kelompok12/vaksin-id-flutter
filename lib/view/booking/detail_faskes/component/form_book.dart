@@ -39,12 +39,15 @@ class FormBook extends StatelessWidget {
                       : Text('${detail.selectVaksin}'),
                   onChanged: (value) {
                     detail.selectJenisVaksin(value);
+                    detail.getVaccineSession(detail.detailHf!.vaccine!);
                   },
-                  items: detail.vaksin
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e),
+                  items: detail.detailHf?.vaccine
+                      ?.map(
+                        (e) => DropdownMenuItem<String>(
+                          value: e.name,
+                          child: Text(
+                            '${e.name}',
+                          ),
                         ),
                       )
                       .toList(),
@@ -62,18 +65,20 @@ class FormBook extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        value: detail.selectDosis,
-                        hint: detail.selectDosis == null
+                        hint: detail.selectDosis == null ||
+                                detail.vaccineSession!.session!.isEmpty
                             ? const Text('Pilih Dosis')
                             : Text('${detail.selectDosis}'),
                         onChanged: (value) {
                           detail.selectDosisVaksin(value);
                         },
-                        items: detail.dosis
-                            .map(
-                              (e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e),
+                        items: detail.vaccineSession!.session
+                            ?.map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e.dose.toString(),
+                                child: Text(
+                                  '${e.dose}',
+                                ),
                               ),
                             )
                             .toList(),
@@ -92,18 +97,22 @@ class FormBook extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        value: detail.selectTanggal,
-                        hint: detail.selectTanggal == null
+                        hint: detail.selectTanggal == null ||
+                                detail.vaccineSession!.session!.isEmpty
                             ? const Text('Pilih Tanggal')
                             : Text('${detail.selectTanggal}'),
                         onChanged: (value) {
                           detail.selectTanggalVaksin(value);
                         },
-                        items: detail.tanggal
+                        items: detail.vaccineSession!.session
+                            ?.where(
+                                (e) => e.dose.toString() == detail.selectDosis)
                             .map(
-                              (e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e),
+                              (e) => DropdownMenuItem<String>(
+                                value: e.date,
+                                child: Text(
+                                  '${e.date}',
+                                ),
                               ),
                             )
                             .toList(),
@@ -122,22 +131,24 @@ class FormBook extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        value: detail.selectWaktu,
                         hint: detail.selectWaktu == null
                             ? const Text('Pilih Waktu')
                             : Text('${detail.selectWaktu}'),
                         onChanged: (value) {
                           detail.selectWaktuVaksin(value);
                         },
-                        items: detail.waktu
+                        items: detail.vaccineSession!.session
+                            ?.where((e) =>
+                                e.date.toString() == detail.selectTanggal)
                             .map(
-                              (e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e),
+                              (e) => DropdownMenuItem<String>(
+                                value: e.sessionName,
+                                child: Text(
+                                  '${e.startSession} - ${e.endSession}',
+                                ),
                               ),
                             )
                             .toList(),
-                        // items: detail.detailHf!.session!.map((Session session) => DropdownMenuItem(value: ,child: Text('${session.startSession} - ${session.endSession}'),),),
                       ),
                     )
                   : const SizedBox(),

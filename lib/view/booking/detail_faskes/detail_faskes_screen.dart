@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view/booking/detail_faskes/component/form_book.dart';
@@ -20,9 +21,19 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
     final book = Provider.of<BookVaksinViewModel>(context, listen: false);
     book.penerimaVaksin = [];
     book.bookingList = [];
-    Provider.of<DetailFasKesViewModel>(context, listen: false)
-        .getNullDropdown();
+    // final detail = Provider.of<DetailFasKesViewModel>(context, listen: false);
+    // Provider.of<DetailFasKesViewModel>(context, listen: false).getClear();
   }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   final detail = Provider.of<DetailFasKesViewModel>(context, listen: false);
+  //   detail.selectJenisVaksin('');
+  //   detail.selectDosisVaksin('');
+  //   detail.selectTanggalVaksin('');
+  //   detail.selectWaktuVaksin('');
+  // }
 
   @override
   Widget build(BuildContext context) {

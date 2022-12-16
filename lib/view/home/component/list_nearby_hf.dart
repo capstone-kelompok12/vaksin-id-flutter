@@ -1,4 +1,3 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/booking/detail_faskes/detail_faskes_screen.dart';

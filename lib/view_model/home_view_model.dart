@@ -129,7 +129,8 @@ class HomeViewModel extends ChangeNotifier {
 
       if (distance! < 1) {
         final inMeters = distance * 1000;
-        locationListWithDistance.add(SortDistanceHealthFacilities(
+        locationListWithDistance.add(
+          SortDistanceHealthFacilities(
             fullname: listHealthFaci!.data!.user!.fullname!,
             nik: listHealthFaci!.data!.user!.nIK!,
             name: listHealthFaci!.data!.healthFacilities![x].name!,
@@ -138,9 +139,12 @@ class HomeViewModel extends ChangeNotifier {
             image: listHealthFaci!.data!.healthFacilities![x].image!,
             distance: '${inMeters.toStringAsFixed(2)} m',
             distanceSort: inMeters.toInt(),
-            session: listHealthFaci!.data!.healthFacilities![x].session));
+            vaccine: listHealthFaci!.data!.healthFacilities![x].vaccine,
+          ),
+        );
       } else {
-        locationListWithDistance.add(SortDistanceHealthFacilities(
+        locationListWithDistance.add(
+          SortDistanceHealthFacilities(
             fullname: listHealthFaci!.data!.user!.fullname!,
             nik: listHealthFaci!.data!.user!.nIK!,
             name: listHealthFaci!.data!.healthFacilities![x].name!,
@@ -149,7 +153,9 @@ class HomeViewModel extends ChangeNotifier {
             image: listHealthFaci!.data!.healthFacilities![x].image!,
             distance: '${distance.toStringAsFixed(2)} km',
             distanceSort: distance.toInt(),
-            session: listHealthFaci!.data!.healthFacilities![x].session));
+            vaccine: listHealthFaci!.data!.healthFacilities![x].vaccine,
+          ),
+        );
       }
     }
     notifyListeners();
