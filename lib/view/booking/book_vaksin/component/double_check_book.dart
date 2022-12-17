@@ -114,6 +114,16 @@ class DoubleCheckBook extends StatelessWidget {
                         if (book.isChecked == true) {
                           book.doubleCheck = book.isChecked;
                         }
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(28),
+                            ),
+                          ),
+                          context: context,
+                          builder: (context) => const BookSuccess(),
+                        );
                         Navigator.pop(context);
                         try {
                           await book.createBooking(book.bookingList);
