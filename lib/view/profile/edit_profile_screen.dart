@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/models/profile/edit_profile_model.dart';
-import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
+import 'package:vaksin_id_flutter/view/component/snackbar_message.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -18,6 +18,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController nikController = TextEditingController();
   TextEditingController namaController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController kataSandiController = TextEditingController();
   TextEditingController konfirmasiKataSandiController = TextEditingController();
@@ -46,12 +47,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     namaController =
         TextEditingController(text: profile.profile.dataUser!.fullname);
     dateController = TextEditingController(text: profile.birthday);
-    // profile.birthday = "";
+    genderController = TextEditingController(
+        text: profile.profile.dataUser!.gender == 'L'
+            ? 'Laki-laki'
+            : 'Perempuan');
     emailController =
         TextEditingController(text: profile.profile.dataUser!.email);
-    // kataSandiController = TextEditingController(text: profile.profile.dataUser!.kataSandi);
-    // konfirmasiKataSandiController = TextEditingController(text: profile.profile.dataUser!.konfirmasiKataSandi);
-    profile.checkGender();
+    kataSandiController =
+        TextEditingController(text: profile.profile.dataUser!.password);
+    konfirmasiKataSandiController =
+        TextEditingController(text: profile.profile.dataUser!.password);
   }
 
   @override
@@ -75,14 +80,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Consumer<ProfileViewModel>(
             builder: (context, profile, child) {
-              final data = profile.profile;
               return Form(
                 key: _formKey,
+                autovalidateMode: AutovalidateMode.always,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
                       controller: nikController,
+                      readOnly: true,
                       autofocus: true,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -107,6 +113,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     TextFormField(
                       controller: namaController,
                       autofocus: true,
+                      textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
                         hintStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
@@ -136,7 +143,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                         labelStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
-                        suffixIcon: const Icon(Icons.calendar_month_outlined),
+                        suffixIcon: const Icon(Icons.today),
                         hintText: profile.selectDate == null
                             ? "yyyy-MM-dd"
                             : profile.birthday,
@@ -157,34 +164,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    DropdownButtonFormField<String>(
+                    TextFormField(
+                      controller: genderController,
+                      autofocus: true,
+                      readOnly: true,
                       decoration: InputDecoration(
                         hintStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                         labelStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
-                        label: const Text('Jenis Kelamin'),
+                        labelText: "Jenis Kelamin",
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+                            borderRadius: BorderRadius.circular(4)),
                       ),
-                      value: profile.selectjenisKelamin,
-                      validator: (value) =>
-                          value == null ? 'Pilih jenis kelamin !' : null,
-                      hint: profile.selectjenisKelamin == null
-                          ? const Text('Pilih jenis kelamin')
-                          : Text('${profile.selectjenisKelamin}'),
-                      onChanged: (value) {
-                        profile.pilihJenisKelamin(value);
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Nama tidak boleh kosong.';
+                        }
+                        return null;
                       },
-                      items: profile.jenisKelamin
-                          .map(
-                            (e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e),
-                            ),
-                          )
-                          .toList(),
                     ),
                     const SizedBox(
                       height: 16,
@@ -272,34 +270,60 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               : null,
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 36,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF006D39),
+                    SizedBox(
+                      height: 48,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF006D39),
+                        ),
+                        child: const Text(
+                          'Simpan',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+
+                            try {
+                              await profile.editUsersProfile(
+                                EditProfileModel(
+                                  nik: nikController.text,
+                                  email: emailController.text,
+                                  password: kataSandiController.text,
+                                  fullname: namaController.text,
+                                  gender: genderController.text == 'Laki-laki'
+                                      ? 'L'
+                                      : 'P',
+                                  birthdate: dateController.text,
+                                ),
+                              );
+                              await profile.editUsersProfile(
+                                EditProfileModel(
+                                  nik: nikController.text,
+                                  email: emailController.text,
+                                  password: kataSandiController.text,
+                                  fullname: namaController.text,
+                                  gender: genderController.text == 'Laki-laki'
+                                      ? 'L'
+                                      : 'P',
+                                  birthdate: dateController.text,
+                                ),
+                              );
+
+                              if (mounted) {}
+                              snackbarMessage(context, 'Berhasil Edit Profile');
+                              Navigator.pop(context);
+                            } catch (e) {
+                              snackbarMessage(context, 'Gagal Edit Profile');
+                            }
+                          }
+                        },
                       ),
-                      child: const Text(
-                        'Simpan',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          await profile.editUsersProfile(EditProfileModel(
-                            nik: nikController.text,
-                            email: emailController.text,
-                            password: kataSandiController.text,
-                            fullname: namaController.text,
-                            phonenum: data.dataUser!.phoneNum,
-                            gender: profile.selectjenisKelamin,
-                            birthdate: profile.birthday,
-                          ));
-                          Navigator.pop(context);
-                        }
-                      },
                     ),
                   ],
                 ),

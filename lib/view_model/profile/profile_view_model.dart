@@ -35,7 +35,6 @@ class ProfileViewModel extends ChangeNotifier {
 
   Future<void> editUsersProfile(EditProfileModel update) async {
     await profileService.editUserProfile(update);
-    print(update.fullname);
     notifyListeners();
   }
 

@@ -32,10 +32,10 @@ class ProfileService {
   }
 
   Future<void> editUserProfile(EditProfileModel user) async {
-    SharedService sharedService = SharedService();
-    String token = sharedService.getToken().toString();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('Token').toString();
     try {
-      await Dio().put(
+      final response = await Dio().put(
         '$baseUrl/profile',
         data: user.toJson(),
         options: Options(
@@ -45,11 +45,11 @@ class ProfileService {
           },
         ),
       );
-      print(user.toJson);
-    } catch (e) {
-      if (e is DioError) {
-        throw e.response!.data['error'].toString();
-      }
+      print('CEKM PUT = ${response}');
+    } on DioError catch (e) {
+      print(e.response!.statusCode);
+      print(e.response!.statusMessage);
+      rethrow;
     }
   }
 }

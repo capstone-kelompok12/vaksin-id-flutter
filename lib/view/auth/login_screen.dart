@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: const Icon(Icons.mail),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         label: const Text('Email'),
-                        hintText: 'Masukkan email',
+                        hintText: 'contoh:hi@gmail.com',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             prefixIcon: const Icon(Icons.lock),
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             label: const Text('Kata sandi'),
-                            hintText: 'Masukkan kata sandi',
+                            hintText: 'contoh:Ajsk01. ',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
