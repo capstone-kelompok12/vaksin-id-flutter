@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
+import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 import '../../models/session_model.dart';
 
@@ -152,6 +157,24 @@ class DetailFasKesViewModel with ChangeNotifier {
     });
     print(selectWaktu!.substring(0, 5));
     print('dateBooking: ${selectSession!.date}');
+    notifyListeners();
+  }
+
+  // check status tiket history
+  TiketVaksinViewModel historyService = TiketVaksinViewModel();
+  bool status = false;
+  History bookingOnProgress = History(status: '');
+  checkStatusBooking() async {
+    // await historyService.getTiketHistory();
+    final booking = historyService.tiketVaksin.data!.history;
+    bookingOnProgress = booking!
+        .firstWhere((e) => e.status == 'OnProcess' || e.status == 'Accepted');
+    print(jsonEncode('status booking : ${bookingOnProgress.status}'));
+    if (bookingOnProgress.status != null) {
+      status = true;
+    } else {
+      status = false;
+    }
     notifyListeners();
   }
 }

@@ -55,7 +55,6 @@ class BookVaksinViewModel extends ChangeNotifier {
     });
     print(jsonEncode(bookingList));
     notifyListeners();
-    print(jsonEncode(bookingList));
   }
 
   void deletePenerima(int index) {

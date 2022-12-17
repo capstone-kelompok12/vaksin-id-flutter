@@ -117,20 +117,19 @@ class DoubleCheckBook extends StatelessWidget {
                         }
                         try {
                           await book.createBooking(book.bookingList);
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(28),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) => const BookSuccess(),
+                          );
                         } catch (e) {
                           print(e);
                         }
-
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(28),
-                            ),
-                          ),
-                          context: context,
-                          builder: (context) => const BookSuccess(),
-                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF006D39),

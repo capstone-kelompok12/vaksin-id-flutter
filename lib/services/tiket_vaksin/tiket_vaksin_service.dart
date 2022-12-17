@@ -28,4 +28,25 @@ class TiketVaksinService {
       rethrow;
     }
   }
+
+  Future<void> cancelBooking(
+      String nik, String bookingId, String idSession) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('Token').toString();
+    try {
+      final response = await dio.put('$baseUrl/users/bookings/$nik/cancel',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+          ),
+          data: {"booking_id": bookingId, "id_session": idSession});
+      print('nik user = $nik');
+      print('cancel booking response: ${response.data}');
+    } on DioError catch (e) {
+      print(e.response!.statusCode);
+      rethrow;
+    }
+  }
 }

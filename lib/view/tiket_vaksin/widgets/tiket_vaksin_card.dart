@@ -6,14 +6,12 @@ import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_detail.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 class TiketVaksinCard extends StatelessWidget {
-  // final String vaksin;
-  // final String statusTiket;
+  final String nama;
   final History history;
   const TiketVaksinCard({
     super.key,
-    // required this.vaksin,
     required this.history,
-    // required this.statusTiket,
+    required this.nama,
   });
 
   @override
@@ -27,6 +25,7 @@ class TiketVaksinCard extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => TiketVaksinDetail(
                 history: history,
+                nama: nama,
               ),
             ),
           );
@@ -52,7 +51,7 @@ class TiketVaksinCard extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(10),
                   ),
-                  color: history.status == 'OnProccess'
+                  color: history.status == 'OnProcess'
                       ? const Color(0xffFFE082)
                       : history.status == 'Accepted'
                           ? const Color(0xffCEFFAC)
@@ -62,14 +61,14 @@ class TiketVaksinCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    history.status == 'OnProccess'
+                    history.status == 'OnProcess'
                         ? 'Menunggu Konfirmasi'
                         : history.status == 'Accepted'
                             ? 'Telah diterima'
                             : history.status == 'Rejected'
                                 ? 'Telah ditolak'
-                                : 'Canceled',
-                    style: history.status == 'OnProccess'
+                                : 'Dibatalkan',
+                    style: history.status == 'OnProcess'
                         ? TextStyle(
                             color: const Color(0xff564500),
                             fontWeight: medium,
@@ -190,7 +189,7 @@ class TiketVaksinCard extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          'RS. Pondok Indah',
+                          '${history.booking!.healthFacilities!.name}',
                           style: blackTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: medium,
@@ -207,11 +206,16 @@ class TiketVaksinCard extends StatelessWidget {
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text(
-                          '${history.booking!.session!.date}',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: medium,
+                        Consumer<TiketVaksinViewModel>(
+                          builder: (context, format, child) => Text(
+                            format.formatter.format(
+                              DateTime.parse(history.booking!.session!.date!
+                                  .split('T')[0]),
+                            ),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 16,
+                              fontWeight: medium,
+                            ),
                           ),
                         ),
                       ],
