@@ -32,33 +32,52 @@ class BookVaksinService {
     return PenerimaVaksinModel.fromJson(response.data['data']);
   }
 
-  Future createBooking(List bookingList) async {
-    SharedService sharedService = SharedService();
-    String token = sharedService.getToken().toString();
-    late Response response;
-    final bookingListJson = jsonEncode(bookingList);
+  // Future createBooking(List bookingList) async {
+  //   SharedService sharedService = SharedService();
+  //   String token = sharedService.getToken().toString();
+  //   late Response response;
+  //   final bookingListJson = jsonEncode(bookingList);
+  //   print('data booking : $bookingListJson');
+  //   try {
+  //     response = await dio.post(
+  //       '$baseURL/users/bookings',
+  //       options: Options(
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       ),
+  //       data: bookingListJson,
+  //     );
+
+  //     // final result = BookingModel.fromJson(response.data);
+  //     print('response booking: ${response.data}');
+  //   } on DioError catch (error) {
+  //     // if (error.response!.statusCode == 401) {
+  //     //   throw Error();
+  //     // }
+  //     // print(error);
+  //     print(error);
+  //     throw Error();
+  //   }
+  // }
+
+  Future<void> createBooking(List? bookingList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('Token').toString();
     try {
-      response = await dio.post(
-        '$baseURL/users/bookings',
-        data: bookingListJson,
+      final response = await Dio().post(
+        "$baseURL/users/bookings",
         options: Options(
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',
           },
         ),
+        data: jsonEncode(bookingList),
       );
-
-      // final result = BookingModel.fromJson(response.data);
-      print('data booking : $bookingListJson');
-      print('response booking: ${response.data}');
-    } on DioError catch (error) {
-      if (error.response!.statusCode == 401) {
-        throw Error();
-      }
-      print(error);
-      throw Error();
+      return response.data['data'];
+    } on DioError catch (e) {
+      print(e.response!.data['message']);
     }
-    return BookingBook.fromJson(response.data);
   }
 }

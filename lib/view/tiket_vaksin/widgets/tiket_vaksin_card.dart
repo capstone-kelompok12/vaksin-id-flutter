@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_detail.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 class TiketVaksinCard extends StatelessWidget {
-  final String vaksin;
-  final String statusTiket;
+  // final String vaksin;
+  // final String statusTiket;
+  final History history;
   const TiketVaksinCard({
     super.key,
-    required this.vaksin,
-    required this.statusTiket,
+    // required this.vaksin,
+    required this.history,
+    // required this.statusTiket,
   });
 
   @override
@@ -20,8 +25,9 @@ class TiketVaksinCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const TiketVaksinDetail(
-                  statusTiket: 'diterima', vaksin: 'Sinovac'),
+              builder: (context) => TiketVaksinDetail(
+                history: history,
+              ),
             ),
           );
         },
@@ -46,34 +52,34 @@ class TiketVaksinCard extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(10),
                   ),
-                  color: statusTiket == 'menunggu'
+                  color: history.status == 'OnProccess'
                       ? const Color(0xffFFE082)
-                      : statusTiket == 'diterima'
+                      : history.status == 'Accepted'
                           ? const Color(0xffCEFFAC)
-                          : statusTiket == 'ditolak'
+                          : history.status == 'Rejected'
                               ? const Color(0xffFFDAD6)
                               : const Color(0xffE1E3DE),
                 ),
                 child: Center(
                   child: Text(
-                    statusTiket == 'menunggu'
+                    history.status == 'OnProccess'
                         ? 'Menunggu Konfirmasi'
-                        : statusTiket == 'diterima'
+                        : history.status == 'Accepted'
                             ? 'Telah diterima'
-                            : statusTiket == 'ditolak'
+                            : history.status == 'Rejected'
                                 ? 'Telah ditolak'
-                                : 'Dibatalkan',
-                    style: statusTiket == 'menunggu'
+                                : 'Canceled',
+                    style: history.status == 'OnProccess'
                         ? TextStyle(
                             color: const Color(0xff564500),
                             fontWeight: medium,
                           )
-                        : statusTiket == 'diterima'
+                        : history.status == 'Accepted'
                             ? TextStyle(
                                 color: const Color(0xff285E00),
                                 fontWeight: medium,
                               )
-                            : statusTiket == 'ditolak'
+                            : history.status == 'Rejected'
                                 ? TextStyle(
                                     color: const Color(0xff93000A),
                                     fontWeight: medium,
@@ -85,7 +91,7 @@ class TiketVaksinCard extends StatelessWidget {
                   ),
                 ),
               ),
-              statusTiket == 'diterima'
+              history.status == 'Accepted'
                   ? Container(
                       margin: const EdgeInsets.only(
                         top: 12,
@@ -108,7 +114,7 @@ class TiketVaksinCard extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '1',
+                                history.booking!.queue.toString(),
                                 style: blackTextStyle.copyWith(
                                   fontSize: 24,
                                   fontWeight: semiBold,
@@ -140,7 +146,7 @@ class TiketVaksinCard extends StatelessWidget {
                 width: double.infinity,
                 child: Center(
                   child: Text(
-                    vaksin,
+                    history.booking!.session!.vaccine!.name!,
                     style: blackTextStyle.copyWith(
                       fontSize: 22,
                       fontWeight: medium,
@@ -166,7 +172,7 @@ class TiketVaksinCard extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          'Dosis Pertama',
+                          'Dosis ${history.booking!.session!.dose!}',
                           style: blackTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: medium,
@@ -202,7 +208,7 @@ class TiketVaksinCard extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          '30 November 2022',
+                          '${history.booking!.session!.date}',
                           style: blackTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: medium,
@@ -220,7 +226,7 @@ class TiketVaksinCard extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          '08.00 - 11.00 WIB',
+                          '${history.booking!.session!.startSession} - ${history.booking!.session!.endSession} WIB',
                           style: blackTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: medium,

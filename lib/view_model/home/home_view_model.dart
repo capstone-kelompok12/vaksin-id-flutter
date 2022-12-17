@@ -170,10 +170,8 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   animateGmController(LatLng loc, double zom) {
-    gmController?.animateCamera(CameraUpdate.newCameraPosition(
-    CameraPosition(
-      target: loc,
-      zoom: zom)));
+    gmController?.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(target: loc, zoom: zom)));
     notifyListeners();
   }
 }

@@ -56,7 +56,8 @@ class FormBook extends StatelessWidget {
                       ?.map(
                         (e) => DropdownMenuItem<String>(
                           value: e.name,
-                          child: Text('${e.name}',
+                          child: Text(
+                            '${e.name}',
                           ),
                         ),
                       )
@@ -76,10 +77,10 @@ class FormBook extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
-                        // value: null,
-                        hint: detail.selectDosis == null || detail.listVaccine!.isEmpty 
-                          ? const Text('Pilih Dosis')
-                          : Text('${detail.selectDosis}'),
+                        hint: detail.selectDosis == null ||
+                                detail.listVaccine!.isEmpty
+                            ? const Text('Pilih Dosis')
+                            : Text('${detail.selectDosis}'),
                         onChanged: (value) {
                           if (detail.selectDosis != null) {
                             // detail.listVaccine?.clear();
@@ -92,7 +93,8 @@ class FormBook extends StatelessWidget {
                           detail.selectDosisVaksin(int.parse(value!));
                           detail.getVaccineSession();
                         },
-                        items: detail.listVaccine?.map(
+                        items: detail.listVaccine
+                            ?.map(
                               (e) => DropdownMenuItem<String>(
                                 value: e.dose.toString(),
                                 child: Text(
@@ -129,11 +131,13 @@ class FormBook extends StatelessWidget {
                               .format(DateTime.parse(value!.split('T')[0])));
                           detail.getVaccineSessionTime();
                         },
-                        items: detail.listSession?.map(
+                        items: detail.listSession!
+                            .map(
                               (e) => DropdownMenuItem<String>(
                                 value: '${e.date}',
                                 child: Text(
-                                  detail.formatter.format(DateTime.parse(e.date!.split('T')[0])),
+                                  detail.formatter.format(
+                                      DateTime.parse(e.date!.split('T')[0])),
                                 ),
                               ),
                             )
@@ -159,6 +163,7 @@ class FormBook extends StatelessWidget {
                         : Text('${detail.selectWaktu}'),
                     onChanged: (value) {
                       detail.selectWaktuVaksin(value);
+                      detail.getIdSession(detail.sessionTime!);
                     },
                     items: detail.sessionTime?.map(
                           (e) => 

@@ -75,13 +75,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     // listVaccine.clear();
   }
 
-  // // get session
-  // List<Session> sessionVaccine = [];
-  // addsessionByVaccine() async {
-  //   sessionVaccine.clear();
-  //   for
-  // }
-
   // get detail from home screen
   final HomeViewModel homeHf = HomeViewModel();
   SortDistanceHealthFacilities? _detailHf;
@@ -89,14 +82,13 @@ class DetailFasKesViewModel with ChangeNotifier {
   List<Vaccine>? _detailVaccine;
   List<Vaccine>? get detailVaccine => _detailVaccine;
   Map<String, Vaccine> vaccineMap = {};
-  final formatter = DateFormat('dd MMM yyyy');
+  final formatter = DateFormat('d MMMM yyyy','id');
   String? changed;
 
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
     myState = MyState.loading;
     vaccineMap.clear();
-    // _detailVaccine!.clear();
     _detailHf = data.firstWhere((e) => e.name == name);
     for (var item in detailHf!.vaccine!) {
       vaccineMap[item.name!] = item;
@@ -146,5 +138,20 @@ class DetailFasKesViewModel with ChangeNotifier {
     for (var time in sessionTime!) {
       print('jam: ${time.startSession} - ${time.endSession}');
     }
+  }
+
+  Session? selectSession;
+  void getIdSession(List<Session> data) {
+    selectSession = data.firstWhere(
+      (e) {
+        final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
+        return e.startSession == selectWaktu?.substring(0, 5) &&
+              listDate == selectTanggal &&
+              e.dose == selectDosis;
+      }
+    );
+    print(selectWaktu!.substring(0, 5));
+    print('dateBooking: ${selectSession!.date}');
+    notifyListeners();
   }
 }
