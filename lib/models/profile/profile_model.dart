@@ -33,6 +33,8 @@ class Data {
     this.vaccineCount,
     this.age,
     this.address,
+    this.password,
+    this.birthdate,
   });
   late final String? nik;
   late final String? email;
@@ -42,6 +44,8 @@ class Data {
   late final int? vaccineCount;
   late final int? age;
   late final AddressUser? address;
+  late final String? password;
+  late final String? birthdate;
 
   Data.fromJson(Map<String?, dynamic> json) {
     nik = json['NIK'];
@@ -52,6 +56,8 @@ class Data {
     vaccineCount = json['VaccineCount'];
     age = json['Age'];
     address = AddressUser.fromJson(json['Address']);
+    password = json['Password'];
+    birthdate = json['BirthDate'];
   }
 
   Map<String?, dynamic> toJson() {
@@ -64,6 +70,8 @@ class Data {
     data['VaccineCount'] = vaccineCount;
     data['Age'] = age;
     data['Address'] = address!.toJson();
+    data['Password'] = password;
+    data['BirthDate'] = birthdate;
     return data;
   }
 }
