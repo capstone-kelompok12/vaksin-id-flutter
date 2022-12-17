@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavigationBarScreen(),
+                                    const BottomNavigationBarScreen(setIndex: 0),
                               ),
                             );
                           }

@@ -130,11 +130,11 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                           // FormBook()
                           Consumer<TiketVaksinViewModel>(
                               builder: (context, value, child) {
-                            final booking = value.tiketVaksin.data!.history;
+                            final booking = value.tiketVaksin.data?.history;
 
-                            return booking! == []
+                            return booking == []
                                 ? FormBook()
-                                : detail.status != false
+                                : detail.status == false
                                     ? FormBook()
                                     : const CannotBook();
                           }),

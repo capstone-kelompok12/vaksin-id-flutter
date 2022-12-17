@@ -186,10 +186,12 @@ class TiketVaksinCard extends StatelessWidget {
                           color: blackColor,
                         ),
                         const SizedBox(
-                          width: 8.0,
+                          width: 7.0,
                         ),
                         Text(
                           '${history.booking!.healthFacilities!.name}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: blackTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: medium,

@@ -84,11 +84,7 @@ class _HeaderGoogleMapsState extends State<HeaderGoogleMaps> {
                         color: Colors.blue),
                     child: IconButton(
                         onPressed: () {
-                          value.gmController?.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                  CameraPosition(
-                                      target: value.currentLatLng!,
-                                      zoom: 11.5)));
+                          value.animateGmController(value.currentLatLng!, 11.5);
                         },
                         icon: const Icon(
                           Icons.location_searching_sharp,

@@ -163,14 +163,14 @@ class DetailFasKesViewModel with ChangeNotifier {
   // check status tiket history
   TiketVaksinViewModel historyService = TiketVaksinViewModel();
   bool status = false;
-  History bookingOnProgress = History(status: '');
+  History? bookingOnProgress;
   checkStatusBooking() async {
-    // await historyService.getTiketHistory();
-    final booking = historyService.tiketVaksin.data!.history;
-    bookingOnProgress = booking!
-        .firstWhere((e) => e.status == 'OnProcess' || e.status == 'Accepted');
-    print(jsonEncode('status booking : ${bookingOnProgress.status}'));
-    if (bookingOnProgress.status != null) {
+    await historyService.getTiketHistory();
+    final booking = historyService.tiketVaksin.data?.history;
+    bookingOnProgress = booking?.firstWhere((e) => 
+      e.status == 'OnProcess' || e.status == 'Accepted',  orElse: () => History());
+    print('status booking : ${bookingOnProgress?.status}');
+    if (bookingOnProgress?.status != null) {
       status = true;
     } else {
       status = false;
