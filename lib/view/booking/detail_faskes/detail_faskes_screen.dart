@@ -18,9 +18,6 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
   @override
   void initState() {
     super.initState();
-    final book = Provider.of<BookVaksinViewModel>(context, listen: false);
-    book.penerimaVaksin = [];
-    book.bookingList = [];
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<DetailFasKesViewModel>(context, listen: false).getClear();
     });

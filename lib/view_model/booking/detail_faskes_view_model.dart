@@ -124,7 +124,7 @@ class DetailFasKesViewModel with ChangeNotifier {
   void getIdSession(List<Session> data) {
     selectSession = data.firstWhere(
       (e) =>
-          e.sessionName == selectWaktu &&
+          e.startSession == selectWaktu &&
           e.date == selectTanggal &&
           e.dose == e.dose,
     );

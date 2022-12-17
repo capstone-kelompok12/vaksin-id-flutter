@@ -143,7 +143,7 @@ class FormBook extends StatelessWidget {
                                 e.date.toString() == detail.selectTanggal)
                             .map(
                               (e) => DropdownMenuItem<String>(
-                                value: e.sessionName,
+                                value: e.startSession,
                                 child: Text(
                                   '${e.startSession} - ${e.endSession}',
                                 ),
