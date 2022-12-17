@@ -9,6 +9,8 @@ class SortDistanceHealthFacilities {
   String? address;
   String? image;
   String? distance;
+  double? latitude;
+  double? longitude;
   int? distanceSort;
   List<Vaccine>? vaccine;
   List<Session>? session;
@@ -20,6 +22,8 @@ class SortDistanceHealthFacilities {
     this.address,
     this.image,
     this.distance,
+    this.latitude,
+    this.longitude,
     this.distanceSort,
     this.vaccine,
     this.session,
@@ -32,6 +36,8 @@ class SortDistanceHealthFacilities {
     address = json['address'];
     image = json['image'];
     distance = json['distance'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     distanceSort = json['distanceSort'];
     if (json['vaccine'] != null) {
       vaccine = <Vaccine>[];
@@ -55,6 +61,8 @@ class SortDistanceHealthFacilities {
     data['address'] = address;
     data['image'] = image;
     data['distance'] = distance;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
     data['distanceSort'] = distanceSort;
     if (vaccine != null) {
       data['vaccine'] = vaccine!.map((v) => v.toJson()).toList();

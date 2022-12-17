@@ -98,7 +98,7 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                                         shape: const CircleBorder(),
                                         minWidth: 0,
                                         height: 40,
-                                        onPressed: () {},
+                                        onPressed: () => detail.openMap(detail.detailHf!.latitude!, detail.detailHf!.longitude!),
                                         child: const Icon(
                                           Icons.near_me_outlined,
                                           color: Colors.black,

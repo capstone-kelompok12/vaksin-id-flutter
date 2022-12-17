@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:vaksin_id_flutter/models/booking/booking_session_model.dart';
 import 'package:vaksin_id_flutter/models/booking/penerima_vaksin_model.dart';
 import 'package:vaksin_id_flutter/services/booking/book_vaksin_service.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
@@ -64,7 +63,7 @@ class BookVaksinViewModel extends ChangeNotifier {
   }
 
   // create booking
-  BookingModel bookingModel = BookingModel();
+  // BookingModel bookingModel = BookingModel();
   Future createBooking(List book) async {
     final bookList = book;
     try {

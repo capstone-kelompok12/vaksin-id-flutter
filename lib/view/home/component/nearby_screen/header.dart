@@ -31,7 +31,7 @@ class _HeaderGoogleMapsState extends State<HeaderGoogleMaps> {
             widget.markers.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : GoogleMap(
-                    mapType: MapType.normal,
+                    mapType: MapType.terrain,
                     markers: Set<Marker>.of(widget.markers),
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,

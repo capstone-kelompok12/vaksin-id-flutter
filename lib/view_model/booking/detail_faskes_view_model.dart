@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
 import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
@@ -13,33 +14,7 @@ import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_mode
 import '../../models/session_model.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
-  MyState myState = MyState.none;
 
-  // hardcode list item
-  final List<String> _vaksin = [
-    'Sinovac',
-    'Moderna',
-    'Ptfizer',
-  ];
-  List<String> get vaksin => _vaksin;
-  final List<String> _dosis = [
-    'Dosis 1',
-    'Dosis 2',
-    'Dosis 3',
-  ];
-  List<String> get dosis => _dosis;
-  final List<String> _tanggal = [
-    '27 Desember 2022',
-    '28 Desember 2022',
-  ];
-  List<String> get tanggal => _tanggal;
-  final List<String> _waktu = [
-    '08.00 - 11.00',
-    '13.00 - 16.00',
-  ];
-  List<String> get waktu => _waktu;
-
-  // select list form
   String? _selectVaksin;
   String? get selectVaksin => _selectVaksin;
   int? _selectDosis;
@@ -50,6 +25,15 @@ class DetailFasKesViewModel with ChangeNotifier {
   String? get selectWaktu => _selectWaktu;
   String? _idSession;
   String? get idSession => _idSession;
+  MyState myState = MyState.none;
+  List<Session>? listSession;
+  List<Session>? sessionTime;
+  Map<String, Session> sessionMap = {};
+  Map<String, Session> timeMap = {};
+  Session? selectSession;
+  TiketVaksinViewModel historyService = TiketVaksinViewModel();
+  bool status = false;
+  History? bookingOnProgress;
 
   void selectJenisVaksin(value) {
     _selectVaksin = value;
@@ -76,8 +60,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     selectDosisVaksin(null);
     selectTanggalVaksin(null);
     selectWaktuVaksin(null);
-    // listSession.clear();
-    // listVaccine.clear();
   }
 
   // get detail from home screen
@@ -87,8 +69,16 @@ class DetailFasKesViewModel with ChangeNotifier {
   List<Vaccine>? _detailVaccine;
   List<Vaccine>? get detailVaccine => _detailVaccine;
   Map<String, Vaccine> vaccineMap = {};
+  List<Vaccine>? listVaccine;
   final formatter = DateFormat('d MMMM yyyy', 'id');
   String? changed;
+
+  Future openMap(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (!await launchUrl(Uri.parse(googleUrl))) {
+      throw 'Could not open the map.';
+    }
+  }
 
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
@@ -106,7 +96,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Vaccine>? listVaccine;
   getVaccineDose() {
     listVaccine =
         detailHf!.vaccine!.where((e) => e.name == selectVaksin).toList();
@@ -116,10 +105,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Session>? listSession;
-  List<Session>? sessionTime;
-  Map<String, Session> sessionMap = {};
-  Map<String, Session> timeMap = {};
   getVaccineSession() {
     if (sessionMap.isNotEmpty) {
       listSession?.clear();
@@ -147,7 +132,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     }
   }
 
-  Session? selectSession;
   void getIdSession(List<Session> data) {
     selectSession = data.firstWhere((e) {
       final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
@@ -161,9 +145,6 @@ class DetailFasKesViewModel with ChangeNotifier {
   }
 
   // check status tiket history
-  TiketVaksinViewModel historyService = TiketVaksinViewModel();
-  bool status = false;
-  History? bookingOnProgress;
   checkStatusBooking() async {
     await historyService.getTiketHistory();
     final booking = historyService.tiketVaksin.data?.history;
