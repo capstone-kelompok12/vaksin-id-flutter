@@ -18,13 +18,11 @@ class RiwayatVaksin extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: history!.history!.length,
                   itemBuilder: (context, index) =>
-                      history.history![index].status != 'OnProccess' &&
+                      history.history![index].status != 'OnProcess' &&
                               history.history![index].status != 'Accepted'
                           ? TiketVaksinCard(
-                              //   vaksin:
-                              //       history.history![index].booking!.session!.vaccine!.name!,
-                              //   statusTiket: history.history![index].status!,
-                              history: value.tiketVaksin.data!.history![index],
+                              history: history.history![index],
+                              nama: history.fullname!,
                             )
                           : const SizedBox());
             },

@@ -1,3 +1,5 @@
+import 'package:vaksin_id_flutter/models/session_model.dart';
+
 class TiketVaksinModel {
   Data? data;
   bool? error;
@@ -12,7 +14,7 @@ class TiketVaksinModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,7 +33,6 @@ class Data {
   int? vaccineCount;
   String? birthDate;
   int? age;
-  Address? address;
   List<History>? history;
 
   Data(
@@ -43,7 +44,6 @@ class Data {
       this.vaccineCount,
       this.birthDate,
       this.age,
-      this.address,
       this.history});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -55,8 +55,6 @@ class Data {
     vaccineCount = json['VaccineCount'];
     birthDate = json['BirthDate'];
     age = json['Age'];
-    address =
-        json['Address'] != null ? Address.fromJson(json['Address']) : null;
     if (json['History'] != null) {
       history = <History>[];
       json['History'].forEach((v) {
@@ -75,58 +73,9 @@ class Data {
     data['VaccineCount'] = vaccineCount;
     data['BirthDate'] = birthDate;
     data['Age'] = age;
-    if (address != null) {
-      data['Address'] = address!.toJson();
-    }
     if (history != null) {
       data['History'] = history!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class Address {
-  String? iD;
-  String? nikUser;
-  String? currentAddress;
-  String? district;
-  String? city;
-  String? province;
-  int? latitude;
-  int? longitude;
-
-  Address({
-    this.iD,
-    this.nikUser,
-    this.currentAddress,
-    this.district,
-    this.city,
-    this.province,
-    this.latitude,
-    this.longitude,
-  });
-
-  Address.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    nikUser = json['NikUser'];
-    currentAddress = json['CurrentAddress'];
-    district = json['District'];
-    city = json['City'];
-    province = json['Province'];
-    latitude = json['Latitude'];
-    longitude = json['Longitude'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['ID'] = iD;
-    data['NikUser'] = nikUser;
-    data['CurrentAddress'] = currentAddress;
-    data['District'] = district;
-    data['City'] = city;
-    data['Province'] = province;
-    data['Latitude'] = latitude;
-    data['Longitude'] = longitude;
     return data;
   }
 }
@@ -137,7 +86,6 @@ class History {
   String? nikUser;
   String? idSameBook;
   String? status;
-  User? user;
   Booking? booking;
 
   History(
@@ -146,7 +94,6 @@ class History {
       this.nikUser,
       this.idSameBook,
       this.status,
-      this.user,
       this.booking});
 
   History.fromJson(Map<String, dynamic> json) {
@@ -155,7 +102,6 @@ class History {
     nikUser = json['NikUser'];
     idSameBook = json['IdSameBook'];
     status = json['Status'];
-    user = json['User'] != null ? User.fromJson(json['User']) : null;
     booking =
         json['Booking'] != null ? Booking.fromJson(json['Booking']) : null;
   }
@@ -167,9 +113,6 @@ class History {
     data['NikUser'] = nikUser;
     data['IdSameBook'] = idSameBook;
     data['Status'] = status;
-    if (user != null) {
-      data['User'] = user!.toJson();
-    }
     if (booking != null) {
       data['Booking'] = booking!.toJson();
     }
@@ -177,178 +120,84 @@ class History {
   }
 }
 
-class User {
-  String? nIK;
-  String? email;
-  String? password;
-  String? fullname;
-  String? phoneNum;
-  String? gender;
-  int? vaccineCount;
-  String? birthDate;
-
-  User({
-    this.nIK,
-    this.email,
-    this.password,
-    this.fullname,
-    this.phoneNum,
-    this.gender,
-    this.vaccineCount,
-    this.birthDate,
-  });
-
-  User.fromJson(Map<String, dynamic> json) {
-    nIK = json['NIK'];
-    email = json['Email'];
-    password = json['Password'];
-    fullname = json['Fullname'];
-    phoneNum = json['PhoneNum'];
-    gender = json['Gender'];
-    vaccineCount = json['VaccineCount'];
-    birthDate = json['BirthDate'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['NIK'] = nIK;
-    data['Email'] = email;
-    data['Password'] = password;
-    data['Fullname'] = fullname;
-    data['PhoneNum'] = phoneNum;
-    data['Gender'] = gender;
-    data['VaccineCount'] = vaccineCount;
-    data['BirthDate'] = birthDate;
-    return data;
-  }
-}
-
 class Booking {
   String? iD;
   String? idSession;
+  String? nikUser;
   int? queue;
   String? status;
   Session? session;
+  HealthFacilities? healthFacilities;
 
-  Booking({
-    this.iD,
-    this.idSession,
-    this.queue,
-    this.status,
-    this.session,
-  });
+  Booking(
+      {this.iD,
+      this.idSession,
+      this.nikUser,
+      this.queue,
+      this.status,
+      this.session,
+      this.healthFacilities});
 
   Booking.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
     idSession = json['IdSession'];
+    nikUser = json['NikUser'];
     queue = json['Queue'];
     status = json['Status'];
     session =
         json['Session'] != null ? Session.fromJson(json['Session']) : null;
+    healthFacilities = json['HealthFacilities'] != null
+        ? HealthFacilities.fromJson(json['HealthFacilities'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
     data['IdSession'] = idSession;
+    data['NikUser'] = nikUser;
     data['Queue'] = queue;
     data['Status'] = status;
     if (session != null) {
       data['Session'] = session!.toJson();
     }
-    return data;
-  }
-}
-
-class Session {
-  String? iD;
-  String? idVaccine;
-  String? sessionName;
-  int? capacity;
-  int? dose;
-  String? date;
-  bool? isClose;
-  String? startSession;
-  String? endSession;
-  Vaccine? vaccine;
-
-  Session({
-    this.iD,
-    this.idVaccine,
-    this.sessionName,
-    this.capacity,
-    this.dose,
-    this.date,
-    this.isClose,
-    this.startSession,
-    this.endSession,
-    this.vaccine,
-  });
-
-  Session.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    idVaccine = json['IdVaccine'];
-    sessionName = json['SessionName'];
-    capacity = json['Capacity'];
-    dose = json['Dose'];
-    date = json['Date'];
-    isClose = json['IsClose'];
-    startSession = json['StartSession'];
-    endSession = json['EndSession'];
-    vaccine =
-        json['Vaccine'] != null ? Vaccine.fromJson(json['Vaccine']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['ID'] = iD;
-    data['IdVaccine'] = idVaccine;
-    data['SessionName'] = sessionName;
-    data['Capacity'] = capacity;
-    data['Dose'] = dose;
-    data['Date'] = date;
-    data['IsClose'] = isClose;
-    data['StartSession'] = startSession;
-    data['EndSession'] = endSession;
-    if (this.vaccine != null) {
-      data['Vaccine'] = vaccine!.toJson();
+    if (healthFacilities != null) {
+      data['HealthFacilities'] = healthFacilities!.toJson();
     }
     return data;
   }
 }
 
-class Vaccine {
+class HealthFacilities {
   String? iD;
-  String? idHealthFacilities;
+  String? email;
+  String? phoneNum;
   String? name;
-  int? stock;
-  int? dose;
-  String? createdAt;
-  String? updatedAt;
+  String? image;
 
-  Vaccine({
+  HealthFacilities({
     this.iD,
-    this.idHealthFacilities,
+    this.email,
+    this.phoneNum,
     this.name,
-    this.stock,
-    this.dose,
+    this.image,
   });
 
-  Vaccine.fromJson(Map<String, dynamic> json) {
+  HealthFacilities.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    idHealthFacilities = json['IdHealthFacilities'];
+    email = json['Email'];
+    phoneNum = json['PhoneNum'];
     name = json['Name'];
-    stock = json['Stock'];
-    dose = json['Dose'];
+    image = json['Image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
-    data['IdHealthFacilities'] = idHealthFacilities;
+    data['Email'] = email;
+    data['PhoneNum'] = phoneNum;
     data['Name'] = name;
-    data['Stock'] = stock;
-    data['Dose'] = dose;
+    data['Image'] = image;
     return data;
   }
 }

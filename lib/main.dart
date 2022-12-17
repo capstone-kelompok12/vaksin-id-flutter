@@ -15,36 +15,35 @@ import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_mode
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting().then((_) =>
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) => BookVaksinViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => DetailFasKesViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => HomeViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => AuthViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => ProfileViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => BottomnavViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => ProfileViewModel(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => TiketVaksinViewModel(),
-      ),
-    ],
-    child: const MyApp(),
-  )));
+  await initializeDateFormatting().then((_) => runApp(MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => BookVaksinViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => DetailFasKesViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => HomeViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => AuthViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ProfileViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => BottomnavViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ProfileViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => TiketVaksinViewModel(),
+          ),
+        ],
+        child: const MyApp(),
+      )));
 }
 
 class MyApp extends StatelessWidget {

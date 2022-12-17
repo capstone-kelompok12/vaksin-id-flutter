@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/tiket_vaksin/widgets/cancel_book.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 class TiketVaksinDetail extends StatelessWidget {
-  // final String vaksin;
-  // final String statusTiket;
+  final String nama;
   final History history;
   const TiketVaksinDetail({
     super.key,
     required this.history,
-    // required this.statusTiket,
-    // required this.vaksin,
+    required this.nama,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Detail Vaksinasi',
-          //   style: blackTextStyle.copyWith(
-          //     fontSize: 16,
-          //     fontWeight: medium,
-          //   ),
+          style: blackTextStyle.copyWith(
+            fontSize: 16,
+            fontWeight: medium,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -32,33 +32,33 @@ class TiketVaksinDetail extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 36,
-              color: history.status == 'menunggu'
+              color: history.status == 'OnProcess'
                   ? const Color(0xffFFE082)
-                  : history.status == 'diterima'
+                  : history.status == 'Accepted'
                       ? const Color(0xffCEFFAC)
-                      : history.status == 'ditolak'
+                      : history.status == 'Rejected'
                           ? const Color(0xffFFDAD6)
                           : const Color(0xffE1E3DE),
               child: Center(
                 child: Text(
-                  history.status == 'OnProccess'
+                  history.status == 'OnProcess'
                       ? 'Menunggu Konfirmasi'
-                      : history.status == 'diterima'
+                      : history.status == 'Accepted'
                           ? 'Telah diterima'
-                          : history.status == 'ditolak'
-                              ? 'Telah ditolak'
+                          : history.status == 'Rejected'
+                              ? 'Telah Rejected'
                               : 'Dibatalkan',
-                  style: history.status == 'menunggu'
+                  style: history.status == 'OnProcess'
                       ? TextStyle(
                           color: const Color(0xff564500),
                           fontWeight: medium,
                         )
-                      : history.status == 'diterima'
+                      : history.status == 'Accepted'
                           ? TextStyle(
                               color: const Color(0xff285E00),
                               fontWeight: medium,
                             )
-                          : history.status == 'ditolak'
+                          : history.status == 'Rejected'
                               ? TextStyle(
                                   color: const Color(0xff93000A),
                                   fontWeight: medium,
@@ -75,7 +75,7 @@ class TiketVaksinDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  history.status == 'diterima'
+                  history.status == 'Accepted'
                       ? Container(
                           margin: const EdgeInsets.only(
                             top: 12,
@@ -98,7 +98,7 @@ class TiketVaksinDetail extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '${history.booking!.queue!}',
+                                    '${history.booking!.queue}',
                                     style: blackTextStyle.copyWith(
                                       fontSize: 24,
                                       fontWeight: semiBold,
@@ -127,7 +127,7 @@ class TiketVaksinDetail extends StatelessWidget {
                       : const SizedBox(),
                   Center(
                     child: Text(
-                      history.booking!.session!.vaccine!.name!,
+                      '${history.booking!.session!.vaccine!.name}',
                       style: blackTextStyle.copyWith(
                         fontSize: 22,
                         fontWeight: medium,
@@ -136,20 +136,26 @@ class TiketVaksinDetail extends StatelessWidget {
                   ),
                   listVaksin(
                     title: 'Dosis',
-                    subtitle: '${history.booking!.session!.dose}',
+                    subtitle: 'Dosis ${history.booking!.session!.dose}',
                   ),
-                  listVaksin(
-                    title: 'Tanggal',
-                    subtitle: '${history.booking!.session!.date}',
+                  Consumer<TiketVaksinViewModel>(
+                    builder: (context, format, child) => listVaksin(
+                      title: 'Tanggal',
+                      subtitle: format.formatter.format(
+                        DateTime.parse(
+                            history.booking!.session!.date!.split('T')[0]),
+                      ),
+                    ),
                   ),
+
                   listVaksin(
                     title: 'Fasilitas Kesehatan',
-                    subtitle: 'RS. Pondok Indah',
+                    subtitle: '${history.booking!.healthFacilities!.name}',
                   ),
                   listVaksin(
                     title: 'Sesi Waktu ',
                     subtitle:
-                        '${history.booking!.session!.startSession} - ${history.booking!.session!.endSession} WIB',
+                        '${history.booking!.session!.startSession} - ${history.booking!.session!.endSession}',
                   ),
                   const SizedBox(
                     height: 16.0,
@@ -158,19 +164,28 @@ class TiketVaksinDetail extends StatelessWidget {
                     color: Color(0xffC5C7C2),
                     thickness: 3,
                   ),
-                  const SizedBox(
-                    height: 16.0,
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8, bottom: 4, left: 16),
+                    child: Text(
+                      'Penermia Vaksin',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
-                  ListView.builder(
-                    itemBuilder: (context, index) {
-                      final penerima = history.user;
-
-                      return receiveVaksin(
-                        nik: penerima!.nIK!,
-                        nama: penerima.fullname!,
-                      );
-                    },
+                  receiveVaksin(
+                    nik: '${history.booking!.nikUser}',
+                    nama: nama,
                   ),
+                  // receiveVaksin(
+                  //   nik: '320310030303001',
+                  //   nama: 'Bakayo Saka',
+                  // ),
+                  // receiveVaksin(
+                  //   nik: '320310030303001',
+                  //   nama: 'Lionel Messi',
+                  // ),
                 ],
               ),
             ),
@@ -212,7 +227,11 @@ class TiketVaksinDetail extends StatelessWidget {
                       ),
                     ),
                     context: context,
-                    builder: (context) => const CancelBook(),
+                    builder: (context) => CancelBook(
+                      nik: history.nikUser!,
+                      bookingId: history.idBooking!,
+                      idSession: history.booking!.session!.iD!,
+                    ),
                   );
                 },
                 child: Text(

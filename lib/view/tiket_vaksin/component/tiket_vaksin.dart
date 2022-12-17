@@ -14,18 +14,15 @@ class TiketVaksin extends StatelessWidget {
           child: Consumer<TiketVaksinViewModel>(
             builder: (context, value, child) {
               final tiket = value.tiketVaksin.data;
-
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: tiket!.history!.length,
                 itemBuilder: (context, index) =>
-                    tiket.history![index].status == 'OnProccess' ||
+                    tiket.history![index].status == 'OnProcess' ||
                             tiket.history![index].status == 'Accepted'
                         ? TiketVaksinCard(
-                            //   vaksin:
-                            //       history.history![index].booking!.session!.vaccine!.name!,
-                            //   statusTiket: history.history![index].status!,
                             history: tiket.history![index],
+                            nama: tiket.fullname!,
                           )
                         : const SizedBox(),
               );

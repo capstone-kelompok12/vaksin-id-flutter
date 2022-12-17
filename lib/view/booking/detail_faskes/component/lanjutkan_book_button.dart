@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/booking/book_vaksin/book_vaksin_screen.dart';
@@ -45,6 +47,7 @@ class LanjutkanBookButton extends StatelessWidget {
                                 detail.detailHf!.fullname!,
                                 detail.selectSession!.iD!,
                               );
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

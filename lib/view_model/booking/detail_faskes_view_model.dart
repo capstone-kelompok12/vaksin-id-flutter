@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:vaksin_id_flutter/models/home/sort_distance_health_facilities_model.dart';
+import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 import '../../models/session_model.dart';
 
@@ -82,7 +87,7 @@ class DetailFasKesViewModel with ChangeNotifier {
   List<Vaccine>? _detailVaccine;
   List<Vaccine>? get detailVaccine => _detailVaccine;
   Map<String, Vaccine> vaccineMap = {};
-  final formatter = DateFormat('d MMMM yyyy','id');
+  final formatter = DateFormat('d MMMM yyyy', 'id');
   String? changed;
 
   getDetailHealthFacilities(
@@ -103,7 +108,8 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   List<Vaccine>? listVaccine;
   getVaccineDose() {
-    listVaccine = detailHf!.vaccine!.where((e) => e.name == selectVaksin).toList();
+    listVaccine =
+        detailHf!.vaccine!.where((e) => e.name == selectVaksin).toList();
     for (var element in listVaccine!) {
       print('vaccineDose: ${element.dose}');
     }
@@ -119,7 +125,8 @@ class DetailFasKesViewModel with ChangeNotifier {
       listSession?.clear();
       sessionMap.clear();
     }
-    final selectedVaccineDose = listVaccine?.firstWhere((e) => e.dose == selectDosis);
+    final selectedVaccineDose =
+        listVaccine?.firstWhere((e) => e.dose == selectDosis);
     for (var item in selectedVaccineDose!.session!) {
       sessionMap[item.date!] = item;
     }
@@ -132,8 +139,8 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   getVaccineSessionTime() {
     sessionTime = listSession?.where((e) {
-     final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
-     return listDate == selectTanggal; 
+      final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
+      return listDate == selectTanggal;
     }).toList();
     for (var time in sessionTime!) {
       print('jam: ${time.startSession} - ${time.endSession}');
@@ -142,16 +149,32 @@ class DetailFasKesViewModel with ChangeNotifier {
 
   Session? selectSession;
   void getIdSession(List<Session> data) {
-    selectSession = data.firstWhere(
-      (e) {
-        final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
-        return e.startSession == selectWaktu?.substring(0, 5) &&
-              listDate == selectTanggal &&
-              e.dose == selectDosis;
-      }
-    );
+    selectSession = data.firstWhere((e) {
+      final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
+      return e.startSession == selectWaktu?.substring(0, 5) &&
+          listDate == selectTanggal &&
+          e.dose == selectDosis;
+    });
     print(selectWaktu!.substring(0, 5));
     print('dateBooking: ${selectSession!.date}');
+    notifyListeners();
+  }
+
+  // check status tiket history
+  TiketVaksinViewModel historyService = TiketVaksinViewModel();
+  bool status = false;
+  History bookingOnProgress = History(status: '');
+  checkStatusBooking() async {
+    // await historyService.getTiketHistory();
+    final booking = historyService.tiketVaksin.data!.history;
+    bookingOnProgress = booking!
+        .firstWhere((e) => e.status == 'OnProcess' || e.status == 'Accepted');
+    print(jsonEncode('status booking : ${bookingOnProgress.status}'));
+    if (bookingOnProgress.status != null) {
+      status = true;
+    } else {
+      status = false;
+    }
     notifyListeners();
   }
 }

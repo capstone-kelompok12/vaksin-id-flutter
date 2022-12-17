@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_screen.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 class CancelBook extends StatelessWidget {
-  const CancelBook({super.key});
+  String nik;
+  String bookingId;
+  String idSession;
+  CancelBook({
+    super.key,
+    required this.nik,
+    required this.bookingId,
+    required this.idSession,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +77,26 @@ class CancelBook extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                   height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: whiteColor,
-                      side: BorderSide(color: redColor),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      'Ya, batalkan',
-                      style: redTextStyle.copyWith(
-                        fontWeight: medium,
+                  child: Consumer<TiketVaksinViewModel>(
+                    builder: (context, booking, child) => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: whiteColor,
+                        side: BorderSide(color: redColor),
+                      ),
+                      onPressed: () async {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TiketVaksinScreen(),
+                          ),
+                        );
+                        await booking.cancelBooking(nik, bookingId, idSession);
+                      },
+                      child: Text(
+                        'Ya, batalkan',
+                        style: redTextStyle.copyWith(
+                          fontWeight: medium,
+                        ),
                       ),
                     ),
                   ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/view/booking/detail_faskes/component/cannot_book.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view/booking/detail_faskes/component/form_book.dart';
 import 'package:vaksin_id_flutter/view/booking/detail_faskes/component/lanjutkan_book_button.dart';
-import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 class DetailFasKesScreen extends StatefulWidget {
   const DetailFasKesScreen({super.key});
@@ -19,7 +19,9 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DetailFasKesViewModel>(context, listen: false).getClear();
+      final detail = Provider.of<DetailFasKesViewModel>(context, listen: false);
+      detail.getClear();
+      detail.checkStatusBooking();
     });
   }
 
@@ -125,13 +127,17 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                             height: 4,
                             color: const Color(0xFFE1E3DE),
                           ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: FormBook(),
-                            ),
-                          )
+                          // FormBook()
+                          Consumer<TiketVaksinViewModel>(
+                              builder: (context, value, child) {
+                            final booking = value.tiketVaksin.data!.history;
+
+                            return booking! == []
+                                ? FormBook()
+                                : detail.status != false
+                                    ? FormBook()
+                                    : const CannotBook();
+                          }),
                         ],
                       ),
                     ),

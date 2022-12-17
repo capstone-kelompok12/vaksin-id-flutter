@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/services/home/home_service.dart';
+import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 import '../../view_model/home/home_view_model.dart';
 import 'component/home_screen/header.dart';
@@ -25,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Provider.of<HomeViewModel>(context, listen: false).checkGps();
     Provider.of<ProfileViewModel>(context, listen: false)
         .getUsersProfile(context);
+    Provider.of<TiketVaksinViewModel>(context, listen: false).getTiketHistory();
     super.initState();
   }
 
