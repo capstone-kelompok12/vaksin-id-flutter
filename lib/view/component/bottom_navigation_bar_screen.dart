@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
+import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
-  const BottomNavigationBarScreen({Key? key}) : super(key: key);
+  const BottomNavigationBarScreen({Key? key, required this.setIndex}) : super(key: key);
+
+  final int setIndex;
 
   @override
   State<BottomNavigationBarScreen> createState() =>
@@ -16,7 +19,20 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<BottomnavViewModel>(context, listen: false).setIndex(0);
+      switch (widget.setIndex) {
+        case 1:
+          Provider.of<BottomnavViewModel>(context, listen: false).setIndex(1); 
+          break;
+        case 2:
+          Provider.of<BottomnavViewModel>(context, listen: false).setIndex(2); 
+          break;
+        case 3:
+          Provider.of<BottomnavViewModel>(context, listen: false).setIndex(3); 
+          break;
+        default:
+          Provider.of<BottomnavViewModel>(context, listen: false).setIndex(0); 
+          break;
+      }
     });
     super.initState();
   }

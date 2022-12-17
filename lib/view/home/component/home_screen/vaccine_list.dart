@@ -89,7 +89,7 @@ class VaccineListHomeScreen extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 35, vertical: 20),
-                                      child: Image.asset('assets/vaksin.png'),
+                                      child: Image.asset('assets/${value.listVaccine?.data?[index].name}.png'),
                                     )),
                                 Padding(
                                   padding: const EdgeInsets.only(

@@ -20,11 +20,12 @@ class LanjutkanBookButton extends StatelessWidget {
             builder: (context, detail, child) => Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Kapasitas 49/90',
-                    style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: detail.selectWaktu == null ?
+                  const SizedBox() : Text(
+                    'Kapasitas ${detail.selectSession?.capacity}',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF006D39),

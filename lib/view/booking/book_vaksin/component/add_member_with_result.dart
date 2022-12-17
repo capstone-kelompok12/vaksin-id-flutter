@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vaksin_id_flutter/models/booking/booking_session_model.dart';
 import 'package:vaksin_id_flutter/view_model/booking/book_vaksin_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 

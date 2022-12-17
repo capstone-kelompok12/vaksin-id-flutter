@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
 import 'package:vaksin_id_flutter/view/home/home_screen.dart';
 import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_screen.dart';
+import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 
 class BookSuccess extends StatelessWidget {
   const BookSuccess({super.key});
@@ -61,27 +64,30 @@ Book vaksinasi berhasil''',
               children: [
                 SizedBox(
                   width: 160,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      // Navigator.push ke halaman home
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                  child: Consumer<BottomnavViewModel>(
+                    builder: (context, value, child) =>
+                    OutlinedButton(
+                      onPressed: () {
+                        // Navigator.push ke halaman home
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BottomNavigationBarScreen(setIndex: 0),
+                          ),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(
+                          color: Color(0xFF717971),
                         ),
-                      );
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                        color: Color(0xFF717971),
                       ),
-                    ),
-                    child: const Text(
-                      'Beranda',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF006D39),
+                      child: const Text(
+                        'Beranda',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF006D39),
+                        ),
                       ),
                     ),
                   ),
@@ -89,25 +95,30 @@ Book vaksinasi berhasil''',
                 const SizedBox(width: 8),
                 SizedBox(
                   width: 160,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Navigator.push ke halaman history
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TiketVaksinScreen(),
+                  child: Consumer<BottomnavViewModel>(
+                    builder: (context, value, child) =>
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navigator.push ke halaman history
+                        WidgetsBinding.instance.addPostFrameCallback((_){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BottomNavigationBarScreen(setIndex: 2),
+                            ),
+                          );
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF006D39),
+                      ),
+                      child: const Text(
+                        'Lihat Tiket',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF006D39),
-                    ),
-                    child: const Text(
-                      'Lihat Tiket',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
                       ),
                     ),
                   ),

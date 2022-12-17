@@ -111,25 +111,25 @@ class DoubleCheckBook extends StatelessWidget {
                     width: 160,
                     child: ElevatedButton(
                       onPressed: () async {
-                        Navigator.pop(context);
                         if (book.isChecked == true) {
                           book.doubleCheck = book.isChecked;
                         }
+                        Navigator.pop(context);
                         try {
                           await book.createBooking(book.bookingList);
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(28),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) => const BookSuccess(),
-                          );
                         } catch (e) {
-                          print(e);
+                          print('error: $e');
                         }
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(28),
+                            ),
+                          ),
+                          context: context,
+                          builder: (context) => const BookSuccess(),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF006D39),

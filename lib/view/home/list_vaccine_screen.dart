@@ -18,34 +18,42 @@ class ListVaccineScreen extends StatelessWidget {
           builder: (context, value, _) => GridView.builder(
             itemCount: value.listVaccine?.data!.length,
             shrinkWrap: true,
+            padding: const EdgeInsets.all(2),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.75,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8),
             itemBuilder: (context, index) {
-              return Card(
-                color: whiteColor,
-                child: InkWell(
-                  onTap: () => print('gridTap'),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                          width: double.infinity,
-                          height: 156,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 35, vertical: 20),
-                            child: Image.asset('assets/vaksin.png'),
-                          )),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 5, left: 8, right: 8),
-                        child: Text(value.listVaccine?.data![index].name ?? ''),
-                      ),
-                      Text('${value.listVaccine?.data![index].stock}')
-                    ],
-                  ),
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.3),
+                      blurRadius: 2,
+                      offset: const Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                        width: double.infinity,
+                        height: 156,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 35, vertical: 20),
+                          child: Image.asset('assets/${value.listVaccine?.data?[index].name}.png'),
+                        )),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 5, left: 8, right: 8),
+                      child: Text(value.listVaccine?.data![index].name ?? ''),
+                    ),
+                    Text('${value.listVaccine?.data![index].stock}')
+                  ],
                 ),
               );
             },

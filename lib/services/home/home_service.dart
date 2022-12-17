@@ -39,7 +39,7 @@ class HealthFaciApi {
 
   Future<VaccineModel> getVaccine() async {
     try {
-      final response = await dio.get('/vaccines');
+      final response = await dio.get('/dashboard/vaccines/amount');
 
       final result = VaccineModel.fromJson(response.data);
 

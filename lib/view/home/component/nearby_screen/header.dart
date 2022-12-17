@@ -31,7 +31,7 @@ class _HeaderGoogleMapsState extends State<HeaderGoogleMaps> {
             widget.markers.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : GoogleMap(
-                    mapType: MapType.normal,
+                    mapType: MapType.terrain,
                     markers: Set<Marker>.of(widget.markers),
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
@@ -84,11 +84,7 @@ class _HeaderGoogleMapsState extends State<HeaderGoogleMaps> {
                         color: Colors.blue),
                     child: IconButton(
                         onPressed: () {
-                          value.gmController?.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                  CameraPosition(
-                                      target: value.currentLatLng!,
-                                      zoom: 11.5)));
+                          value.animateGmController(value.currentLatLng!, 11.5);
                         },
                         icon: const Icon(
                           Icons.location_searching_sharp,

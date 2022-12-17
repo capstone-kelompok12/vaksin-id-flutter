@@ -26,7 +26,7 @@ class _TiketVaksinScreenState extends State<TiketVaksinScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          // automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false,
           title: const Text(
             'Tiket Vaksinasi',
             // style: blackTextStyle.copyWith(
@@ -63,10 +63,10 @@ class _TiketVaksinScreenState extends State<TiketVaksinScreen> {
             return value.apiState == MyState.loading
                 ? const Center(child: CircularProgressIndicator())
                 : value.apiState == MyState.none
-                    ? const TabBarView(
+                    ? TabBarView(
                         children: [
                           TiketVaksin(),
-                          RiwayatVaksin(),
+                          const RiwayatVaksin(),
                         ],
                       )
                     : const Center(

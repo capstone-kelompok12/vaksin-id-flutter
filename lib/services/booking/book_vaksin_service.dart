@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vaksin_id_flutter/models/booking/booking_session_model.dart';
 import 'package:vaksin_id_flutter/models/booking/penerima_vaksin_model.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 
