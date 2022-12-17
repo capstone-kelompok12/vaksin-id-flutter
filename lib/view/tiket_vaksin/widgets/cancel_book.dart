@@ -7,24 +7,18 @@ class CancelBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              color: const Color(0xFFD3D3D3),
-              height: 4,
-              width: 32,
-            ),
-          ),
           Image.asset(
             'assets/cancel_book_image.png',
             width: 250,
             height: 250,
           ),
           Text(
-            'Ups..\nSepertinya akun Anda telah terdaftar',
+            'Apakah Anda yakin\ningin membatalkan book?',
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: semiBold,
@@ -35,7 +29,7 @@ class CancelBook extends StatelessWidget {
             height: 4.0,
           ),
           Text(
-            'Anda hanya dapat mendaftarkan satu NIK untuk satu akun.',
+            'Jika book dibatalkan, maka tiket akan hangus.',
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: medium,
@@ -43,7 +37,10 @@ class CancelBook extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(
-            height: 24.0,
+            height: 16.0,
+          ),
+          const SizedBox(
+            height: 16.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -76,7 +73,7 @@ class CancelBook extends StatelessWidget {
                     ),
                     onPressed: () {},
                     child: Text(
-                      'Ya, Batalkan',
+                      'Ya, batalkan',
                       style: redTextStyle.copyWith(
                         fontWeight: medium,
                       ),
