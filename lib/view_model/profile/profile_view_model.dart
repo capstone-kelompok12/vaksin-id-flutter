@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vaksin_id_flutter/models/profile/edit_profile_model.dart';
 import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
+import 'package:vaksin_id_flutter/models/user_model.dart';
 import 'package:vaksin_id_flutter/services/profile/profile_service.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
@@ -31,6 +33,11 @@ class ProfileViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> editUsersProfile(EditProfileModel update) async {
+    await profileService.editUserProfile(update);
+    notifyListeners();
+  }
+
   final List<String> _jenisKelamin = [
     'Laki - laki',
     'Perempuan',
@@ -44,11 +51,12 @@ class ProfileViewModel extends ChangeNotifier {
   bool passwordView2 = true;
 
   DateTime? selectDate;
-  late String birthday;
+  String birthday = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  void pilihJenisKelamin(value) {
+  pilihJenisKelamin(value) {
     _selectjenisKelamin = value;
     notifyListeners();
+    return _selectjenisKelamin;
   }
 
   void showPassword() {
@@ -62,7 +70,12 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void dateBirthday() {
-    birthday = DateFormat('dd/MM/yyyy').format(selectDate!);
+    String birthday = DateFormat('yyyy-MM-dd').format(selectDate!);
     notifyListeners();
+  }
+
+  checkGender() {
+    _selectjenisKelamin =
+        profile.dataUser!.gender == 'P' ? 'Perempuan' : 'Laki-laki';
   }
 }
