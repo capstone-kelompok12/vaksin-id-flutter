@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
@@ -12,7 +13,9 @@ import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting().then((_) =>
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -41,7 +44,7 @@ void main() {
       ),
     ],
     child: const MyApp(),
-  ));
+  )));
 }
 
 class MyApp extends StatelessWidget {

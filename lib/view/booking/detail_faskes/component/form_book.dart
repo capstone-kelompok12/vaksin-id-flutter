@@ -3,7 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 
 class FormBook extends StatelessWidget {
-  const FormBook({super.key});
+  FormBook({super.key});
+
+  final GlobalKey<FormFieldState> keyDropDosis = GlobalKey();
+  final GlobalKey<FormFieldState> keyDropTanggal = GlobalKey();
+  final GlobalKey<FormFieldState> keyDropWaktu = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,13 @@ class FormBook extends StatelessWidget {
                       ? const Text('Pilih Vaksin')
                       : Text('${detail.selectVaksin}'),
                   onChanged: (value) {
+                    if (detail.selectVaksin != null) {
+                      detail.listVaccine?.clear();
+                      detail.listSession?.clear();
+                      detail.selectDosisVaksin(null);
+                      detail.selectTanggalVaksin(null);
+                      keyDropDosis.currentState?.reset();
+                    }
                     detail.selectJenisVaksin(value);
                     detail.getVaccineDose();
                   },
@@ -59,6 +70,7 @@ class FormBook extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: DropdownButtonFormField<String>(
+                        key: keyDropDosis,
                         decoration: InputDecoration(
                           label: const Text('Dosis'),
                           border: OutlineInputBorder(
@@ -70,8 +82,16 @@ class FormBook extends StatelessWidget {
                             ? const Text('Pilih Dosis')
                             : Text('${detail.selectDosis}'),
                         onChanged: (value) {
+                          if (detail.selectDosis != null) {
+                            // detail.listVaccine?.clear();
+                            detail.listSession?.clear();
+                            // detail.selectDosisVaksin(null);
+                            detail.selectTanggalVaksin(null);
+                            keyDropTanggal.currentState?.reset();
+                            keyDropWaktu.currentState?.reset();
+                          }
                           detail.selectDosisVaksin(int.parse(value!));
-                          detail.getVaccineSession(int.parse(value));
+                          detail.getVaccineSession();
                         },
                         items: detail.listVaccine
                             ?.map(
@@ -92,18 +112,24 @@ class FormBook extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: DropdownButtonFormField<String>(
+                        key: keyDropTanggal,
                         decoration: InputDecoration(
                           label: const Text('Tanggal'),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
+                        // value: detail.selectTanggal,
                         hint: detail.selectTanggal == null ||
                                 detail.listVaccine!.isEmpty
                             ? const Text('Pilih Tanggal')
                             : Text('${detail.selectTanggal}'),
                         onChanged: (value) {
-                          detail.selectTanggalVaksin(value);
+                          detail.selectWaktuVaksin(null);
+                          keyDropWaktu.currentState?.reset();
+                          detail.selectTanggalVaksin(detail.formatter
+                              .format(DateTime.parse(value!.split('T')[0])));
+                          detail.getVaccineSessionTime();
                         },
                         items: detail.listSession!
                             .map(
@@ -125,6 +151,7 @@ class FormBook extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: DropdownButtonFormField<String>(
+                        key: keyDropWaktu,
                         decoration: InputDecoration(
                           label: const Text('Waktu'),
                           border: OutlineInputBorder(
@@ -136,14 +163,12 @@ class FormBook extends StatelessWidget {
                             : Text('${detail.selectWaktu}'),
                         onChanged: (value) {
                           detail.selectWaktuVaksin(value);
-                          detail.getIdSession(detail.listSession!);
+                          detail.getIdSession(detail.sessionTime!);
                         },
-                        items: detail.listSession
-                            ?.where((e) =>
-                                e.date.toString() == detail.selectTanggal)
-                            .map(
+                        items: detail.sessionTime
+                            ?.map(
                               (e) => DropdownMenuItem<String>(
-                                value: e.startSession,
+                                value: '${e.startSession} - ${e.endSession}',
                                 child: Text(
                                   '${e.startSession} - ${e.endSession}',
                                 ),

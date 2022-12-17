@@ -101,8 +101,7 @@ class _BookVaksinScreenState extends State<BookVaksinScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          detail.formatter.format(DateTime.parse(
-                              detail.selectTanggal!.split('T')[0])),
+                          detail.selectTanggal!,
                           style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,

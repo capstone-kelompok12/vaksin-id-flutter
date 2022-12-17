@@ -53,6 +53,7 @@ class BookVaksinViewModel extends ChangeNotifier {
       'nik': nik,
       'id_session': idSession,
     });
+    print(jsonEncode(bookingList));
     notifyListeners();
     print(jsonEncode(bookingList));
   }
@@ -67,7 +68,6 @@ class BookVaksinViewModel extends ChangeNotifier {
   BookingModel bookingModel = BookingModel();
   Future createBooking(List book) async {
     final bookList = book;
-    print(jsonEncode(bookingList));
     try {
       myState = MyState.loading;
       await bookVaksinService.createBooking(bookList);

@@ -8,17 +8,11 @@ class UnsuccessRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              color: const Color(0xFFD3D3D3),
-              height: 4,
-              width: 32,
-            ),
-          ),
           Image.asset(
             'assets/unsuccess_image.png',
             width: 250,
@@ -36,7 +30,7 @@ class UnsuccessRegister extends StatelessWidget {
             height: 4.0,
           ),
           Text(
-            'Anda hanya dapat mendaftarkan satu NIK untuk satu akun.',
+            'Anda hanya dapat mendaftarkan satu NIK dan EMAIL untuk satu akun.',
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: medium,
@@ -44,7 +38,7 @@ class UnsuccessRegister extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(
-            height: 24.0,
+            height: 16.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

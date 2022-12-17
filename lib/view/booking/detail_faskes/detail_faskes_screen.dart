@@ -125,10 +125,10 @@ class _DetailFasKesScreenState extends State<DetailFasKesScreen> {
                             height: 4,
                             color: const Color(0xFFE1E3DE),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(16),
                               child: FormBook(),
                             ),
                           )
