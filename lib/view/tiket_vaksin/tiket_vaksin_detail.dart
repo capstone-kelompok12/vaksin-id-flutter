@@ -147,7 +147,6 @@ class TiketVaksinDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   listVaksin(
                     title: 'Fasilitas Kesehatan',
                     subtitle: '${history.booking!.healthFacilities!.name}',
@@ -178,14 +177,6 @@ class TiketVaksinDetail extends StatelessWidget {
                     nik: '${history.booking!.nikUser}',
                     nama: nama,
                   ),
-                  // receiveVaksin(
-                  //   nik: '320310030303001',
-                  //   nama: 'Bakayo Saka',
-                  // ),
-                  // receiveVaksin(
-                  //   nik: '320310030303001',
-                  //   nama: 'Lionel Messi',
-                  // ),
                 ],
               ),
             ),

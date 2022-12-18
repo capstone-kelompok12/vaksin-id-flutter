@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/booking/penerima_vaksin_model.dart';
-import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 
 class BookVaksinService {
   final baseURL = 'https://vaksin-y3awbiupna-as.a.run.app//api/v1';

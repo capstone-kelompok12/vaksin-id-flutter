@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/profile/profile_model.dart';
-import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 
 import '../../models/profile/edit_profile_model.dart';
 
@@ -45,7 +44,7 @@ class ProfileService {
           },
         ),
       );
-      print('CEKM PUT = ${response}');
+      print('CEKM PUT = $response');
     } on DioError catch (e) {
       print(e.response!.statusCode);
       print(e.response!.statusMessage);

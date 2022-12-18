@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,13 +6,11 @@ import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/models/vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
-import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 import '../../models/session_model.dart';
 
 class DetailFasKesViewModel with ChangeNotifier {
-
   String? _selectVaksin;
   String? get selectVaksin => _selectVaksin;
   int? _selectDosis;
@@ -73,13 +69,16 @@ class DetailFasKesViewModel with ChangeNotifier {
   final formatter = DateFormat('d MMMM yyyy', 'id');
   String? changed;
 
+  // open maps online using HF loglat
   Future openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (!await launchUrl(Uri.parse(googleUrl))) {
       throw 'Could not open the map.';
     }
   }
 
+  // detail HF
   getDetailHealthFacilities(
       List<SortDistanceHealthFacilities> data, String name) async {
     myState = MyState.loading;
@@ -117,8 +116,6 @@ class DetailFasKesViewModel with ChangeNotifier {
     }
     listSession = sessionMap.values.toList();
     print('session: ${listSession?.length}');
-    // for (var element in listSession!) {
-    // }
     notifyListeners();
   }
 
@@ -148,8 +145,9 @@ class DetailFasKesViewModel with ChangeNotifier {
   checkStatusBooking() async {
     await historyService.getTiketHistory();
     final booking = historyService.tiketVaksin.data?.history;
-    bookingOnProgress = booking?.firstWhere((e) => 
-      e.status == 'OnProcess' || e.status == 'Accepted',  orElse: () => History());
+    bookingOnProgress = booking?.firstWhere(
+        (e) => e.status == 'OnProcess' || e.status == 'Accepted',
+        orElse: () => History());
     print('status booking : ${bookingOnProgress?.status}');
     if (bookingOnProgress?.status != null) {
       status = true;

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
-import 'package:vaksin_id_flutter/view/home/home_screen.dart';
-import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_screen.dart';
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 
 class BookSuccess extends StatelessWidget {
@@ -65,14 +63,14 @@ Book vaksinasi berhasil''',
                 SizedBox(
                   width: 160,
                   child: Consumer<BottomnavViewModel>(
-                    builder: (context, value, child) =>
-                    OutlinedButton(
+                    builder: (context, value, child) => OutlinedButton(
                       onPressed: () {
                         // Navigator.push ke halaman home
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigationBarScreen(setIndex: 0),
+                            builder: (context) =>
+                                const BottomNavigationBarScreen(setIndex: 0),
                           ),
                         );
                       },
@@ -96,15 +94,15 @@ Book vaksinasi berhasil''',
                 SizedBox(
                   width: 160,
                   child: Consumer<BottomnavViewModel>(
-                    builder: (context, value, child) =>
-                    ElevatedButton(
+                    builder: (context, value, child) => ElevatedButton(
                       onPressed: () {
                         // Navigator.push ke halaman history
-                        WidgetsBinding.instance.addPostFrameCallback((_){
-                          Navigator.push(
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const BottomNavigationBarScreen(setIndex: 2),
+                              builder: (context) =>
+                                  const BottomNavigationBarScreen(setIndex: 2),
                             ),
                           );
                         });

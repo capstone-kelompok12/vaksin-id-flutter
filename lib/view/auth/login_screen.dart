@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vaksin_id_flutter/models/auth/login_model.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
@@ -85,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             .hasMatch(value)) {
                           return ("Email tidak terdaftar atau salah.");
                         }
-            
+
                         return null;
                       },
                     ),
@@ -110,7 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             suffixIcon: IconButton(
                               onPressed: () {
-                                _passwordVisible.value = !_passwordVisible.value;
+                                _passwordVisible.value =
+                                    !_passwordVisible.value;
                               },
                               icon: Icon(
                                 _passwordVisible.value
@@ -160,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final isValid = _formKey.currentState!.validate();
                         if (!isValid) return;
                         _isLoading.value = true;
-            
+
                         SharedService prefs = SharedService(); // }
                         try {
                           String token = await loginAuth.postLogin(
@@ -170,14 +169,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                           await prefs.saveToken(token);
-            
+
                           if (mounted) {
                             snackbarMessage(context, 'Login Berhasil');
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavigationBarScreen(setIndex: 0),
+                                    const BottomNavigationBarScreen(
+                                        setIndex: 0),
                               ),
                             );
                           }

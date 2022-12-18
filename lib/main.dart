@@ -15,14 +15,10 @@ import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_mode
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting().then((_) => runApp(MultiProvider(
+  await initializeDateFormatting().then(
+    (_) => runApp(
+      MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (context) => BookVaksinViewModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => DetailFasKesViewModel(),
-          ),
           ChangeNotifierProvider(
             create: (context) => HomeViewModel(),
           ),
@@ -36,14 +32,19 @@ Future<void> main() async {
             create: (context) => BottomnavViewModel(),
           ),
           ChangeNotifierProvider(
-            create: (context) => ProfileViewModel(),
+            create: (context) => BookVaksinViewModel(),
           ),
           ChangeNotifierProvider(
             create: (context) => TiketVaksinViewModel(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => DetailFasKesViewModel(),
+          ),
         ],
         child: const MyApp(),
-      )));
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

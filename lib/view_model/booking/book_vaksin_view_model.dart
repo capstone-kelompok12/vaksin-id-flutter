@@ -63,7 +63,6 @@ class BookVaksinViewModel extends ChangeNotifier {
   }
 
   // create booking
-  // BookingModel bookingModel = BookingModel();
   Future createBooking(List book) async {
     final bookList = book;
     try {

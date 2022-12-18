@@ -78,11 +78,7 @@ class BookButton extends StatelessWidget {
                             ),
                           ),
                           context: context,
-                          builder: (context) {
-                            return booking.doubleCheck == false
-                                ? const DoubleCheckBook()
-                                : const BookSuccess();
-                          },
+                          builder: (context) => const BookSuccess(),
                         );
                       }
                     },
