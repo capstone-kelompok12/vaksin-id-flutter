@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/models/profile/edit_profile_model.dart';
+import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
 import 'package:vaksin_id_flutter/view/component/snackbar_message.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 
@@ -25,19 +26,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool emailValidator(String input) => EmailValidator.validate(input);
   final _formKey = GlobalKey<FormState>();
 
-  Future _selectDate() async {
-    DateTime? date = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1980),
-      lastDate: DateTime.now(),
-    );
-    if (date == null) {
-      dateController.text = '';
-      return;
-    }
-    dateController.text = DateFormat('yyyy-MM-dd').format(date);
-  }
+  // Future _selectDate() async {
+  //   DateTime? date = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(1980),
+  //     lastDate: DateTime.now(),
+  //   );
+  //   if (date == null) {
+  //     dateController.text = '';
+  //     return;
+  //   }
+  //   dateController.text = DateFormat('yyyy-MM-dd').format(date);
+  // }
 
   @override
   void initState() {
@@ -46,7 +47,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     nikController = TextEditingController(text: profile.profile.dataUser!.nik);
     namaController =
         TextEditingController(text: profile.profile.dataUser!.fullname);
-    dateController = TextEditingController(text: profile.birthday);
+    dateController = TextEditingController(
+      text: profile.dateFormat.format(
+          DateTime.parse(profile.profile.dataUser!.birthDate!.split('T')[0])),
+    );
     genderController = TextEditingController(
         text: profile.profile.dataUser!.gender == 'L'
             ? 'Laki-laki'
@@ -144,44 +148,47 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         labelStyle: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                         suffixIcon: const Icon(Icons.today),
-                        hintText: profile.selectDate == null
-                            ? "yyyy-MM-dd"
-                            : profile.birthday,
                         labelText: "Tanggal Lahir",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4)),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Pilih Tanggal Lahir';
-                        }
-                        return null;
-                      },
                       onTap: () async {
-                        _selectDate();
+                        DateTime? date = await showDatePicker(
+                          context: context,
+                          initialDate: profile.selectDate == null
+                              ? DateTime.parse(
+                                  profile.profile.dataUser!.birthDate!)
+                              : DateTime.parse(profile.selectDate!),
+                          firstDate: DateTime(1980),
+                          lastDate: DateTime.now(),
+                        );
+                        if (date != null) {
+                          dateController.text = profile.dateBirthday(date);
+                        }
                       },
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    TextFormField(
-                      controller: genderController,
+                    DropdownButtonFormField(
+                      hint: Text(genderController.text),
                       autofocus: true,
-                      readOnly: true,
                       decoration: InputDecoration(
-                        hintStyle: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                        labelStyle: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                        labelText: "Jenis Kelamin",
+                        label: const Text('Tanggal'),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4)),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Nama tidak boleh kosong.';
-                        }
-                        return null;
+                      items: profile.jenisKelamin
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        genderController = profile.pilihJenisKelamin(value);
                       },
                     ),
                     const SizedBox(
@@ -317,7 +324,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                               if (mounted) {}
                               snackbarMessage(context, 'Berhasil Edit Profile');
-                              Navigator.pop(context);
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const BottomNavigationBarScreen(
+                                            setIndex: 3),
+                                  ),
+                                );
+                              });
                             } catch (e) {
                               snackbarMessage(context, 'Gagal Edit Profile');
                             }

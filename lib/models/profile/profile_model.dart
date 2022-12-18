@@ -31,6 +31,7 @@ class Data {
     this.phoneNum,
     this.gender,
     this.vaccineCount,
+    this.birthDate,
     this.age,
     this.address,
     this.password,
@@ -42,6 +43,7 @@ class Data {
   late final String? phoneNum;
   late final String? gender;
   late final int? vaccineCount;
+  late final String? birthDate;
   late final int? age;
   late final AddressUser? address;
   late final String? password;
@@ -54,6 +56,7 @@ class Data {
     phoneNum = json['PhoneNum'];
     gender = json['Gender'];
     vaccineCount = json['VaccineCount'];
+    birthDate = json['BirthDate'];
     age = json['Age'];
     address = AddressUser.fromJson(json['Address']);
     password = json['Password'];
@@ -68,6 +71,7 @@ class Data {
     data['PhoneNum'] = phoneNum;
     data['Gender'] = gender;
     data['VaccineCount'] = vaccineCount;
+    data['BirthDate'] = birthDate;
     data['Age'] = age;
     data['Address'] = address!.toJson();
     data['Password'] = password;

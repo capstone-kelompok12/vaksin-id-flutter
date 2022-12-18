@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/services/shared/shared_service.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
-import 'package:vaksin_id_flutter/view/home/home_screen.dart';
 import 'package:vaksin_id_flutter/view/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const BottomNavigationBarScreen(),
+              builder: (context) =>
+                  const BottomNavigationBarScreen(setIndex: 0),
             ),
           );
         } else {

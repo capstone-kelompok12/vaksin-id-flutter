@@ -1,63 +1,69 @@
+import 'package:vaksin_id_flutter/models/vaccine_model.dart';
+
 class Session {
   String? iD;
-  String? idHealthFacilities;
+  String? idVaccine;
   String? sessionName;
   int? capacity;
   int? dose;
+  String? date;
   bool? isClose;
   String? startSession;
   String? endSession;
   String? createdAt;
   String? updatedAt;
-  List<dynamic>? booking;
+  Vaccine? vaccine;
+  List? booking;
 
   Session(
       {this.iD,
-      this.idHealthFacilities,
+      this.idVaccine,
       this.sessionName,
       this.capacity,
       this.dose,
+      this.date,
       this.isClose,
       this.startSession,
       this.endSession,
       this.createdAt,
       this.updatedAt,
+      this.vaccine,
       this.booking});
 
   Session.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    idHealthFacilities = json['IdHealthFacilities'];
+    idVaccine = json['IdVaccine'];
     sessionName = json['SessionName'];
     capacity = json['Capacity'];
     dose = json['Dose'];
+    date = json['Date'];
     isClose = json['IsClose'];
     startSession = json['StartSession'];
     endSession = json['EndSession'];
     createdAt = json['CreatedAt'];
     updatedAt = json['UpdatedAt'];
-    if (json['Booking'] != null) {
-      booking = <dynamic>[];
-      json['Booking'].forEach((v) {
-        booking!.add(v.fromJson(v));
-      });
-    }
+    vaccine =
+        json['Vaccine'] != null ? Vaccine.fromJson(json['Vaccine']) : null;
+    booking = json['Booking'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
-    data['IdHealthFacilities'] = idHealthFacilities;
+    data['IdVaccine'] = idVaccine;
     data['SessionName'] = sessionName;
     data['Capacity'] = capacity;
     data['Dose'] = dose;
+    data['Date'] = date;
     data['IsClose'] = isClose;
     data['StartSession'] = startSession;
     data['EndSession'] = endSession;
     data['CreatedAt'] = createdAt;
     data['UpdatedAt'] = updatedAt;
-    if (booking != null) {
-      data['Booking'] = booking!.map((v) => v.toJson()).toList();
+    if (vaccine != null) {
+      data['Vaccine'] = vaccine!.toJson();
     }
+    data['Booking'] = booking;
     return data;
   }
 }

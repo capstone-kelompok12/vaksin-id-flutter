@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vaksin_id_flutter/models/tiket_vaksin/tiket_vaksin_model.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/tiket_vaksin/widgets/cancel_book.dart';
+import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
 class TiketVaksinDetail extends StatelessWidget {
-  final String vaksin;
-  final String statusTiket;
+  final String nama;
+  final History history;
   const TiketVaksinDetail({
     super.key,
-    required this.statusTiket,
-    required this.vaksin,
+    required this.history,
+    required this.nama,
   });
 
   @override
@@ -29,33 +32,33 @@ class TiketVaksinDetail extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 36,
-              color: statusTiket == 'menunggu'
+              color: history.status == 'OnProcess'
                   ? const Color(0xffFFE082)
-                  : statusTiket == 'diterima'
+                  : history.status == 'Accepted'
                       ? const Color(0xffCEFFAC)
-                      : statusTiket == 'ditolak'
+                      : history.status == 'Rejected'
                           ? const Color(0xffFFDAD6)
                           : const Color(0xffE1E3DE),
               child: Center(
                 child: Text(
-                  statusTiket == 'menunggu'
+                  history.status == 'OnProcess'
                       ? 'Menunggu Konfirmasi'
-                      : statusTiket == 'diterima'
+                      : history.status == 'Accepted'
                           ? 'Telah diterima'
-                          : statusTiket == 'ditolak'
-                              ? 'Telah ditolak'
+                          : history.status == 'Rejected'
+                              ? 'Telah Rejected'
                               : 'Dibatalkan',
-                  style: statusTiket == 'menunggu'
+                  style: history.status == 'OnProcess'
                       ? TextStyle(
                           color: const Color(0xff564500),
                           fontWeight: medium,
                         )
-                      : statusTiket == 'diterima'
+                      : history.status == 'Accepted'
                           ? TextStyle(
                               color: const Color(0xff285E00),
                               fontWeight: medium,
                             )
-                          : statusTiket == 'ditolak'
+                          : history.status == 'Rejected'
                               ? TextStyle(
                                   color: const Color(0xff93000A),
                                   fontWeight: medium,
@@ -72,7 +75,7 @@ class TiketVaksinDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  statusTiket == 'diterima'
+                  history.status == 'Accepted'
                       ? Container(
                           margin: const EdgeInsets.only(
                             top: 12,
@@ -95,7 +98,7 @@ class TiketVaksinDetail extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '1',
+                                    '${history.booking!.queue}',
                                     style: blackTextStyle.copyWith(
                                       fontSize: 24,
                                       fontWeight: semiBold,
@@ -124,7 +127,7 @@ class TiketVaksinDetail extends StatelessWidget {
                       : const SizedBox(),
                   Center(
                     child: Text(
-                      'Sinovac',
+                      '${history.booking!.session!.vaccine!.name}',
                       style: blackTextStyle.copyWith(
                         fontSize: 22,
                         fontWeight: medium,
@@ -133,19 +136,25 @@ class TiketVaksinDetail extends StatelessWidget {
                   ),
                   listVaksin(
                     title: 'Dosis',
-                    subtitle: 'Pertama',
+                    subtitle: 'Dosis ${history.booking!.session!.dose}',
                   ),
-                  listVaksin(
-                    title: 'Tanggal',
-                    subtitle: '30 November 2022',
+                  Consumer<TiketVaksinViewModel>(
+                    builder: (context, format, child) => listVaksin(
+                      title: 'Tanggal',
+                      subtitle: format.formatter.format(
+                        DateTime.parse(
+                            history.booking!.session!.date!.split('T')[0]),
+                      ),
+                    ),
                   ),
                   listVaksin(
                     title: 'Fasilitas Kesehatan',
-                    subtitle: 'RS. Pondok Indah',
+                    subtitle: '${history.booking!.healthFacilities!.name}',
                   ),
                   listVaksin(
                     title: 'Sesi Waktu ',
-                    subtitle: '08.00 - 11.00 WIB',
+                    subtitle:
+                        '${history.booking!.session!.startSession} - ${history.booking!.session!.endSession}',
                   ),
                   const SizedBox(
                     height: 16.0,
@@ -154,20 +163,19 @@ class TiketVaksinDetail extends StatelessWidget {
                     color: Color(0xffC5C7C2),
                     thickness: 3,
                   ),
-                  const SizedBox(
-                    height: 16.0,
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8, bottom: 4, left: 16),
+                    child: Text(
+                      'Penermia Vaksin',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                   receiveVaksin(
-                    nik: '320310030303001',
-                    nama: 'Budi Sudarsono',
-                  ),
-                  receiveVaksin(
-                    nik: '320310030303001',
-                    nama: 'Bakayo Saka',
-                  ),
-                  receiveVaksin(
-                    nik: '320310030303001',
-                    nama: 'Lionel Messi',
+                    nik: '${history.booking!.nikUser}',
+                    nama: nama,
                   ),
                 ],
               ),
@@ -175,56 +183,58 @@ class TiketVaksinDetail extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(16),
-              height: 48,
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: whiteColor,
-                  side: BorderSide(color: redColor),
-                ),
-                onPressed: () {
-                  showModalBottomSheet(
-                    enableDrag: false,
-                    isDismissible: false,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(28),
+      bottomNavigationBar: history.booking!.status == 'OnProcess' ||
+              history.booking!.status == 'Accepted'
+          ? Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: whiteColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Container(
+                margin: const EdgeInsets.all(16),
+                height: 48,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: whiteColor,
+                    side: BorderSide(color: redColor),
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      enableDrag: false,
+                      isDismissible: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(28),
+                        ),
                       ),
+                      context: context,
+                      builder: (context) => CancelBook(
+                        nik: history.nikUser!,
+                        bookingId: history.idBooking!,
+                        idSession: history.booking!.session!.iD!,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Batal',
+                    style: redTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: medium,
                     ),
-                    context: context,
-                    builder: (context) => const CancelBook(),
-                  );
-                },
-                child: Text(
-                  'Batal',
-                  style: redTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : const SizedBox(),
     );
   }
 }

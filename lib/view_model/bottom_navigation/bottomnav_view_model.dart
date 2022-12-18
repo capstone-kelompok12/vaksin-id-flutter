@@ -14,7 +14,7 @@ class BottomnavViewModel with ChangeNotifier {
     const ProfileScreen(),
   ];
 
-  void setIndex(int value) {
+  setIndex(int value) {
     index = value;
     notifyListeners();
   }
