@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/booking/book_vaksin/book_vaksin_screen.dart';
@@ -22,15 +20,16 @@ class LanjutkanBookButton extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: detail.selectWaktu == null ?
-                  const SizedBox() : Text(
-                    'Kapasitas ${detail.selectSession?.capacity}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF006D39),
-                    ),
-                  ),
+                  child: detail.selectWaktu == null
+                      ? const SizedBox()
+                      : Text(
+                          'Kapasitas ${detail.selectSession?.capacity}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF006D39),
+                          ),
+                        ),
                 ),
                 SizedBox(
                   width: double.infinity,

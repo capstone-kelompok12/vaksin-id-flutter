@@ -29,25 +29,31 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  carousel_slider: ^4.1.1
-  clippy_flutter: ^2.0.0-nullsafety.1
-  cupertino_icons: ^1.0.2
-  custom_info_window: ^1.0.1
-  dio: ^4.0.6
-  email_validator: ^2.1.17
-  faker: ^2.0.0
   flutter:
     sdk: flutter
+
+  # UI
+  faker: ^2.0.0
   flutter_svg: ^1.1.6
-  geocoding: ^2.0.5
-  geolocator: ^9.0.2
   google_fonts: ^3.0.1
+  clippy_flutter: ^2.0.0-nullsafety.1
+  carousel_slider: ^4.1.1
+  cupertino_icons: ^1.0.2
+  custom_info_window: ^1.0.1
   google_maps_flutter: ^2.2.1
+
+  # Core
+  dio: ^4.0.6
   intl: ^0.18.0
   provider: ^6.0.4
-  shared_preferences: ^2.0.15
-  underline_indicator: ^0.0.4
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
   url_launcher: ^6.1.7
+  email_validator: ^2.1.17
+  underline_indicator: ^0.0.4
+
+  # Local
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_lints: ^2.0.0

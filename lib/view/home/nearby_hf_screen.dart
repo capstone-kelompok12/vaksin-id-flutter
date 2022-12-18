@@ -37,7 +37,9 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
     markers.clear();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        Provider.of<HomeViewModel>(context, listen: false).gmController?.dispose();
+        Provider.of<HomeViewModel>(context, listen: false)
+            .gmController
+            ?.dispose();
       }
     });
     customInfoWindowController.dispose();
@@ -56,10 +58,12 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
   }
 
   addMarkers() async {
-    final listHf = Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
+    final listHf =
+        Provider.of<HomeViewModel>(context, listen: false).listHealthFaci;
     final gmControl = Provider.of<HomeViewModel>(context, listen: false);
     markerIcon = await getBytesFromAsset('assets/hospital_loc_icon.png', 50);
-    markerIconSelected = await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
+    markerIconSelected =
+        await getBytesFromAsset('assets/hospital_loc_icon.png', 80);
 
     if (listHf != null) {
       for (var x = 0; x < listHf.data!.healthFacilities!.length; x++) {
@@ -69,8 +73,10 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
             Marker(
               markerId: MarkerId('$x'),
               position: LatLng(
-                double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}'),
-                double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                  double.parse(
+                      '${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                  double.parse(
+                      '${listHf.data!.healthFacilities![x].address!.longitude!}')),
               icon: BitmapDescriptor.fromBytes(markerIcon!),
               consumeTapEvents: true,
               visible: true,
@@ -80,23 +86,37 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                   print('selectedMarker1: $selectedMarker');
                   setState(() {
                     if (selectedMarker != -1) {
-                      print('selectedMarkerid: ${x}');
-                      markers[selectedMarker] = markers[selectedMarker].copyWith(
-                        iconParam:BitmapDescriptor.fromBytes(markerIcon!));
+                      print('selectedMarkerid: $x');
+                      markers[selectedMarker] = markers[selectedMarker]
+                          .copyWith(
+                              iconParam:
+                                  BitmapDescriptor.fromBytes(markerIcon!));
                     }
                     markers[x] = markers[x].copyWith(
-                      iconParam: BitmapDescriptor.fromBytes(markerIconSelected!));
+                        iconParam:
+                            BitmapDescriptor.fromBytes(markerIconSelected!));
                     selectedMarker = x;
                   });
                   print('selectedMarker2: $selectedMarker');
                 }
-                gmControl.animateGmController(LatLng(
-                      double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}') + 0.007216,
-                      double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')), 13);
+                gmControl.animateGmController(
+                    LatLng(
+                        double.parse(
+                                '${listHf.data!.healthFacilities![x].address!.latitude!}') +
+                            0.007216,
+                        double.parse(
+                            '${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                    13);
                 customInfoWindowController.addInfoWindow!(
-                  HfInfoWindow(customInfoWindowController: customInfoWindowController, listHf: listHf, x: x),
-                  LatLng(double.parse('${listHf.data!.healthFacilities![x].address!.latitude!}'),
-                    double.parse('${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                  HfInfoWindow(
+                      customInfoWindowController: customInfoWindowController,
+                      listHf: listHf,
+                      x: x),
+                  LatLng(
+                      double.parse(
+                          '${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                      double.parse(
+                          '${listHf.data!.healthFacilities![x].address!.longitude!}')),
                 );
               },
             ),
@@ -121,11 +141,11 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                 body: Column(
                   children: [
                     HeaderGoogleMaps(
-                      markers: markers, customInfoWindowController: customInfoWindowController, 
-                      selectedMarker: selectedMarker, markerIcon: markerIcon),
-                    const Expanded(
-                      child: ListSortNearby()
-                    ),
+                        markers: markers,
+                        customInfoWindowController: customInfoWindowController,
+                        selectedMarker: selectedMarker,
+                        markerIcon: markerIcon),
+                    const Expanded(child: ListSortNearby()),
                   ],
                 ))
             : const NullLocation());

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/services/home/home_service.dart';
-import 'package:vaksin_id_flutter/view_model/booking/detail_faskes_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/profile/profile_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 

@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: const Text('NIK'),
-                    hintText: 'Masukkan NIK',
+                    hintText: 'contoh:6284617293084713',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -121,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: const Text('Nama'),
-                    hintText: 'Masukkan nama lengkap',
+                    hintText: 'contoh:John Doe',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -209,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: const Text('Email'),
-                    hintText: 'Masukkan email',
+                    hintText: 'contoh:hi@gmail.com',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -235,7 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     label: const Text('Phone'),
-                    hintText: 'Masukkan nomor',
+                    hintText: 'contoh:081211782192',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -261,7 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         label: const Text('Kata sandi'),
-                        hintText: 'Masukkan kata sandi',
+                        hintText: 'contoh:Ajsk01.',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -303,7 +303,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         label: const Text('Kata sandi'),
-                        hintText: 'Masukkan kata sandi',
+                        hintText: 'contoh:Ajsk01.',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),

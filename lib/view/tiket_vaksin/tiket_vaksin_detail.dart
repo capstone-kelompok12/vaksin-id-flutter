@@ -147,7 +147,6 @@ class TiketVaksinDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   listVaksin(
                     title: 'Fasilitas Kesehatan',
                     subtitle: '${history.booking!.healthFacilities!.name}',
@@ -178,74 +177,64 @@ class TiketVaksinDetail extends StatelessWidget {
                     nik: '${history.booking!.nikUser}',
                     nama: nama,
                   ),
-                  // receiveVaksin(
-                  //   nik: '320310030303001',
-                  //   nama: 'Bakayo Saka',
-                  // ),
-                  // receiveVaksin(
-                  //   nik: '320310030303001',
-                  //   nama: 'Lionel Messi',
-                  // ),
                 ],
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: whiteColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(16),
-              height: 48,
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: whiteColor,
-                  side: BorderSide(color: redColor),
-                ),
-                onPressed: () {
-                  showModalBottomSheet(
-                    enableDrag: false,
-                    isDismissible: false,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(28),
+      bottomNavigationBar: history.booking!.status == 'OnProcess' ||
+              history.booking!.status == 'Accepted'
+          ? Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: whiteColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Container(
+                margin: const EdgeInsets.all(16),
+                height: 48,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: whiteColor,
+                    side: BorderSide(color: redColor),
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      enableDrag: false,
+                      isDismissible: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(28),
+                        ),
                       ),
+                      context: context,
+                      builder: (context) => CancelBook(
+                        nik: history.nikUser!,
+                        bookingId: history.idBooking!,
+                        idSession: history.booking!.session!.iD!,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Batal',
+                    style: redTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: medium,
                     ),
-                    context: context,
-                    builder: (context) => CancelBook(
-                      nik: history.nikUser!,
-                      bookingId: history.idBooking!,
-                      idSession: history.booking!.session!.iD!,
-                    ),
-                  );
-                },
-                child: Text(
-                  'Batal',
-                  style: redTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : const SizedBox(),
     );
   }
 }

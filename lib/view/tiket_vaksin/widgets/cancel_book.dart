@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/styles/theme.dart';
 import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
-import 'package:vaksin_id_flutter/view/tiket_vaksin/tiket_vaksin_screen.dart';
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
@@ -81,20 +80,23 @@ class CancelBook extends StatelessWidget {
                   height: 48,
                   child: Consumer<BottomnavViewModel>(
                     builder: (context, value, child) =>
-                    Consumer<TiketVaksinViewModel>(
+                        Consumer<TiketVaksinViewModel>(
                       builder: (context, booking, child) => ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: whiteColor,
                           side: BorderSide(color: redColor),
                         ),
                         onPressed: () async {
-                          await booking.cancelBooking(nik, bookingId, idSession);
+                          await booking.cancelBooking(
+                              nik, bookingId, idSession);
                           await booking.getTiketHistory();
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const BottomNavigationBarScreen(setIndex: 2),
+                                builder: (context) =>
+                                    const BottomNavigationBarScreen(
+                                        setIndex: 2),
                               ),
                             );
                           });
