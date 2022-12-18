@@ -19,8 +19,10 @@ class _TiketVaksinState extends State<TiketVaksin> {
   bool? checkBook;
 
   checkBooking(Data? tiket) {
-    final history = tiket!.history!.firstWhere((e) => 
-      e.booking!.status == 'OnProcess' ||  e.booking!.status == 'Accepted', orElse: () => History(),);
+    final history = tiket!.history!.firstWhere(
+      (e) => e.booking!.status == 'OnProcess',
+      orElse: () => History(),
+    );
     print('historyStatus: ${history.status}');
     checkBook = history.status?.isNotEmpty;
     print(checkBook);
@@ -28,7 +30,9 @@ class _TiketVaksinState extends State<TiketVaksin> {
 
   @override
   void initState() {
-    final tiket = Provider.of<TiketVaksinViewModel>(context, listen: false).tiketVaksin.data;
+    final tiket = Provider.of<TiketVaksinViewModel>(context, listen: false)
+        .tiketVaksin
+        .data;
     checkBooking(tiket);
     super.initState();
   }
@@ -40,19 +44,19 @@ class _TiketVaksinState extends State<TiketVaksin> {
         child: Consumer<TiketVaksinViewModel>(
           builder: (context, value, child) {
             final tiket = value.tiketVaksin.data;
-            return checkBook == true ?
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: tiket!.history!.length,
-              itemBuilder: (context, index) =>
-                  tiket.history![index].status == 'OnProcess' ||
-                          tiket.history![index].status == 'Accepted'
-                      ? TiketVaksinCard(
-                          history: tiket.history![index],
-                          nama: tiket.fullname!,
-                        )
-                      : const SizedBox(),
-            ) : const EmptyBook();
+            return checkBook == true
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: tiket!.history!.length,
+                    itemBuilder: (context, index) =>
+                        tiket.history![index].status == 'OnProcess'
+                            ? TiketVaksinCard(
+                                history: tiket.history![index],
+                                nama: tiket.fullname!,
+                              )
+                            : const SizedBox(),
+                  )
+                : const EmptyBook();
           },
         ),
       ),
