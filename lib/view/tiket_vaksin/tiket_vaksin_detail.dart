@@ -32,33 +32,33 @@ class TiketVaksinDetail extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 36,
-              color: history.status == 'OnProcess'
+              color: history.booking!.status == 'OnProcess'
                   ? const Color(0xffFFE082)
-                  : history.status == 'Accepted'
+                  : history.booking!.status == 'Accepted'
                       ? const Color(0xffCEFFAC)
-                      : history.status == 'Rejected'
+                      : history.booking!.status == 'Rejected'
                           ? const Color(0xffFFDAD6)
                           : const Color(0xffE1E3DE),
               child: Center(
                 child: Text(
-                  history.status == 'OnProcess'
+                  history.booking!.status == 'OnProcess'
                       ? 'Menunggu Konfirmasi'
-                      : history.status == 'Accepted'
+                      : history.booking!.status == 'Accepted'
                           ? 'Telah diterima'
-                          : history.status == 'Rejected'
+                          : history.booking!.status == 'Rejected'
                               ? 'Telah Rejected'
                               : 'Dibatalkan',
-                  style: history.status == 'OnProcess'
+                  style: history.booking!.status == 'OnProcess'
                       ? TextStyle(
                           color: const Color(0xff564500),
                           fontWeight: medium,
                         )
-                      : history.status == 'Accepted'
+                      : history.booking!.status == 'Accepted'
                           ? TextStyle(
                               color: const Color(0xff285E00),
                               fontWeight: medium,
                             )
-                          : history.status == 'Rejected'
+                          : history.booking!.status == 'Rejected'
                               ? TextStyle(
                                   color: const Color(0xff93000A),
                                   fontWeight: medium,
@@ -75,7 +75,7 @@ class TiketVaksinDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  history.status == 'Accepted'
+                  history.booking!.status == 'Accepted'
                       ? Container(
                           margin: const EdgeInsets.only(
                             top: 12,
@@ -166,7 +166,7 @@ class TiketVaksinDetail extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(top: 8, bottom: 4, left: 16),
                     child: Text(
-                      'Penermia Vaksin',
+                      'Penerima Vaksin',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,

@@ -63,7 +63,7 @@ class _BookVaksinScreenState extends State<BookVaksinScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          detail.selectVaksin!,
+                          detail.selectVaksin ?? '',
                           style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -101,7 +101,7 @@ class _BookVaksinScreenState extends State<BookVaksinScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          detail.selectTanggal!,
+                          detail.selectTanggal ?? '',
                           style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,

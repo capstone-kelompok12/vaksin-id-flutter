@@ -97,7 +97,8 @@ class _AddMemberState extends State<AddMember> {
                                       ? 'NIK harus 16 digit.'
                                       : null,
                               decoration: InputDecoration(
-                                label: const Text('Masukkan NIK'),
+                                label: const Text('NIK'),
+                                hintText: 'contoh:6284617293084713',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4),
                                 ),

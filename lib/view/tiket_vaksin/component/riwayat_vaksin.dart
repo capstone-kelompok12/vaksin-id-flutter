@@ -20,8 +20,7 @@ class RiwayatVaksin extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemCount: history.history!.length,
               itemBuilder: (context, index) =>
-                  history.history![index].status != 'OnProcess' &&
-                          history.history![index].status != 'Accepted'
+                  history.history![index].status != 'OnProcess'
                       ? TiketVaksinCard(
                           history: history.history![index],
                           nama: history.fullname!,

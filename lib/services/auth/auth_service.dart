@@ -18,6 +18,7 @@ class AuthService {
       );
       return response.data['data'];
     } on DioError catch (e) {
+      print(e.response!.data['status']);
       print(e.response!.data['message']);
       if (e.response!.statusCode == 500) {
         throw 'NIK atau Password Sudah Digunakan';

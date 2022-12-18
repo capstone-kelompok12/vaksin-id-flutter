@@ -126,7 +126,7 @@ class ListNearbyHfHomeScreen extends StatelessWidget {
                                                               .locationListWithDistance[
                                                                   index]
                                                               .image!,
-                                                          fit: BoxFit.fill),
+                                                          fit: BoxFit.cover),
                                                     ),
                                                   ),
                                                   Padding(

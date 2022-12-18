@@ -31,6 +31,13 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> editUsersProfile(EditProfileModel update) async {
+    print(update.nik);
+    print(update.email);
+    print(update.birthdate);
+    print(update.fullname);
+    print(update.gender);
+    print(update.password);
+    print(update.phonenum);
     await profileService.editUserProfile(update);
     notifyListeners();
   }
@@ -75,6 +82,6 @@ class ProfileViewModel extends ChangeNotifier {
 
   checkGender() {
     _selectjenisKelamin =
-        profile.dataUser!.gender == 'P' ? 'Perempuan' : 'Laki-laki';
+        profile.dataUser!.gender == 'P' ? 'Perempuan' : 'Laki - laki';
   }
 }

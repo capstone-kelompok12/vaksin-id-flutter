@@ -6,18 +6,35 @@ import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_mode
 
 import '../../../models/tiket_vaksin/tiket_vaksin_model.dart';
 
-class TiketVaksin extends StatelessWidget {
-  TiketVaksin({super.key});
+class TiketVaksin extends StatefulWidget {
+  const TiketVaksin({super.key});
 
+  @override
+  State<TiketVaksin> createState() => _TiketVaksinState();
+}
+
+class _TiketVaksinState extends State<TiketVaksin> {
   final String onTabBar = 'tiket';
+
   bool? checkBook;
 
   checkBooking(Data? tiket) {
-    final history = tiket!.history!.firstWhere((e) => 
-      e.booking!.status == 'OnProcess' ||  e.booking!.status == 'Accepted', orElse: () => History(),);
+    final history = tiket!.history!.firstWhere(
+      (e) => e.booking!.status == 'OnProcess',
+      orElse: () => History(),
+    );
     print('historyStatus: ${history.status}');
     checkBook = history.status?.isNotEmpty;
     print(checkBook);
+  }
+
+  @override
+  void initState() {
+    final tiket = Provider.of<TiketVaksinViewModel>(context, listen: false)
+        .tiketVaksin
+        .data;
+    checkBooking(tiket);
+    super.initState();
   }
 
   @override
@@ -27,20 +44,19 @@ class TiketVaksin extends StatelessWidget {
         child: Consumer<TiketVaksinViewModel>(
           builder: (context, value, child) {
             final tiket = value.tiketVaksin.data;
-            checkBooking(tiket);
-            return checkBook == true ?
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: tiket!.history!.length,
-              itemBuilder: (context, index) =>
-                  tiket.history![index].status == 'OnProcess' ||
-                          tiket.history![index].status == 'Accepted'
-                      ? TiketVaksinCard(
-                          history: tiket.history![index],
-                          nama: tiket.fullname!,
-                        )
-                      : const SizedBox(),
-            ) : const EmptyBook();
+            return checkBook == true
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: tiket!.history!.length,
+                    itemBuilder: (context, index) =>
+                        tiket.history![index].status == 'OnProcess'
+                            ? TiketVaksinCard(
+                                history: tiket.history![index],
+                                nama: tiket.fullname!,
+                              )
+                            : const SizedBox(),
+                  )
+                : const EmptyBook();
           },
         ),
       ),
