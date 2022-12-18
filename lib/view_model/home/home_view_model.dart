@@ -42,10 +42,8 @@ class HomeViewModel extends ChangeNotifier {
         sizeHomeScreen = 1045;
         sizeHeading = 196;
         paddingBottomHeading = 0;
-        if (listHealthFaci == null) {
-          await getCurrentLocation();
-          await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
-        }
+        await getCurrentLocation();
+        await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
         print("GPS Service enabled");
         apiState = MyState.none;
       }

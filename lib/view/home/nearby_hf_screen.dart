@@ -68,64 +68,66 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
     if (listHf != null) {
       for (var x = 0; x < listHf.data!.healthFacilities!.length; x++) {
         // print(x);
-        setState(() {
-          markers.add(
-            Marker(
-              markerId: MarkerId('$x'),
-              position: LatLng(
-                  double.parse(
-                      '${listHf.data!.healthFacilities![x].address!.latitude!}'),
-                  double.parse(
-                      '${listHf.data!.healthFacilities![x].address!.longitude!}')),
-              icon: BitmapDescriptor.fromBytes(markerIcon!),
-              consumeTapEvents: true,
-              visible: true,
-              onTap: () {
-                print('selectedMarker');
-                if (selectedMarker != -1) {
-                  print('selectedMarker1: $selectedMarker');
-                  setState(() {
-                    if (selectedMarker != -1) {
-                      print('selectedMarkerid: $x');
-                      markers[selectedMarker] = markers[selectedMarker]
-                          .copyWith(
-                              iconParam:
-                                  BitmapDescriptor.fromBytes(markerIcon!));
-                    }
-                    markers[x] = markers[x].copyWith(
-                        iconParam:
-                            BitmapDescriptor.fromBytes(markerIconSelected!));
-                    selectedMarker = x;
-                  });
-                  print('selectedMarker2: $selectedMarker');
-                }
-                gmControl.animateGmController(
+        if (mounted) {
+          setState(() {
+            markers.add(
+              Marker(
+                markerId: MarkerId('$x'),
+                position: LatLng(
+                    double.parse(
+                        '${listHf.data!.healthFacilities![x].address!.latitude!}'),
+                    double.parse(
+                        '${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                icon: BitmapDescriptor.fromBytes(markerIcon!),
+                consumeTapEvents: true,
+                visible: true,
+                onTap: () {
+                  print('selectedMarker');
+                  if (selectedMarker != -1) {
+                    print('selectedMarker1: $selectedMarker');
+                    setState(() {
+                      if (selectedMarker != -1) {
+                        print('selectedMarkerid: $x');
+                        markers[selectedMarker] = markers[selectedMarker]
+                            .copyWith(
+                                iconParam:
+                                    BitmapDescriptor.fromBytes(markerIcon!));
+                      }
+                      markers[x] = markers[x].copyWith(
+                          iconParam:
+                              BitmapDescriptor.fromBytes(markerIconSelected!));
+                      selectedMarker = x;
+                    });
+                    print('selectedMarker2: $selectedMarker');
+                  }
+                  gmControl.animateGmController(
+                      LatLng(
+                          double.parse(
+                                  '${listHf.data!.healthFacilities![x].address!.latitude!}') +
+                              0.007216,
+                          double.parse(
+                              '${listHf.data!.healthFacilities![x].address!.longitude!}')),
+                      13);
+                  customInfoWindowController.addInfoWindow!(
+                    HfInfoWindow(
+                        customInfoWindowController: customInfoWindowController,
+                        listHf: listHf,
+                        x: x),
                     LatLng(
                         double.parse(
-                                '${listHf.data!.healthFacilities![x].address!.latitude!}') +
-                            0.007216,
+                            '${listHf.data!.healthFacilities![x].address!.latitude!}'),
                         double.parse(
                             '${listHf.data!.healthFacilities![x].address!.longitude!}')),
-                    13);
-                customInfoWindowController.addInfoWindow!(
-                  HfInfoWindow(
-                      customInfoWindowController: customInfoWindowController,
-                      listHf: listHf,
-                      x: x),
-                  LatLng(
-                      double.parse(
-                          '${listHf.data!.healthFacilities![x].address!.latitude!}'),
-                      double.parse(
-                          '${listHf.data!.healthFacilities![x].address!.longitude!}')),
-                );
-              },
-            ),
-          );
-        });
+                  );
+                },
+              ),
+            );
+          });
+        }
+        print('markerFirstRandom: ${markers.first.position}');
+        print('markerLastRandom: ${markers.last.position}');
+        print('markerlength: ${markers.length}');
       }
-      print('markerFirstRandom: ${markers.first.position}');
-      print('markerLastRandom: ${markers.last.position}');
-      print('markerlength: ${markers.length}');
     }
   }
 

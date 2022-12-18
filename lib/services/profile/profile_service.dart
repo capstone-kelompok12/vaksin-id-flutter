@@ -33,13 +33,14 @@ class ProfileService {
   Future<void> editUserProfile(EditProfileModel user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('Token').toString();
+    print(token);
     try {
       final response = await Dio().put(
         '$baseUrl/profile',
         data: user.toJson(),
         options: Options(
           headers: {
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',
           },
         ),

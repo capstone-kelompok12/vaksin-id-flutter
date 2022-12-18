@@ -52,7 +52,7 @@ class BookVaksinViewModel extends ChangeNotifier {
       'nik': nik,
       'id_session': idSession,
     });
-    print(jsonEncode(bookingList));
+    print('bookingList: $bookingList');
     notifyListeners();
   }
 

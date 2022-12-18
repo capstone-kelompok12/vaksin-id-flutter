@@ -44,6 +44,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     final profile = Provider.of<ProfileViewModel>(context, listen: false);
+    profile.checkGender();
     nikController = TextEditingController(text: profile.profile.dataUser!.nik);
     namaController =
         TextEditingController(text: profile.profile.dataUser!.fullname);
@@ -53,7 +54,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
     genderController = TextEditingController(
         text: profile.profile.dataUser!.gender == 'L'
-            ? 'Laki-laki'
+            ? 'Laki - laki'
             : 'Perempuan');
     emailController =
         TextEditingController(text: profile.profile.dataUser!.email);
@@ -174,7 +175,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hint: Text(genderController.text),
                       autofocus: true,
                       decoration: InputDecoration(
-                        label: const Text('Tanggal'),
+                        label: const Text('Jenis Kelamin'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -188,7 +189,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           )
                           .toList(),
                       onChanged: (value) {
-                        genderController = profile.pilihJenisKelamin(value);
+                        genderController.text = profile.pilihJenisKelamin(value);
                       },
                     ),
                     const SizedBox(
@@ -303,25 +304,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   email: emailController.text,
                                   password: kataSandiController.text,
                                   fullname: namaController.text,
-                                  gender: genderController.text == 'Laki-laki'
+                                  gender: genderController.text == 'Laki - laki'
                                       ? 'L'
                                       : 'P',
+                                  phonenum: profile.profile.dataUser?.phoneNum,
                                   birthdate: dateController.text,
                                 ),
                               );
-                              await profile.editUsersProfile(
-                                EditProfileModel(
-                                  nik: nikController.text,
-                                  email: emailController.text,
-                                  password: kataSandiController.text,
-                                  fullname: namaController.text,
-                                  gender: genderController.text == 'Laki-laki'
-                                      ? 'L'
-                                      : 'P',
-                                  birthdate: dateController.text,
-                                ),
-                              );
-
                               if (mounted) {}
                               snackbarMessage(context, 'Berhasil Edit Profile');
                               WidgetsBinding.instance.addPostFrameCallback((_) {
