@@ -16,24 +16,25 @@ class TiketVaksin extends StatefulWidget {
 class _TiketVaksinState extends State<TiketVaksin> {
   final String onTabBar = 'tiket';
 
-  bool? checkBook;
+  // bool? checkBook;
 
-  checkBooking(Data? tiket) {
-    final history = tiket!.history!.firstWhere(
-      (e) => e.booking!.status == 'OnProcess',
-      orElse: () => History(),
-    );
-    print('historyStatus: ${history.status}');
-    checkBook = history.status?.isNotEmpty;
-    print(checkBook);
-  }
+  // checkBooking(Data? tiket) {
+  //   final history = tiket!.history!.firstWhere(
+  //     (e) => e.booking!.status == 'OnProcess',
+  //     orElse: () => History(),
+  //   );
+  //   print('historyStatus: ${history.status}');
+  //   checkBook = history.status?.isNotEmpty;
+  //   print(checkBook);
+  // }
 
   @override
   void initState() {
-    final tiket = Provider.of<TiketVaksinViewModel>(context, listen: false)
-        .tiketVaksin
-        .data;
-    checkBooking(tiket);
+    final tiket = Provider.of<TiketVaksinViewModel>(context, listen: false);
+    // .tiketVaksin
+    // .data;
+    // checkBooking(tiket);
+    tiket.checkBookDate();
     super.initState();
   }
 
@@ -44,7 +45,7 @@ class _TiketVaksinState extends State<TiketVaksin> {
         child: Consumer<TiketVaksinViewModel>(
           builder: (context, value, child) {
             final tiket = value.tiketVaksin.data;
-            return checkBook == true
+            return value.checkBook == true
                 ? ListView.builder(
                     shrinkWrap: true,
                     itemCount: tiket!.history!.length,
