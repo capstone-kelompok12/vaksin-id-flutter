@@ -124,9 +124,9 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
             );
           });
         }
-        print('markerFirstRandom: ${markers.first.position}');
-        print('markerLastRandom: ${markers.last.position}');
-        print('markerlength: ${markers.length}');
+        // print('markerFirstRandom: ${markers.first.position}');
+        // print('markerLastRandom: ${markers.last.position}');
+        // print('markerlength: ${markers.length}');
       }
     }
   }
