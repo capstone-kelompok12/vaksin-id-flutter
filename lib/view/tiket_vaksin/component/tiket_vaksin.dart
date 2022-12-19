@@ -20,10 +20,11 @@ class TiketVaksin extends StatelessWidget {
                     itemCount: tiket!.history!.length,
                     itemBuilder: (context, index) {
                     // value.checkBookDate(tiket.history![index]);
-                    return TiketVaksinCard(
-                            history: tiket.history![index],
-                            nama: tiket.fullname!,
-                          );
+                    return tiket.history![index].booking?.status == 'OnProcess' 
+                      ? TiketVaksinCard(
+                        history: tiket.history![index],
+                        nama: tiket.fullname!,
+                      ) : const SizedBox();
                     }
                   )
                 : const EmptyBook();

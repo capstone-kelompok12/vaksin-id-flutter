@@ -11,7 +11,9 @@ class TiketVaksinViewModel extends ChangeNotifier {
   TiketVaksinModel get tiketVaksin => _tiketVaksin;
   MyState apiState = MyState.none;
   bool checkBook = false;
+  History? booking;
   bool checkHistory = false;
+  History? history;
   bool? expiredSession;
   final formatter = DateFormat('d MMMM yyyy', 'id');
 
@@ -43,25 +45,26 @@ class TiketVaksinViewModel extends ChangeNotifier {
   }
 
   checkBooking() {
-    final booking = tiketVaksin.data!.history!.firstWhere(
-      (e) => e.status == 'OnProcess' && e.booking?.status == 'OnProcess',
+    booking = tiketVaksin.data!.history!.firstWhere(
+      (e) => e.booking?.status == 'OnProcess',
       orElse: () => History(),
     );
-    booking.status != null
+    booking?.status != null
         ? checkBook = true
         : checkBook = false;
-    // print('ChecBook = $checkBook');
+    print('ChecBook = $checkBook');
     notifyListeners();
   }
    checkHistory2() {
-    final history = tiketVaksin.data!.history!.firstWhere(
-      (e) => e.status != 'OnProcess' && e.booking?.status != 'OnProcess',
+    history = tiketVaksin.data!.history!.firstWhere(
+      (e) => e.booking?.status != 'OnProcess',
       orElse: () => History(),
     );
     
-    history.status != null
-    ? checkHistory = true : checkHistory = false;
-    // print('ChecHistory = ${checkHistory}');
+    history?.status != null
+        ? checkHistory = true 
+        : checkHistory = false;
+    print('ChecHistory = ${checkHistory}');
     notifyListeners();
    }
 

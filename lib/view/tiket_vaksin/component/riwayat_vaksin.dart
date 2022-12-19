@@ -15,15 +15,16 @@ class RiwayatVaksin extends StatelessWidget {
     return Scaffold(
         body: Consumer<TiketVaksinViewModel>(builder: (context, value, child) {
       final history = value.tiketVaksin.data;
-      return value.checkHistory != true
+      return value.checkHistory == true
           ? ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: history!.history!.length, 
               itemBuilder: (context, index) =>
-              TiketVaksinCard(
+              history.history![index].booking?.status != 'OnProcess'
+              ? TiketVaksinCard(
                 history: history.history![index],
                 nama: history.fullname!,
-              ))
+              ) : const SizedBox())
           : const EmptyHistory();
     }));
   }
