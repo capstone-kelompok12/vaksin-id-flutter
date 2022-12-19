@@ -77,7 +77,7 @@ class HomeViewModel extends ChangeNotifier {
 
   getNearbyHF(double lat, double long) async {
     try {
-      listHealthFaci = await healtFaci.getNearbyHealthFacilities(lat, long);
+      listHealthFaci = await healtFaci.getNearbyHealthFacilities(-6.3244888, 106.8017241);
       // print('listHf: ${listHealthFaci?.data?.healthFacilities?.length}');
       await addListHealthFaci();
     } catch (e) {
