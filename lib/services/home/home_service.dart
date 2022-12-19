@@ -51,7 +51,7 @@ class HealthFaciApi {
 
   Future<List<NewsModel>> getNewsVaccine() async {
     const String baseUrl =
-        'https://newsapi.org/v2/everything?q=covid&language=id&apiKey=d4e1d414034f43739a2f1f7ea475a26f';
+        'https://newsapi.org/v2/everything?q=covid&language=id&apiKey=27d316316038400b81e83b713cff00f9';
     final dio = Dio();
     var response = await dio.get(baseUrl);
     if (response.statusCode == 200) {
