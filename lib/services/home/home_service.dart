@@ -29,11 +29,11 @@ class HealthFaciApi {
           .post('/profile/nearby', data: {"latitude": lat, "longitude": long});
 
       final result = NearbyHealthFacilitiesModel.fromJson(response.data);
-      print('response: $response');
+      // print('response: $response');
       return result;
     } on DioError catch (error) {
-      print(error);
-      throw Error();
+      // print(error);
+      return error.error;
     }
   }
 

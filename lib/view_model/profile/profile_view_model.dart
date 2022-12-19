@@ -31,13 +31,13 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> editUsersProfile(EditProfileModel update) async {
-    print(update.nik);
-    print(update.email);
-    print(update.birthdate);
-    print(update.fullname);
-    print(update.gender);
-    print(update.password);
-    print(update.phonenum);
+    // print(update.nik);
+    // print(update.email);
+    // print(update.birthdate);
+    // print(update.fullname);
+    // print(update.gender);
+    // print(update.password);
+    // print(update.phonenum);
     await profileService.editUserProfile(update);
     notifyListeners();
   }

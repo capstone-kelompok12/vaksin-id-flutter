@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:vaksin_id_flutter/models/booking/penerima_vaksin_model.dart';
 import 'package:vaksin_id_flutter/services/booking/book_vaksin_service.dart';
@@ -28,7 +26,7 @@ class BookVaksinViewModel extends ChangeNotifier {
       myState = MyState.loading;
       _penerima = await bookVaksinService.getPenerimaData(nik);
       myState = MyState.none;
-      print(penerima.nama);
+      // print(penerima.nama);
     } catch (e) {
       myState = MyState.error;
       rethrow;
@@ -52,7 +50,7 @@ class BookVaksinViewModel extends ChangeNotifier {
       'nik': nik,
       'id_session': idSession,
     });
-    print('bookingList: $bookingList');
+    // print('bookingList: $bookingList');
     notifyListeners();
   }
 

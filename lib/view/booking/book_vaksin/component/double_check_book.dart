@@ -128,7 +128,8 @@ class DoubleCheckBook extends StatelessWidget {
                         try {
                           await book.createBooking(book.bookingList);
                         } catch (e) {
-                          print('error: $e');
+                          e;
+                          // print('error: $e');
                         }
                         showModalBottomSheet(
                           isScrollControlled: true,

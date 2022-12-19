@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view_model/home/home_view_model.dart';
 
+// ignore: must_be_immutable
 class HeaderGoogleMaps extends StatefulWidget {
   HeaderGoogleMaps({super.key, required this.markers, required this.customInfoWindowController, required this.selectedMarker, required this.markerIcon});
 

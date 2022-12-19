@@ -67,7 +67,8 @@ class BookButton extends StatelessWidget {
                         try {
                           await booking.createBooking(booking.bookingList);
                         } catch (e) {
-                          print(e);
+                          e;
+                          // print(e);
                         }
 
                         showModalBottomSheet(

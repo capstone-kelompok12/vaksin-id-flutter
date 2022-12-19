@@ -41,18 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Consumer<HomeViewModel>(
             builder: (context, value, _) => SizedBox(
-                  // 1125 all component
-                  // value.locationListWithDistance.isNotEmpty ? 1045 : 865
-                  height: value.sizeHomeScreen,
-                  child: Column(
-                    children: const [
-                      HeaderHomeScreen(),
-                      VaccineListHomeScreen(),
-                      ListNearbyHfHomeScreen(),
-                      Expanded(child: ListHealthNewsHomeScreen())
-                    ],
-                  ),
-                )),
+              // 1125 all component
+              // value.locationListWithDistance.isNotEmpty ? 1045 : 865
+              height: value.sizeHomeScreen,
+              child: Column(
+                children: const [
+                  HeaderHomeScreen(),
+                  VaccineListHomeScreen(),
+                  ListNearbyHfHomeScreen(),
+                  Expanded(child: ListHealthNewsHomeScreen())
+                ],
+              ),
+            )),
       ),
     );
   }

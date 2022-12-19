@@ -5,6 +5,7 @@ import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.da
 import 'package:vaksin_id_flutter/view_model/bottom_navigation/bottomnav_view_model.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
+// ignore: must_be_immutable
 class CancelBook extends StatelessWidget {
   String nik;
   String bookingId;

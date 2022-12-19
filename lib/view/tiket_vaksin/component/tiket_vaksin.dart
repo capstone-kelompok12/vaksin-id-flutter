@@ -4,8 +4,6 @@ import 'package:vaksin_id_flutter/view/tiket_vaksin/component/empty_booking.dart
 import 'package:vaksin_id_flutter/view/tiket_vaksin/widgets/tiket_vaksin_card.dart';
 import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_model.dart';
 
-import '../../../models/tiket_vaksin/tiket_vaksin_model.dart';
-
 class TiketVaksin extends StatelessWidget {
   const TiketVaksin({super.key});
 

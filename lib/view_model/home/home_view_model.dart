@@ -9,8 +9,6 @@ import 'package:vaksin_id_flutter/models/home/home_vaccine_model.dart';
 import 'package:vaksin_id_flutter/view/component/finite_state.dart';
 import '../../services/home/home_service.dart';
 
-// enum ApiState { none, loading, error}
-
 class HomeViewModel extends ChangeNotifier {
   final healtFaci = HealthFaciApi();
   NearbyHealthFacilitiesModel? listHealthFaci;
@@ -44,7 +42,7 @@ class HomeViewModel extends ChangeNotifier {
         paddingBottomHeading = 0;
         await getCurrentLocation();
         await getNearbyHF(currentLatLng!.latitude, currentLatLng!.longitude);
-        print("GPS Service enabled");
+        // print("GPS Service enabled");
         apiState = MyState.none;
       }
     } else {
@@ -52,7 +50,7 @@ class HomeViewModel extends ChangeNotifier {
       sizeHomeScreen = 865;
       sizeHeading = 280;
       paddingBottomHeading = 24;
-      print("GPS Service is not enabled, turn on GPS location");
+      // print("GPS Service is not enabled, turn on GPS location");
       apiState = MyState.none;
     }
     apiState = MyState.none;
@@ -62,9 +60,9 @@ class HomeViewModel extends ChangeNotifier {
   activateGps() async {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
-      print('Location permissions are denied');
+      // print('Location permissions are denied');
     } else if (permission == LocationPermission.deniedForever) {
-      print("'Location permissions are permanently denied");
+      // print("'Location permissions are permanently denied");
     } else {
       haspermission = true;
       sizeHomeScreen = 1045;
@@ -80,7 +78,7 @@ class HomeViewModel extends ChangeNotifier {
   getNearbyHF(double lat, double long) async {
     try {
       listHealthFaci = await healtFaci.getNearbyHealthFacilities(lat, long);
-      print('listHf: ${listHealthFaci?.data?.healthFacilities?.length}');
+      // print('listHf: ${listHealthFaci?.data?.healthFacilities?.length}');
       await addListHealthFaci();
     } catch (e) {
       apiState = MyState.error;
@@ -114,10 +112,11 @@ class HomeViewModel extends ChangeNotifier {
         .then((Position position) {
       currentPosition = position;
       currentLatLng = LatLng(position.latitude, position.longitude);
-      print(currentLatLng);
-      print(currentPosition);
+      // print(currentLatLng);
+      // print(currentPosition);
     }).catchError((e) {
-      print(e);
+      return e;
+      // print(e);
     });
   }
 

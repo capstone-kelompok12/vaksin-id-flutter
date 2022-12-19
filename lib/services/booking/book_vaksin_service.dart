@@ -22,7 +22,7 @@ class BookVaksinService {
         ),
       );
 
-      print('penerima vaksin: ${response.data['data']}');
+      // print('penerima vaksin: ${response.data['data']}');
     } on DioError catch (e) {
       throw 'Error: $e';
     }
@@ -75,7 +75,8 @@ class BookVaksinService {
       );
       return response.data['data'];
     } on DioError catch (e) {
-      print(e.response!.data['message']);
+      // print(e.response!.data['message']);
+      return e.error;
     }
   }
 }

@@ -43,7 +43,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
       }
     });
     customInfoWindowController.dispose();
-    print('Dispose used');
+    // print('Dispose used');
     super.dispose();
   }
 
@@ -82,12 +82,12 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                 consumeTapEvents: true,
                 visible: true,
                 onTap: () {
-                  print('selectedMarker');
+                  // print('selectedMarker');
                   if (selectedMarker != -1) {
-                    print('selectedMarker1: $selectedMarker');
+                    // print('selectedMarker1: $selectedMarker');
                     setState(() {
                       if (selectedMarker != -1) {
-                        print('selectedMarkerid: $x');
+                        // print('selectedMarkerid: $x');
                         markers[selectedMarker] = markers[selectedMarker]
                             .copyWith(
                                 iconParam:
@@ -98,7 +98,7 @@ class _NearbyHfScreenState extends State<NearbyHfScreen> {
                               BitmapDescriptor.fromBytes(markerIconSelected!));
                       selectedMarker = x;
                     });
-                    print('selectedMarker2: $selectedMarker');
+                    // print('selectedMarker2: $selectedMarker');
                   }
                   gmControl.animateGmController(
                       LatLng(

@@ -1,6 +1,5 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/models/profile/edit_profile_model.dart';
 import 'package:vaksin_id_flutter/view/component/bottom_navigation_bar_screen.dart';
@@ -25,20 +24,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController konfirmasiKataSandiController = TextEditingController();
   bool emailValidator(String input) => EmailValidator.validate(input);
   final _formKey = GlobalKey<FormState>();
-
-  // Future _selectDate() async {
-  //   DateTime? date = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(1980),
-  //     lastDate: DateTime.now(),
-  //   );
-  //   if (date == null) {
-  //     dateController.text = '';
-  //     return;
-  //   }
-  //   dateController.text = DateFormat('yyyy-MM-dd').format(date);
-  // }
 
   @override
   void initState() {

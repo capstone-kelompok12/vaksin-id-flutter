@@ -25,7 +25,7 @@ class TiketVaksinViewModel extends ChangeNotifier {
       apiState = MyState.none;
       notifyListeners();
     } on DioError catch (e) {
-      rethrow;
+      return e.error;
     }
     return _tiketVaksin;
   }
@@ -38,7 +38,7 @@ class TiketVaksinViewModel extends ChangeNotifier {
       await tiketService.cancelBooking(nik, bookingId, idSession);
       apiState = MyState.none;
     } on DioError catch (e) {
-      rethrow;
+      return e.error;
     }
   }
 
@@ -50,7 +50,7 @@ class TiketVaksinViewModel extends ChangeNotifier {
     booking.status != null
         ? checkBook = true
         : checkBook = false;
-    print('ChecBook = $checkBook');
+    // print('ChecBook = $checkBook');
     notifyListeners();
   }
    checkHistory2() {
@@ -61,27 +61,27 @@ class TiketVaksinViewModel extends ChangeNotifier {
     
     history.status != null
     ? checkHistory = true : checkHistory = false;
-    print('ChecHistory = ${checkHistory}');
+    // print('ChecHistory = ${checkHistory}');
     notifyListeners();
    }
 
-  checkBookDate(History historyDate) {
-    final dt1 = DateTime.parse(historyDate.booking!.session!.date!.split('T')[0]);
-    final dnow = DateTime.now();
-    final dt2 = DateTime(dnow.year, dnow.month, dnow.day);
-    print(dt1);
-    print(dt2);
-    if (dt1.compareTo(dt2) == 0) {
-      print("Both date time are at same moment.");
-      expiredSession = false;
-    }
-    if (dt1.compareTo(dt2) < 0) {
-      print("DT1 is before DT2");
-      expiredSession = false;
-    }
-    if (dt1.compareTo(dt2) > 0) {
-      print("DT1 is after DT2");
-      expiredSession = true;
-    }
-  }
+  // checkBookDate(History historyDate) {
+  //   final dt1 = DateTime.parse(historyDate.booking!.session!.date!.split('T')[0]);
+  //   final dnow = DateTime.now();
+  //   final dt2 = DateTime(dnow.year, dnow.month, dnow.day);
+  //   // print(dt1);
+  //   // print(dt2);
+  //   if (dt1.compareTo(dt2) == 0) {
+  //     print("Both date time are at same moment.");
+  //     expiredSession = false;
+  //   }
+  //   if (dt1.compareTo(dt2) < 0) {
+  //     print("DT1 is before DT2");
+  //     expiredSession = false;
+  //   }
+  //   if (dt1.compareTo(dt2) > 0) {
+  //     print("DT1 is after DT2");
+  //     expiredSession = true;
+  //   }
+  // }
 }

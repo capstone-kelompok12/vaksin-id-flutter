@@ -19,13 +19,13 @@ class TiketVaksinService {
           },
         ),
       );
-      print(token);
+      // print(token);
       final data = response.data;
-      print(data);
+      // print(data);
       return TiketVaksinModel.fromJson(data);
     } on DioError catch (e) {
-      print(e.response!.statusCode);
-      rethrow;
+      // print(e.response!.statusCode);
+      return e.error;
     }
   }
 
@@ -34,7 +34,7 @@ class TiketVaksinService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('Token').toString();
     try {
-      final response = await dio.put('$baseUrl/users/bookings/$nik/cancel',
+      await dio.put('$baseUrl/users/bookings/$nik/cancel',
           options: Options(
             headers: {
               'Content-Type': 'application/json',
@@ -42,11 +42,11 @@ class TiketVaksinService {
             },
           ),
           data: {"booking_id": bookingId, "id_session": idSession});
-      print('nik user = $nik');
-      print('cancel booking response: ${response.data}');
+      // print('nik user = $nik');
+      // print('cancel booking response: ${response.data}');
     } on DioError catch (e) {
-      print(e.response!.statusCode);
-      rethrow;
+      // print(e.response!.statusCode);
+      return e.error;
     }
   }
 }

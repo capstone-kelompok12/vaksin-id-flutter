@@ -102,7 +102,7 @@ class HeaderHomeScreen extends StatelessWidget {
 
                                             if (value.haspermission) {
                                               await value.getCurrentLocation();
-                                              print('GPS enabled');
+                                              // print('GPS enabled');
                                             }
                                           },
                                           child: Text(

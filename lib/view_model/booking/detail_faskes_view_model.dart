@@ -88,9 +88,9 @@ class DetailFasKesViewModel with ChangeNotifier {
       vaccineMap[item.name!] = item;
     }
     _detailVaccine = vaccineMap.values.toList();
-    _detailVaccine?.forEach((element) {
-      print('nameVaksin: ${element.name}');
-    });
+    // _detailVaccine?.forEach((element) {
+    //   print('nameVaksin: ${element.name}');
+    // });
     myState = MyState.none;
     notifyListeners();
   }
@@ -98,9 +98,9 @@ class DetailFasKesViewModel with ChangeNotifier {
   getVaccineDose() {
     listVaccine =
         detailHf!.vaccine!.where((e) => e.name == selectVaksin).toList();
-    for (var element in listVaccine!) {
-      print('vaccineDose: ${element.dose}');
-    }
+    // for (var element in listVaccine!) {
+    //   print('vaccineDose: ${element.dose}');
+    // }
     notifyListeners();
   }
 
@@ -115,7 +115,7 @@ class DetailFasKesViewModel with ChangeNotifier {
       sessionMap[item.date!] = item;
     }
     listSession = sessionMap.values.toList();
-    print('session: ${listSession?.length}');
+    // print('session: ${listSession?.length}');
     notifyListeners();
   }
 
@@ -124,9 +124,9 @@ class DetailFasKesViewModel with ChangeNotifier {
       final listDate = formatter.format(DateTime.parse(e.date!.split('T')[0]));
       return listDate == selectTanggal;
     }).toList();
-    for (var time in sessionTime!) {
-      print('jam: ${time.startSession} - ${time.endSession}');
-    }
+    // for (var time in sessionTime!) {
+    //   print('jam: ${time.startSession} - ${time.endSession}');
+    // }
   }
 
   void getIdSession(List<Session> data) {
@@ -136,8 +136,8 @@ class DetailFasKesViewModel with ChangeNotifier {
           listDate == selectTanggal &&
           e.dose == selectDosis;
     });
-    print(selectWaktu!.substring(0, 5));
-    print('dateBooking: ${selectSession!.date}');
+    // print(selectWaktu!.substring(0, 5));
+    // print('dateBooking: ${selectSession!.date}');
     notifyListeners();
   }
 
@@ -148,7 +148,7 @@ class DetailFasKesViewModel with ChangeNotifier {
     bookingOnProgress = booking?.firstWhere((e) => 
       e.status == 'OnProcess' && e.booking?.status == 'OnProcess',
         orElse: () => History());
-    print('status booking : ${bookingOnProgress?.status}');
+    // print('status booking : ${bookingOnProgress?.status}');
     if (bookingOnProgress?.status != null) {
       status = true;
     } else {

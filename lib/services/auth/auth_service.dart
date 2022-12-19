@@ -18,8 +18,8 @@ class AuthService {
       );
       return response.data['data'];
     } on DioError catch (e) {
-      print(e.response!.data['status']);
-      print(e.response!.data['message']);
+      // print(e.response!.data['status']);
+      // print(e.response!.data['message']);
       if (e.response!.statusCode == 500) {
         throw 'NIK atau Password Sudah Digunakan';
       } else {
@@ -42,19 +42,19 @@ class AuthService {
         ),
         data: login.toJson(),
       );
-      print(response.data['message']);
-      print(response.data['error']);
-      print(response.statusCode);
+      // print(response.data['message']);
+      // print(response.data['error']);
+      // print(response.statusCode);
       if (response.statusCode == 200) {
         await prefs.saveToken('Token');
         token = response.data['data']['Token'];
       }
-      print(token);
+      // print(token);
       //return response.data['Token'];
     } on DioError catch (e) {
-      print(e.response!.data['message']);
-      print(e.response!.data['error']);
-      print(e.response!.statusCode);
+      // print(e.response!.data['message']);
+      // print(e.response!.data['error']);
+      // print(e.response!.statusCode);
       if (e.response!.statusCode == 500) {
         throw 'Email atau Password Salah';
       } else {

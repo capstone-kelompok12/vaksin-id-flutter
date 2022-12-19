@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vaksin_id_flutter/view/booking/book_vaksin/component/add_member_no_result.dart';
@@ -124,7 +122,7 @@ class _AddMemberState extends State<AddMember> {
                                   _formKey.currentState!.save();
                                   try {
                                     await search.checkNIK(nikController.text);
-                                    print(jsonEncode(search.bookingList));
+                                    // print(jsonEncode(search.bookingList));
                                     search.searchCondition(true, true);
                                   } catch (e) {
                                     search.searchCondition(true, false);
