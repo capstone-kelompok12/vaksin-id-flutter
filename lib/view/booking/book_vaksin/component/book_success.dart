@@ -66,7 +66,7 @@ Book vaksinasi berhasil''',
                     builder: (context, value, child) => OutlinedButton(
                       onPressed: () {
                         // Navigator.push ke halaman home
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>

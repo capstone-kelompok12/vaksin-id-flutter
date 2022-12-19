@@ -18,14 +18,12 @@ class RiwayatVaksin extends StatelessWidget {
       return value.checkHistory != true
           ? ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: history!.history!.length,
+              itemCount: history!.history!.length, 
               itemBuilder: (context, index) =>
-                  history.history![index].status != 'OnProcess'
-                      ? TiketVaksinCard(
-                          history: history.history![index],
-                          nama: history.fullname!,
-                        )
-                      : const SizedBox())
+              TiketVaksinCard(
+                history: history.history![index],
+                nama: history.fullname!,
+              ))
           : const EmptyHistory();
     }));
   }

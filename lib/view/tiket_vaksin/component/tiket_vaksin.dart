@@ -6,37 +6,8 @@ import 'package:vaksin_id_flutter/view_model/tiket_vaksin/tiket_vaksin_view_mode
 
 import '../../../models/tiket_vaksin/tiket_vaksin_model.dart';
 
-class TiketVaksin extends StatefulWidget {
+class TiketVaksin extends StatelessWidget {
   const TiketVaksin({super.key});
-
-  @override
-  State<TiketVaksin> createState() => _TiketVaksinState();
-}
-
-class _TiketVaksinState extends State<TiketVaksin> {
-  final String onTabBar = 'tiket';
-
-  // bool? checkBook;
-
-  // checkBooking(Data? tiket) {
-  //   final history = tiket!.history!.firstWhere(
-  //     (e) => e.booking!.status == 'OnProcess',
-  //     orElse: () => History(),
-  //   );
-  //   print('historyStatus: ${history.status}');
-  //   checkBook = history.status?.isNotEmpty;
-  //   print(checkBook);
-  // }
-
-  @override
-  void initState() {
-    final tiket = Provider.of<TiketVaksinViewModel>(context, listen: false);
-    // .tiketVaksin
-    // .data;
-    // checkBooking(tiket);
-    tiket.checkBookDate();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +20,13 @@ class _TiketVaksinState extends State<TiketVaksin> {
                 ? ListView.builder(
                     shrinkWrap: true,
                     itemCount: tiket!.history!.length,
-                    itemBuilder: (context, index) =>
-                        tiket.history![index].status == 'OnProcess'
-                            ? TiketVaksinCard(
-                                history: tiket.history![index],
-                                nama: tiket.fullname!,
-                              )
-                            : const SizedBox(),
+                    itemBuilder: (context, index) {
+                    // value.checkBookDate(tiket.history![index]);
+                    return TiketVaksinCard(
+                            history: tiket.history![index],
+                            nama: tiket.fullname!,
+                          );
+                    }
                   )
                 : const EmptyBook();
           },

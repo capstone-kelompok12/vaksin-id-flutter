@@ -10,8 +10,9 @@ class TiketVaksinViewModel extends ChangeNotifier {
   TiketVaksinModel _tiketVaksin = TiketVaksinModel();
   TiketVaksinModel get tiketVaksin => _tiketVaksin;
   MyState apiState = MyState.none;
-  bool? checkBook = false;
-  bool? checkHistory = false;
+  bool checkBook = false;
+  bool checkHistory = false;
+  bool? expiredSession;
   final formatter = DateFormat('d MMMM yyyy', 'id');
 
   // read history
@@ -19,7 +20,7 @@ class TiketVaksinViewModel extends ChangeNotifier {
     try {
       apiState = MyState.loading;
       _tiketVaksin = await tiketService.getTiketVaksin();
-      checkBookingHistory();
+      checkBooking();
       checkHistory2();
       apiState = MyState.none;
       notifyListeners();
@@ -41,39 +42,46 @@ class TiketVaksinViewModel extends ChangeNotifier {
     }
   }
 
-  checkBookingHistory() {
+  checkBooking() {
     final booking = tiketVaksin.data!.history!.firstWhere(
-      (e) => e.status == 'OnProcess',
+      (e) => e.status == 'OnProcess' && e.booking?.status == 'OnProcess',
       orElse: () => History(),
     );
-    checkBook = booking.status?.isNotEmpty;
+    booking.status != null
+        ? checkBook = true
+        : checkBook = false;
     print('ChecBook = $checkBook');
     notifyListeners();
   }
    checkHistory2() {
     final history = tiketVaksin.data!.history!.firstWhere(
-      (e) => e.status != 'OnProcess',
+      (e) => e.status != 'OnProcess' && e.booking?.status != 'OnProcess',
       orElse: () => History(),
     );
     
-    history.status == null
+    history.status != null
     ? checkHistory = true : checkHistory = false;
     print('ChecHistory = ${checkHistory}');
     notifyListeners();
    }
 
-  checkBookDate() {
-    DateTime dt1 = DateTime.parse("2021-12-23 11:47:00");
-    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
+  checkBookDate(History historyDate) {
+    final dt1 = DateTime.parse(historyDate.booking!.session!.date!.split('T')[0]);
+    final dnow = DateTime.now();
+    final dt2 = DateTime(dnow.year, dnow.month, dnow.day);
+    print(dt1);
+    print(dt2);
     if (dt1.compareTo(dt2) == 0) {
       print("Both date time are at same moment.");
+      expiredSession = false;
     }
     if (dt1.compareTo(dt2) < 0) {
       print("DT1 is before DT2");
+      expiredSession = false;
     }
-
     if (dt1.compareTo(dt2) > 0) {
       print("DT1 is after DT2");
+      expiredSession = true;
     }
   }
 }
