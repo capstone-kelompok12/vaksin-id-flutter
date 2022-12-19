@@ -15,10 +15,10 @@ class RiwayatVaksin extends StatelessWidget {
     return Scaffold(
         body: Consumer<TiketVaksinViewModel>(builder: (context, value, child) {
       final history = value.tiketVaksin.data;
-      return history!.history!.isNotEmpty
+      return value.checkHistory != true
           ? ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: history.history!.length,
+              itemCount: history!.history!.length,
               itemBuilder: (context, index) =>
                   history.history![index].status != 'OnProcess'
                       ? TiketVaksinCard(

@@ -51,23 +51,43 @@ class TiketVaksinCard extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(10),
                   ),
-                  color: history.booking!.status == 'OnProcess'
-                      ? const Color(0xffFFE082)
-                      : history.booking!.status == 'Accepted'
+                  // color: history.booking!.status == 'OnProcess'
+                  //     ? const Color(0xffFFE082)
+                  //     : history.booking!.status == 'Accepted'
+                  //         ? const Color(0xffCEFFAC)
+                  //         : history.booking!.status == 'Rejected'
+                  //             ? const Color(0xffFFDAD6)
+                  //             : const Color(0xffE1E3DE),
+                  color: history.status == 'OnProcess' ||
+                          history.status == 'Attended'
+                      ? history.booking!.status == 'Accepted'
                           ? const Color(0xffCEFFAC)
+                          : const Color(0xffFFE082)
+                      : history.booking!.status == 'Accepted'
+                          ? const Color(0xffE1E3DE)
                           : history.booking!.status == 'Rejected'
                               ? const Color(0xffFFDAD6)
-                              : const Color(0xffE1E3DE),
+                              : const Color(0xffFFDAD6),
                 ),
                 child: Center(
                   child: Text(
-                    history.booking!.status == 'OnProcess'
-                        ? 'Menunggu Konfirmasi'
-                        : history.booking!.status == 'Accepted'
+                    // history.booking!.status == 'OnProcess'
+                    //     ? 'Menunggu Konfirmasi'
+                    //     : history.booking!.status == 'Accepted'
+                    //         ? 'Telah diterima'
+                    //         : history.booking!.status == 'Rejected'
+                    //             ? 'Telah ditolak'
+                    //             : 'Dibatalkan',
+                    history.status == 'OnProcess' ||
+                            history.status == 'Attended'
+                        ? history.booking!.status == 'Accepted'
                             ? 'Telah diterima'
+                            : 'Menunggu Konfirmasi'
+                        : history.booking!.status == 'Accepted'
+                            ? 'Dibatalkan'
                             : history.booking!.status == 'Rejected'
                                 ? 'Telah ditolak'
-                                : 'Dibatalkan',
+                                : '',
                     style: history.booking!.status == 'OnProcess'
                         ? TextStyle(
                             color: const Color(0xff564500),
