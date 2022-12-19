@@ -10,7 +10,8 @@ class TiketVaksinViewModel extends ChangeNotifier {
   TiketVaksinModel _tiketVaksin = TiketVaksinModel();
   TiketVaksinModel get tiketVaksin => _tiketVaksin;
   MyState apiState = MyState.none;
-  bool? checkBook;
+  bool? checkBook = false;
+  bool? checkHistory = false;
   final formatter = DateFormat('d MMMM yyyy', 'id');
 
   // read history
@@ -18,7 +19,8 @@ class TiketVaksinViewModel extends ChangeNotifier {
     try {
       apiState = MyState.loading;
       _tiketVaksin = await tiketService.getTiketVaksin();
-      checkBooking();
+      checkBookingHistory();
+      checkHistory2();
       apiState = MyState.none;
       notifyListeners();
     } on DioError catch (e) {
@@ -39,16 +41,26 @@ class TiketVaksinViewModel extends ChangeNotifier {
     }
   }
 
-  checkBooking() {
-    final history = tiketVaksin.data!.history!.firstWhere(
+  checkBookingHistory() {
+    final booking = tiketVaksin.data!.history!.firstWhere(
       (e) => e.status == 'OnProcess',
       orElse: () => History(),
     );
-    // print('historyStatus: ${history.status}');
-    checkBook = history.status?.isNotEmpty;
-    // print('ChecBook = $checkBook');
+    checkBook = booking.status?.isNotEmpty;
+    print('ChecBook = $checkBook');
     notifyListeners();
   }
+   checkHistory2() {
+    final history = tiketVaksin.data!.history!.firstWhere(
+      (e) => e.status != 'OnProcess',
+      orElse: () => History(),
+    );
+    
+    history.status == null
+    ? checkHistory = true : checkHistory = false;
+    print('ChecHistory = ${checkHistory}');
+    notifyListeners();
+   }
 
   checkBookDate() {
     DateTime dt1 = DateTime.parse("2021-12-23 11:47:00");

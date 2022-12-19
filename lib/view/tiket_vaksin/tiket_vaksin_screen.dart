@@ -63,10 +63,10 @@ class _TiketVaksinScreenState extends State<TiketVaksinScreen> {
             return value.apiState == MyState.loading
                 ? const Center(child: CircularProgressIndicator())
                 : value.apiState == MyState.none
-                    ? TabBarView(
+                    ? const TabBarView(
                         children: [
                           TiketVaksin(),
-                          const RiwayatVaksin(),
+                          RiwayatVaksin(),
                         ],
                       )
                     : const Center(

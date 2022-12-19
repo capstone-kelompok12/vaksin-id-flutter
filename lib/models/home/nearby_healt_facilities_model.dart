@@ -161,7 +161,7 @@ class HealthFacilities {
   String? phoneNum;
   String? name;
   String? image;
-  double? ranges;
+  dynamic ranges;
   AddressNF? address;
   List<Vaccine>? vaccine;
 
