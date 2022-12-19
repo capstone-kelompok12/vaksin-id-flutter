@@ -145,7 +145,8 @@ class DetailFasKesViewModel with ChangeNotifier {
   checkStatusBooking() async {
     await historyService.getTiketHistory();
     final booking = historyService.tiketVaksin.data?.history;
-    bookingOnProgress = booking?.firstWhere((e) => e.status == 'OnProcess',
+    bookingOnProgress = booking?.firstWhere((e) => 
+      e.status == 'OnProcess' && e.booking?.status == 'OnProcess',
         orElse: () => History());
     print('status booking : ${bookingOnProgress?.status}');
     if (bookingOnProgress?.status != null) {
